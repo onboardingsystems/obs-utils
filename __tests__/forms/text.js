@@ -1,15 +1,15 @@
-jest.unmock('../../lib/forms/obs-form')
+jest.unmock('../../app/forms/text')
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import OBSForm from '../../lib/forms/obs-form';
+import OBSText from '../../app/forms/text';
 
-describe('OBSForm', ()=> {
+describe('OBSText', ()=> {
 
   it('does not blow up', ()=> {
     const comp = TestUtils.renderIntoDocument(
-      <OBSForm />
+      <OBSText />
     )
     const node = ReactDOM.findDOMNode(comp)
 

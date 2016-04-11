@@ -1,4 +1,4 @@
-const React = require('react')
+import React from 'react'
 
 const ObsForm = React.createClass({
   propTypes: {
@@ -18,11 +18,11 @@ const ObsForm = React.createClass({
 
   render() {
     return (
-      <form className="obs-form" onSubmit={this.props.onSubmit}>
+      <form className="form" onSubmit={this.props.onSubmit}>
         {this.props.children}
       </form>
     )
   }
 })
 
-module.exports = ObsForm
+export default ObsForm

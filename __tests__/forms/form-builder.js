@@ -1,7 +1,7 @@
-jest.unmock('../../lib/forms/form-builder')
+jest.unmock('../../app/forms/form-builder')
 
 import _ from 'lodash'
-import OBSFormBuilder from '../../lib/forms/form-builder';
+import OBSFormBuilder from '../../app/forms/form-builder';
 
 describe('OBSFormBuilder', ()=> {
 

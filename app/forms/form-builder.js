@@ -1,14 +1,14 @@
-const cx                = require('classnames')
-const _                 = require('lodash')
-const ObsForm           = require('./obs-form')
-const ObsLabel          = require('./obs-label')
-const ObsError          = require('./obs-error')
-const ObsTextarea       = require('./obs-textarea')
-const ObsFormattedText  = require('./obs-formatted-text')
-const ObsCheckbox       = require('./obs-checkbox')
-const ObsCompoundLayout = require('./obs-compound-layout')
-const ObsAddressUs      = require('./obs-address-us')
-const Formatters        = require('./obs-formatters')
+import cx                from 'classnames'
+import _                 from 'lodash'
+import ObsForm           from './form'
+import ObsLabel          from './label'
+import ObsError          from './error'
+import ObsTextarea       from './textarea'
+import ObsFormattedText  from './formatted-text'
+import ObsCheckbox       from './checkbox'
+import ObsCompoundLayout from './compound-layout'
+import ObsAddressUs      from './address-us'
+import Formatters        from '../formatters/formatters'
 
 
 // Expected errors format.
@@ -185,4 +185,4 @@ const Components = {
   }
 }
 
-module.exports = FormBuilder
+export default FormBuilder

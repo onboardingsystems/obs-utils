@@ -1,9 +1,9 @@
-jest.unmock('../../lib/forms/obs-required-marker')
+jest.unmock('../../app/forms/required-marker')
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import OBSRequiredMarker from '../../lib/forms/obs-required-marker';
+import OBSRequiredMarker from '../../app/forms/required-marker';
 
 describe('OBSRequiredMarker', ()=> {
 

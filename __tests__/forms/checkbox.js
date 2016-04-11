@@ -1,15 +1,15 @@
-jest.unmock('../../lib/forms/obs-text')
+jest.unmock('../../app/forms/checkbox')
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import OBSText from '../../lib/forms/obs-text';
+import OBSCheckbox from '../../app/forms/checkbox';
 
-describe('OBSText', ()=> {
+describe('OBSCheckbox', ()=> {
 
   it('does not blow up', ()=> {
     const comp = TestUtils.renderIntoDocument(
-      <OBSText />
+      <OBSCheckbox />
     )
     const node = ReactDOM.findDOMNode(comp)
 

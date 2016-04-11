@@ -1,14 +1,14 @@
-const React = require('react')
-const cx    = require('classnames')
-const _     = require('lodash')
+import React from 'react'
+import cx    from 'classnames'
+import _     from 'lodash'
 
-const Formatters = require('./obs-formatters')
+import Formatters from '../formatters/formatters'
 
-const ObsCompoundLayout = require('./obs-compound-layout')
-const ObsFormattedText  = require('./obs-formatted-text')
-const ObsLabel          = require('./obs-label')
-const ObsHint           = require('./obs-hint')
-const ObsError          = require('./obs-error')
+import ObsCompoundLayout from './compound-layout'
+import ObsFormattedText  from './formatted-text'
+import ObsLabel          from './label'
+import ObsHint           from './hint'
+import ObsError          from './error'
 
 const ObsAddressUs = React.createClass({
   propTypes: {
@@ -138,7 +138,7 @@ const ObsAddressUs = React.createClass({
     addrObject = _.get(this.props.object, this.props.attr) || {}
 
     classes = cx({
-      'obs-address-us': true,
+      'address-us': true,
       'address-us': true,
       'form-group': true,
       'has-child-error': this._anyChildErrors(),
@@ -169,14 +169,14 @@ const ObsAddressUs = React.createClass({
               <ObsFormattedText object={addrObject} attr={this.fields.state.attr} formatter={Formatters.stateFormatter}
                 required={this.props.required} errors={this._getErrors(this.fields.state.attr)}
                 placeholder={"ST"} onErrorChange={this._errorsChanged}
-                onChange={_.bind(this._valueChanged, this)} className="address-state obs-state"
+                onChange={_.bind(this._valueChanged, this)} className="address-state state"
                 onTouch={this._fieldTouched} />
             </div>
             <div className="flex-static">
               <ObsFormattedText object={addrObject} attr={this.fields.zip.attr} formatter={Formatters.zipcodeFormatter}
                 required={this.props.required} errors={this._getErrors(this.fields.zip.attr)}
                 placeholder={"Zip"} onErrorChange={this._errorsChanged}
-                onChange={_.bind(this._valueChanged, this)} className="address-zipcode obs-zipcode"
+                onChange={_.bind(this._valueChanged, this)} className="address-zipcode zipcode"
                 onTouch={this._fieldTouched} />
             </div>
           </ObsCompoundLayout>
@@ -187,4 +187,4 @@ const ObsAddressUs = React.createClass({
   }
 })
 
-module.exports = ObsAddressUs
+export default ObsAddressUs

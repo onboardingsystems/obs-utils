@@ -1,7 +1,7 @@
-const React             = require('react')
-const _                 = require('lodash')
-const ObsRequiredMarker = require('./obs-required-marker')
-const ObsHint           = require('./obs-hint')
+import React             from 'react'
+import _                 from 'lodash'
+import ObsRequiredMarker from './required-marker'
+import ObsHint           from './hint'
 
 
 const ObsLabel = React.createClass({
@@ -36,4 +36,4 @@ const ObsLabel = React.createClass({
 
 })
 
-module.exports = ObsLabel
+export default ObsLabel

@@ -1,7 +1,7 @@
-jest.unmock('../../lib/forms/obs-formatters')
+jest.unmock('../../app/formatters/formatters')
 
-const formatters = require('../../lib/forms/obs-formatters')
-const moment = require('moment')
+import formatters from '../../app/formatters/formatters'
+import moment     from 'moment'
 
 
 describe('addresses', () => {

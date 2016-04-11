@@ -1,12 +1,12 @@
-jest.unmock('../../lib/forms/obs-formatted-text')
-jest.unmock('../../lib/forms/obs-text')
-jest.unmock('../../lib/forms/obs-formatters')
+jest.unmock('../../app/forms/formatted-text')
+jest.unmock('../../app/forms/text')
+jest.unmock('../../app/formatters/formatters')
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import OBSFormattedText from '../../lib/forms/obs-formatted-text';
-import Formatters from '../../lib/forms/obs-formatters';
+import OBSFormattedText from '../../app/forms/formatted-text';
+import Formatters from '../../app/formatters/formatters';
 
 describe('OBSFormattedText', ()=> {
 

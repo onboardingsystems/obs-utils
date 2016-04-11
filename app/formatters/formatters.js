@@ -1,8 +1,8 @@
-const _ = require('lodash')
-const moment = require('moment')
-const numeral = require('numeral')
+import _       from 'lodash'
+import moment  from 'moment'
+import numeral from 'numeral'
 
-var Formatters = {
+const Formatters = {
 
   addressLines(addressObj) {
     if (_.isEmpty(_.omitBy(addressObj, _.isEmpty)))
@@ -334,4 +334,4 @@ var Formatters = {
   }
 }
 
-module.exports = Formatters
+export default Formatters

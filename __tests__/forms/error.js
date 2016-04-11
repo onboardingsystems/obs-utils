@@ -1,9 +1,9 @@
-jest.unmock('../../lib/forms/obs-error')
+jest.unmock('../../app/forms/error')
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import OBSError from '../../lib/forms/obs-error';
+import OBSError from '../../app/forms/error';
 
 describe('OBSError', ()=> {
 

@@ -1,9 +1,9 @@
-jest.unmock('../../lib/forms/obs-hint')
+jest.unmock('../../app/forms/hint')
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import OBSHint from '../../lib/forms/obs-hint';
+import OBSHint from '../../app/forms/hint';
 
 describe('OBSHint', ()=> {
 

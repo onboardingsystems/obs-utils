@@ -1,11 +1,10 @@
 module.exports = {
   files: {
     javascripts: {
-      joinTo: {
-        'form-builder.js': /^app\/forms\/form-builder/
+      entryPoints: {
+        'app/app.js': 'react-utils.js'
       }
-    },
-    stylesheets: {joinTo: 'app.css'}
+    }
   },
 
   plugins: {

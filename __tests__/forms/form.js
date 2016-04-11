@@ -1,15 +1,15 @@
-jest.unmock('../../lib/forms/obs-compound-layout')
+jest.unmock('../../app/forms/form')
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import ObsCompoundLayout from '../../lib/forms/obs-compound-layout';
+import OBSForm from '../../app/forms/form';
 
-describe('ObsCompoundLayout', ()=> {
+describe('OBSForm', ()=> {
 
   it('does not blow up', ()=> {
     const comp = TestUtils.renderIntoDocument(
-      <ObsCompoundLayout />
+      <OBSForm />
     )
     const node = ReactDOM.findDOMNode(comp)
 

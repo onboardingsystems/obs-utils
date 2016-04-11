@@ -1,5 +1,5 @@
-const React = require('react')
-const cx    = require('classnames')
+import React from 'react'
+import cx    from 'classnames'
 
 const ObsCompoundLayout = React.createClass({
   propTypes: {
@@ -17,8 +17,8 @@ const ObsCompoundLayout = React.createClass({
   render() {
     var classes
     classes = cx({
-      'obs-compound-field': true,
-      'obs-form-group': true,
+      'compound-field': true,
+      'form-group': true,
       'layout-full':   this.props.layout === 'full',
       'layout-inline': this.props.layout === 'inline',
       [ this.props.className ]: true
@@ -34,4 +34,4 @@ const ObsCompoundLayout = React.createClass({
   }
 })
 
-module.exports = ObsCompoundLayout
+export default ObsCompoundLayout

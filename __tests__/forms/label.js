@@ -1,11 +1,11 @@
-jest.unmock('../../lib/forms/obs-label')
-jest.unmock('../../lib/forms/obs-required-marker')
-jest.unmock('../../lib/forms/obs-hint')
+jest.unmock('../../app/forms/label')
+jest.unmock('../../app/forms/required-marker')
+jest.unmock('../../app/forms/hint')
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import OBSLabel from '../../lib/forms/obs-label';
+import OBSLabel from '../../app/forms/label';
 
 describe('OBSLabel', ()=> {
 
