@@ -1,6 +1,6 @@
 {
   "name": "react-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "A collection of react utilities",
   "author": "OBS",
@@ -8,6 +8,7 @@
     "type": "git",
     "url": ""
   },
+  "main": "app/app.js",
   "scripts": {
     "start": "brunch watch --server",
     "prod": "brunch build --production",
