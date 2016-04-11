@@ -1,8 +1,8 @@
-import React from 'react'
-import cx    from 'classnames'
-import _     from 'lodash'
+const React = require('react')
+const cx    = require('classnames')
+const _     = require('lodash')
 
-import ObsText from './text'
+const ObsText = require('./text')
 
 const ObsFormattedText = React.createClass({
   propTypes: {
@@ -125,4 +125,4 @@ const ObsFormattedText = React.createClass({
   }
 })
 
-export default ObsFormattedText
+module.exports = ObsFormattedText

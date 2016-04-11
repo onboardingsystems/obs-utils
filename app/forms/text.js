@@ -1,9 +1,9 @@
-import React from 'react'
-import cx    from 'classnames'
-import _     from 'lodash'
+const React = require('react')
+const cx    = require('classnames')
+const _     = require('lodash')
 
-import ObsLabel from './label'
-import ObsError from './error'
+const ObsLabel = require('./label')
+const ObsError = require('./error')
 
 const ObsText = React.createClass({
   propTypes: {
@@ -68,4 +68,4 @@ const ObsText = React.createClass({
 
 })
 
-export default ObsText
+module.exports = ObsText

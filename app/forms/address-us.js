@@ -1,14 +1,14 @@
-import React from 'react'
-import cx    from 'classnames'
-import _     from 'lodash'
+const React = require('react')
+const cx    = require('classnames')
+const _     = require('lodash')
 
-import Formatters from '../formatters/formatters'
+const Formatters = require('../formatters/formatters')
 
-import ObsCompoundLayout from './compound-layout'
-import ObsFormattedText  from './formatted-text'
-import ObsLabel          from './label'
-import ObsHint           from './hint'
-import ObsError          from './error'
+const ObsCompoundLayout = require('./compound-layout')
+const ObsFormattedText  = require('./formatted-text')
+const ObsLabel          = require('./label')
+const ObsHint           = require('./hint')
+const ObsError          = require('./error')
 
 const ObsAddressUs = React.createClass({
   propTypes: {
@@ -187,4 +187,4 @@ const ObsAddressUs = React.createClass({
   }
 })
 
-export default ObsAddressUs
+module.exports = ObsAddressUs

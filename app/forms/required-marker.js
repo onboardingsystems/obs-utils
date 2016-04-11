@@ -1,4 +1,4 @@
-import React from 'react'
+const React = require('react')
 
 const ObsRequiredMarker = React.createClass({
   propTypes: {
@@ -18,4 +18,4 @@ const ObsRequiredMarker = React.createClass({
   }
 })
 
-export default ObsRequiredMarker
+module.exports = ObsRequiredMarker

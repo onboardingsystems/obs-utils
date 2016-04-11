@@ -1,5 +1,5 @@
-import React from 'react'
-import _     from 'lodash'
+const React = require('react')
+const _     = require('lodash')
 
 const ObsError = React.createClass({
   propTypes: {
@@ -23,4 +23,4 @@ const ObsError = React.createClass({
   }
 })
 
-export default ObsError
+module.exports = ObsError
