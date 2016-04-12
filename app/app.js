@@ -17,4 +17,8 @@
 // import Formatters from './formatters/formatters'
 // export { Formatters }
 
-module.exports = require('./forms/form-builder')
+function hello() {
+  alert('hi')
+}
+
+module.exports = hello
