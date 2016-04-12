@@ -1,6 +1,6 @@
 {
   "name": "react-utils",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "private": true,
   "description": "A collection of react utilities",
   "author": "OBS",
@@ -14,8 +14,7 @@
     "prod": "brunch build --production",
     "test": "jest"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "classnames": "^2.2.3",
     "lodash": "^4.10.0",
