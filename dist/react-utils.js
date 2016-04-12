@@ -139,11 +139,9 @@ require.register("app.js", function(exports, require, module) {
 //   Form: require('./forms/form')
 // }
 
-var stuff = {
+module.exports = {
   test: true
 };
-
-module.exports = stuff;
 });
 
 ;

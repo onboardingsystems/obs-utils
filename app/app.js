@@ -22,8 +22,6 @@
 //   Form: require('./forms/form')
 // }
 
-const stuff = {
+module.exports = {
   test: true
 }
-
-module.exports = stuff
