@@ -2,10 +2,8 @@ module.exports = {
   files: {
     javascripts: {
       joinTo: {
-        'obs-utils.js': /^app\/app.js/
-      },
-      entryPoints: {
-        'app/app.js': 'test.js'
+        'app.js': /^app\/app/,
+        'forms/address-us.js': /^app\/forms\/address-us/
       }
     }
   },
@@ -19,11 +17,11 @@ module.exports = {
   },
 
   modules: {
-    // wrapper: false,
-    // definition: false
-    autoRequire: {
-      'test.js': ['app/forms/app']
-    }
+    wrapper: false,
+    definition: false
+    // autoRequire: {
+    //   'test.js': ['app/forms/app']
+    // }
   }
 
 };
