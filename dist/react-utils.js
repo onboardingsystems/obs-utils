@@ -25802,9 +25802,9 @@ module.exports = require('./lib/React');
   })();
 });
 require.alias("react/react.js", "react");
-require.alias("lodash/lodash.js", "lodash");
-require.alias("numeral/numeral.js", "numeral");
 require.alias("moment/moment.js", "moment");
+require.alias("numeral/numeral.js", "numeral");
+require.alias("lodash/lodash.js", "lodash");
 require.alias("process/browser.js", "process");
 require.alias("base64-js/lib/b64.js", "base64-js");
 require.alias("buffer/index.js", "buffer");process = require('process');})();
@@ -25837,47 +25837,33 @@ module.exports = require('./forms/form-builder');
 ;require.register("formatters/formatters.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _moment = require('moment');
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _numeral = require('numeral');
-
-var _numeral2 = _interopRequireDefault(_numeral);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _ = require('lodash');
+var moment = require('moment');
+var numeral = require('numeral');
 
 var Formatters = {
   addressLines: function addressLines(addressObj) {
-    if (_lodash2.default.isEmpty(_lodash2.default.omitBy(addressObj, _lodash2.default.isEmpty))) return [];
+    if (_.isEmpty(_.omitBy(addressObj, _.isEmpty))) return [];
     var line1 = addressObj.street_1;
     var line2 = null;
     var line3 = addressObj.city + ', ' + addressObj.state + ' ' + addressObj.zip;
-    return _lodash2.default.compact(_lodash2.default.concat([], line1, line2, line3));
+    return _.compact(_.concat([], line1, line2, line3));
   },
   addressOneLine: function addressOneLine(addressObj) {
-    if (_lodash2.default.isEmpty(_lodash2.default.omitBy(addressObj, _lodash2.default.isEmpty))) return '';
+    if (_.isEmpty(_.omitBy(addressObj, _.isEmpty))) return '';
     return this.addressLines(addressObj).join(', ');
   },
   currencyDisplay: function currencyDisplay(value) {
     var format = arguments.length <= 1 || arguments[1] === undefined ? 'dollars' : arguments[1];
 
     var numObj;
-    numObj = (0, _numeral2.default)(value);
+    numObj = numeral(value);
     if (format === 'dollars') return numObj.format('$0,0');else return numObj.format('$0,0.00');
   },
   ordinalize: function ordinalize(value) {
     var ordinal, last_2;
     value = (value || "").toString();
-    if (_lodash2.default.isEmpty(value)) return '';
+    if (_.isEmpty(value)) return '';
     // check what digit the number ends with for choosing the correct text
     // ending
     switch (value.charAt(value.length - 1)) {
@@ -25915,28 +25901,28 @@ var Formatters = {
 
   // Relative language description of the date/time (ex: "3 days ago", "seconds ago")
   timeAgoDisplay: function timeAgoDisplay(value) {
-    if (_lodash2.default.isEmpty(value)) return null;
+    if (_.isEmpty(value)) return null;
     return this.parseDate(value).fromNow();
   },
 
 
   // Standard Date and Time Formatter (ex: Jun 3, 2014 3:05:53 p)
   datetimeDisplay: function datetimeDisplay(value) {
-    if (_lodash2.default.isEmpty(value)) return null;
+    if (_.isEmpty(value)) return null;
     return this.parseDate(value).format(this.dateTimeDetailedFormat);
   },
   stringFormatter: function stringFormatter(value) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-    var options = _lodash2.default.merge({}, { required: false }, options);
+    var options = _.merge({}, { required: false }, options);
     var parsed,
         formatted,
         errors = [];
 
-    if (_lodash2.default.isNumber(value)) value = value.toString();
-    if (_lodash2.default.isEmpty(value)) value = "";
-    parsed = _lodash2.default.trim(value.toString());
-    if (options.required && _lodash2.default.isEmpty(parsed)) errors.push('is required');
+    if (_.isNumber(value)) value = value.toString();
+    if (_.isEmpty(value)) value = "";
+    parsed = _.trim(value.toString());
+    if (options.required && _.isEmpty(parsed)) errors.push('is required');
     return {
       valid: errors.length === 0,
       parsed: parsed,
@@ -25953,7 +25939,7 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_lodash2.default.isEmpty(val.parsed)) return val;
+    if (_.isEmpty(val.parsed)) return val;
     // remove all non-digits
     parsed = val.parsed.replace(/\D/g, '');
     valid = parsed.length === 10;
@@ -25979,7 +25965,7 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_lodash2.default.isEmpty(val.parsed)) return val;
+    if (_.isEmpty(val.parsed)) return val;
     // remove all non-digits
     parsed = val.parsed.replace(/\D/g, '');
     valid = parsed.length === 9;
@@ -26005,9 +25991,9 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_lodash2.default.isEmpty(val.parsed)) return val;
+    if (_.isEmpty(val.parsed)) return val;
     // remove 0-9
-    parsed = _lodash2.default.toUpper(val.parsed.replace(/\d/g, ''));
+    parsed = _.toUpper(val.parsed.replace(/\d/g, ''));
     valid = parsed.length === 2;
     if (valid) {
       formatted = parsed.replace(/^(\D{2})$/, "$1");
@@ -26031,7 +26017,7 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_lodash2.default.isEmpty(val.parsed)) return val;
+    if (_.isEmpty(val.parsed)) return val;
     // remove all non-digits
     parsed = val.parsed.replace(/\D/g, '');
     valid = parsed.length === 5;
@@ -26064,11 +26050,11 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_lodash2.default.isEmpty(val.parsed)) return val;
-    options = _lodash2.default.merge({}, { format: 'cents' }, options);
+    if (_.isEmpty(val.parsed)) return val;
+    options = _.merge({}, { format: 'cents' }, options);
     // remove '$', spaces and ','.
     // Using numeral, convert to a number.
-    numObj = (0, _numeral2.default)(_lodash2.default.trim(val.parsed.replace(/[$\s,]/g, '')));
+    numObj = numeral(_.trim(val.parsed.replace(/[$\s,]/g, '')));
     parsed = numObj.value();
     // TODO: numeraljs does not throw errors.... we might want to think about
     // detecting our own?
@@ -26103,8 +26089,8 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_lodash2.default.isEmpty(val.parsed)) return val;
-    options = _lodash2.default.merge({}, { format: 'full-date' }, options);
+    if (_.isEmpty(val.parsed)) return val;
+    options = _.merge({}, { format: 'full-date' }, options);
     temp = this.parseDate(val.parsed);
     valid = temp.isValid();
     if (valid) {
@@ -26138,8 +26124,8 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_lodash2.default.isEmpty(val.parsed)) return val;
-    temp = (0, _moment2.default)(val.parsed, "hh:mm:ss a");
+    if (_.isEmpty(val.parsed)) return val;
+    temp = moment(val.parsed, "hh:mm:ss a");
     valid = temp.isValid();
     if (valid) {
       formatted = temp.format(this.timeFormat);
@@ -26169,9 +26155,9 @@ var Formatters = {
 
     parsed = string.replace(/\D/g, '');
     // convert an empty string to a null
-    if (_lodash2.default.isEmpty(parsed)) parsed = null;
+    if (_.isEmpty(parsed)) parsed = null;
     // if have a parsed value (not blank/empty)
-    if (!_lodash2.default.isEmpty(parsed)) {
+    if (!_.isEmpty(parsed)) {
       formatted = this.ordinalize(parsed);
       // convert parsed value from string to integer storing the value as an
       // integer.
@@ -26192,7 +26178,7 @@ var Formatters = {
     // accepting "Dec 2014" as a date in Firefox. NOTE: This is not "strict"
     // formatting, so a "/" is also allowed as well as not full 2 digit months
     // or days, and with or without a comma.
-    return (0, _moment2.default)(date, [
+    return moment(date, [
     // dates
     'MMDDYYYY', 'MMM YYYY', 'MMM DD YYYY', 'M-D-YYYY',
     // date times
@@ -26202,72 +26188,42 @@ var Formatters = {
   }
 };
 
-exports.default = Formatters;
+module.exports = Formatters;
 });
 
 ;require.register("forms/address-us.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _formatters = require('../formatters/formatters');
-
-var _formatters2 = _interopRequireDefault(_formatters);
-
-var _compoundLayout = require('./compound-layout');
-
-var _compoundLayout2 = _interopRequireDefault(_compoundLayout);
-
-var _formattedText = require('./formatted-text');
-
-var _formattedText2 = _interopRequireDefault(_formattedText);
-
-var _label = require('./label');
-
-var _label2 = _interopRequireDefault(_label);
-
-var _hint = require('./hint');
-
-var _hint2 = _interopRequireDefault(_hint);
-
-var _error = require('./error');
-
-var _error2 = _interopRequireDefault(_error);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var ObsAddressUs = _react2.default.createClass({
+var React = require('react');
+var cx = require('classnames');
+var _ = require('lodash');
+
+var Formatters = require('../formatters/formatters');
+
+var ObsCompoundLayout = require('./compound-layout');
+var ObsFormattedText = require('./formatted-text');
+var ObsLabel = require('./label');
+var ObsHint = require('./hint');
+var ObsError = require('./error');
+
+var ObsAddressUs = React.createClass({
   displayName: 'ObsAddressUs',
 
   propTypes: {
-    object: _react2.default.PropTypes.object.isRequired,
-    attr: _react2.default.PropTypes.string.isRequired,
-    onChange: _react2.default.PropTypes.func,
-    onErrorChange: _react2.default.PropTypes.func,
+    object: React.PropTypes.object.isRequired,
+    attr: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func,
+    onErrorChange: React.PropTypes.func,
     // field was "touched" by user. Requires a change.
-    onTouch: _react2.default.PropTypes.func,
+    onTouch: React.PropTypes.func,
     // errors are an object here (covers multiple fields)
-    errors: _react2.default.PropTypes.object,
-    label: _react2.default.PropTypes.string,
-    hint: _react2.default.PropTypes.string,
-    required: _react2.default.PropTypes.bool,
-    className: _react2.default.PropTypes.string
+    errors: React.PropTypes.object,
+    label: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    required: React.PropTypes.bool,
+    className: React.PropTypes.string
   },
 
   fields: {
@@ -26284,7 +26240,7 @@ var ObsAddressUs = _react2.default.createClass({
   },
   getInitialState: function getInitialState() {
     return {
-      addressId: _lodash2.default.uniqueId('address1_'),
+      addressId: _.uniqueId('address1_'),
       errors: this._addressErrors(this.props.errors)
     };
   },
@@ -26295,7 +26251,7 @@ var ObsAddressUs = _react2.default.createClass({
     var _this = this;
 
     var list = [];
-    _lodash2.default.forOwn(this.fields, function (field, value) {
+    _.forOwn(this.fields, function (field, value) {
       list.push(_this._fullAttrName(value.attr));
     });
     return list;
@@ -26316,14 +26272,14 @@ var ObsAddressUs = _react2.default.createClass({
     // {
     //   "state": ["is required"]
     // }
-    fullAttrErrors = _lodash2.default.pick(errors, this._address_attrs());
+    fullAttrErrors = _.pick(errors, this._address_attrs());
     // loop through all the defined fields and look for any fully qualified
     // errors for it. If found, add then to the result object with the local
     // attr path.
-    _lodash2.default.forOwn(this.fields, function (value, field) {
+    _.forOwn(this.fields, function (value, field) {
       var errors;
       errors = fullAttrErrors[_this2._fullAttrName(value.attr)];
-      if (!_lodash2.default.isEmpty(errors)) result[value.attr] = errors;
+      if (!_.isEmpty(errors)) result[value.attr] = errors;
     });
     return result;
   },
@@ -26331,7 +26287,7 @@ var ObsAddressUs = _react2.default.createClass({
     return this.state.errors[attr];
   },
   _anyChildErrors: function _anyChildErrors() {
-    return !_lodash2.default.isEmpty(this.state.errors);
+    return !_.isEmpty(this.state.errors);
   },
   _fullAttrName: function _fullAttrName(attr) {
     return this.props.attr + '.' + attr;
@@ -26340,8 +26296,8 @@ var ObsAddressUs = _react2.default.createClass({
     var _this3 = this;
 
     var list = [];
-    _lodash2.default.forEach(this.state.errors, function (errors, field) {
-      _lodash2.default.forEach(errors, function (error) {
+    _.forEach(this.state.errors, function (errors, field) {
+      _.forEach(errors, function (error) {
         list.push(_this3.fields[field].name + ' ' + error);
       });
     });
@@ -26349,132 +26305,110 @@ var ObsAddressUs = _react2.default.createClass({
   },
   _valueChanged: function _valueChanged(attr, newVal) {
     // Fire onChange event for the full attribute name and the updated value.
-    if (_lodash2.default.isFunction(this.props.onChange)) this.props.onChange(this._fullAttrName(attr), newVal);
+    if (_.isFunction(this.props.onChange)) this.props.onChange(this._fullAttrName(attr), newVal);
   },
   _fieldTouched: function _fieldTouched(attr) {
-    if (_lodash2.default.isFunction(this.props.onTouch)) this.props.onTouch(this._fullAttrName(attr));
+    if (_.isFunction(this.props.onTouch)) this.props.onTouch(this._fullAttrName(attr));
   },
   _errorsChanged: function _errorsChanged(attr, errors) {
     var newErrors;
     // update the errors state. start with existing, remove resolved errors and
     // add new ones.
     newErrors = this.state.errors;
-    if (_lodash2.default.isEmpty(errors)) delete newErrors[attr];else newErrors[attr] = errors;
+    if (_.isEmpty(errors)) delete newErrors[attr];else newErrors[attr] = errors;
     this.setState({ errors: newErrors });
     // if have onErrorChange event, convert errors back to global version and
     // fire update
-    if (_lodash2.default.isFunction(this.props.onErrorChange)) this.props.onErrorChange(this._fullAttrName(attr), errors);
+    if (_.isFunction(this.props.onErrorChange)) this.props.onErrorChange(this._fullAttrName(attr), errors);
   },
   render: function render() {
     var addrObject, classes;
-    addrObject = _lodash2.default.get(this.props.object, this.props.attr) || {};
+    addrObject = _.get(this.props.object, this.props.attr) || {};
 
-    classes = (0, _classnames2.default)(_defineProperty({
+    classes = cx(_defineProperty({
       'address-us': true,
       'address-us': true,
       'form-group': true,
       'has-child-error': this._anyChildErrors()
     }, this.props.className, true));
 
-    return _react2.default.createElement(
+    return React.createElement(
       'div',
       { className: classes },
-      _react2.default.createElement(_label2.default, { text: this.props.label, required: this.props.required, htmlFor: this.state.addressId }),
-      _react2.default.createElement(_hint2.default, { hint: this.props.hint }),
-      _react2.default.createElement(
-        _compoundLayout2.default,
+      React.createElement(ObsLabel, { text: this.props.label, required: this.props.required, htmlFor: this.state.addressId }),
+      React.createElement(ObsHint, { hint: this.props.hint }),
+      React.createElement(
+        ObsCompoundLayout,
         { label: this.props.label, layout: "full", className: this.props.className },
-        _react2.default.createElement(_formattedText2.default, { id: this.state.addressId,
-          object: addrObject, attr: this.fields.street_1.attr, formatter: _formatters2.default.stringFormatter,
+        React.createElement(ObsFormattedText, { id: this.state.addressId,
+          object: addrObject, attr: this.fields.street_1.attr, formatter: Formatters.stringFormatter,
           required: this.props.required, errors: this._getErrors(this.fields.street_1.attr),
           placeholder: "Address", onErrorChange: this._errorsChanged,
-          onChange: _lodash2.default.bind(this._valueChanged, this), className: 'address-line-1',
+          onChange: _.bind(this._valueChanged, this), className: 'address-line-1',
           onTouch: this._fieldTouched }),
-        _react2.default.createElement(
-          _compoundLayout2.default,
+        React.createElement(
+          ObsCompoundLayout,
           { label: this.props.label, layout: "inline", className: this.props.className },
-          _react2.default.createElement(
+          React.createElement(
             'div',
             { className: 'flex-grow-shrink' },
-            _react2.default.createElement(_formattedText2.default, { object: addrObject, attr: this.fields.city.attr, formatter: _formatters2.default.stringFormatter,
+            React.createElement(ObsFormattedText, { object: addrObject, attr: this.fields.city.attr, formatter: Formatters.stringFormatter,
               required: this.props.required, errors: this._getErrors(this.fields.city.attr),
               placeholder: "City", onErrorChange: this._errorsChanged,
-              onChange: _lodash2.default.bind(this._valueChanged, this), className: 'address-city',
+              onChange: _.bind(this._valueChanged, this), className: 'address-city',
               onTouch: this._fieldTouched })
           ),
-          _react2.default.createElement(
+          React.createElement(
             'div',
             { className: 'flex-static' },
-            _react2.default.createElement(_formattedText2.default, { object: addrObject, attr: this.fields.state.attr, formatter: _formatters2.default.stateFormatter,
+            React.createElement(ObsFormattedText, { object: addrObject, attr: this.fields.state.attr, formatter: Formatters.stateFormatter,
               required: this.props.required, errors: this._getErrors(this.fields.state.attr),
               placeholder: "ST", onErrorChange: this._errorsChanged,
-              onChange: _lodash2.default.bind(this._valueChanged, this), className: 'address-state state',
+              onChange: _.bind(this._valueChanged, this), className: 'address-state state',
               onTouch: this._fieldTouched })
           ),
-          _react2.default.createElement(
+          React.createElement(
             'div',
             { className: 'flex-static' },
-            _react2.default.createElement(_formattedText2.default, { object: addrObject, attr: this.fields.zip.attr, formatter: _formatters2.default.zipcodeFormatter,
+            React.createElement(ObsFormattedText, { object: addrObject, attr: this.fields.zip.attr, formatter: Formatters.zipcodeFormatter,
               required: this.props.required, errors: this._getErrors(this.fields.zip.attr),
               placeholder: "Zip", onErrorChange: this._errorsChanged,
-              onChange: _lodash2.default.bind(this._valueChanged, this), className: 'address-zipcode zipcode',
+              onChange: _.bind(this._valueChanged, this), className: 'address-zipcode zipcode',
               onTouch: this._fieldTouched })
           )
         )
       ),
-      _react2.default.createElement(_error2.default, { errors: this._errorsText() })
+      React.createElement(ObsError, { errors: this._errorsText() })
     );
   }
 });
 
-exports.default = ObsAddressUs;
+module.exports = ObsAddressUs;
 });
 
 ;require.register("forms/checkbox.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var React = require('react');
+var cx = require('classnames');
+var _ = require('lodash');
 
-var _react = require('react');
+var ObsError = require('./error');
+var ObsRequiredMarker = require('./required-marker');
+var ObsHint = require('./hint');
 
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _error = require('./error');
-
-var _error2 = _interopRequireDefault(_error);
-
-var _requiredMarker = require('./required-marker');
-
-var _requiredMarker2 = _interopRequireDefault(_requiredMarker);
-
-var _hint = require('./hint');
-
-var _hint2 = _interopRequireDefault(_hint);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ObsCheckbox = _react2.default.createClass({
+var ObsCheckbox = React.createClass({
   displayName: 'ObsCheckbox',
 
   propTypes: {
-    value: _react2.default.PropTypes.bool,
-    onChange: _react2.default.PropTypes.func,
-    label: _react2.default.PropTypes.string,
-    hint: _react2.default.PropTypes.string,
-    required: _react2.default.PropTypes.bool,
-    className: _react2.default.PropTypes.string,
-    id: _react2.default.PropTypes.string,
-    errors: _react2.default.PropTypes.array // array of strings
+    value: React.PropTypes.bool,
+    onChange: React.PropTypes.func,
+    label: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    required: React.PropTypes.bool,
+    className: React.PropTypes.string,
+    id: React.PropTypes.string,
+    errors: React.PropTypes.array // array of strings
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -26490,65 +26424,54 @@ var ObsCheckbox = _react2.default.createClass({
   },
   _valueChanged: function _valueChanged(e) {
     this.setState({ checked: e.target.checked });
-    if (_lodash2.default.isFunction(this.props.onChange)) this.props.onChange(e.target.checked);
-    if (_lodash2.default.isFunction(this.props.onTouch)) this.props.onTouch();
+    if (_.isFunction(this.props.onChange)) this.props.onChange(e.target.checked);
+    if (_.isFunction(this.props.onTouch)) this.props.onTouch();
   },
   render: function render() {
     var bootstrapClasses;
-    bootstrapClasses = (0, _classnames2.default)({
+    bootstrapClasses = cx({
       "checkbox": true,
-      "has-error": !_lodash2.default.isEmpty(this.props.errors)
+      "has-error": !_.isEmpty(this.props.errors)
     });
 
-    return _react2.default.createElement(
+    return React.createElement(
       'div',
       { className: this.props.className },
-      _react2.default.createElement(
+      React.createElement(
         'div',
         { className: bootstrapClasses },
-        _react2.default.createElement(
+        React.createElement(
           'label',
           null,
-          _react2.default.createElement('input', { type: 'checkbox', id: this.props.id, checked: this.state.checked, onChange: this._valueChanged }),
+          React.createElement('input', { type: 'checkbox', id: this.props.id, checked: this.state.checked, onChange: this._valueChanged }),
           this.props.label,
-          _react2.default.createElement(_requiredMarker2.default, { required: this.props.required })
+          React.createElement(ObsRequiredMarker, { required: this.props.required })
         ),
-        _react2.default.createElement(_error2.default, { errors: this.props.errors })
+        React.createElement(ObsError, { errors: this.props.errors })
       ),
-      _react2.default.createElement(_hint2.default, { hint: this.props.hint })
+      React.createElement(ObsHint, { hint: this.props.hint })
     );
   }
 });
 
-exports.default = ObsCheckbox;
+module.exports = ObsCheckbox;
 });
 
 ;require.register("forms/compound-layout.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var ObsCompoundLayout = _react2.default.createClass({
+var React = require('react');
+var cx = require('classnames');
+
+var ObsCompoundLayout = React.createClass({
   displayName: 'ObsCompoundLayout',
 
   propTypes: {
     // layouts: 'inline', 'full'
-    layout: _react2.default.PropTypes.string,
-    className: _react2.default.PropTypes.string
+    layout: React.PropTypes.string,
+    className: React.PropTypes.string
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -26558,17 +26481,17 @@ var ObsCompoundLayout = _react2.default.createClass({
   },
   render: function render() {
     var classes;
-    classes = (0, _classnames2.default)(_defineProperty({
+    classes = cx(_defineProperty({
       'compound-field': true,
       'form-group': true,
       'layout-full': this.props.layout === 'full',
       'layout-inline': this.props.layout === 'inline'
     }, this.props.className, true));
 
-    return _react2.default.createElement(
+    return React.createElement(
       'div',
       { className: classes },
-      _react2.default.createElement(
+      React.createElement(
         'div',
         { className: 'children' },
         this.props.children
@@ -26577,31 +26500,20 @@ var ObsCompoundLayout = _react2.default.createClass({
   }
 });
 
-exports.default = ObsCompoundLayout;
+module.exports = ObsCompoundLayout;
 });
 
 ;require.register("forms/error.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var React = require('react');
+var _ = require('lodash');
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ObsError = _react2.default.createClass({
+var ObsError = React.createClass({
   displayName: 'ObsError',
 
   propTypes: {
-    errors: _react2.default.PropTypes.array
+    errors: React.PropTypes.array
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -26613,8 +26525,8 @@ var ObsError = _react2.default.createClass({
     return this.props.errors.join(', ');
   },
   render: function render() {
-    if (_lodash2.default.isEmpty(this.props.errors)) return _react2.default.createElement('noscript', null);
-    return _react2.default.createElement(
+    if (_.isEmpty(this.props.errors)) return React.createElement('noscript', null);
+    return React.createElement(
       'div',
       { className: 'error error' },
       this.getErrorText()
@@ -26622,61 +26534,23 @@ var ObsError = _react2.default.createClass({
   }
 });
 
-exports.default = ObsError;
+module.exports = ObsError;
 });
 
 ;require.register("forms/form-builder.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _form = require('./form');
-
-var _form2 = _interopRequireDefault(_form);
-
-var _label = require('./label');
-
-var _label2 = _interopRequireDefault(_label);
-
-var _error = require('./error');
-
-var _error2 = _interopRequireDefault(_error);
-
-var _textarea = require('./textarea');
-
-var _textarea2 = _interopRequireDefault(_textarea);
-
-var _formattedText = require('./formatted-text');
-
-var _formattedText2 = _interopRequireDefault(_formattedText);
-
-var _checkbox = require('./checkbox');
-
-var _checkbox2 = _interopRequireDefault(_checkbox);
-
-var _compoundLayout = require('./compound-layout');
-
-var _compoundLayout2 = _interopRequireDefault(_compoundLayout);
-
-var _addressUs = require('./address-us');
-
-var _addressUs2 = _interopRequireDefault(_addressUs);
-
-var _formatters = require('../formatters/formatters');
-
-var _formatters2 = _interopRequireDefault(_formatters);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var cx = require('classnames');
+var _ = require('lodash');
+var ObsForm = require('./form');
+var ObsLabel = require('./label');
+var ObsError = require('./error');
+var ObsTextarea = require('./textarea');
+var ObsFormattedText = require('./formatted-text');
+var ObsCheckbox = require('./checkbox');
+var ObsCompoundLayout = require('./compound-layout');
+var ObsAddressUs = require('./address-us');
+var Formatters = require('../formatters/formatters');
 
 // Expected errors format.
 // errors: {
@@ -26701,98 +26575,98 @@ var FormBuilder = {
 
       // set the value for the attribute name.
       set: function set(attrName, value) {
-        _lodash2.default.set(this.object, attrName, value);
-        if (_lodash2.default.isFunction(this.onValueChange)) this.onValueChange(this.object);
+        _.set(this.object, attrName, value);
+        if (_.isFunction(this.onValueChange)) this.onValueChange(this.object);
       },
 
       // get the value for the attribute name.
       get: function get(attrName) {
-        return _lodash2.default.get(this.object, attrName);
+        return _.get(this.object, attrName);
       }
     };
 
-    return _lodash2.default.extend({}, data, Components);
+    return _.extend({}, data, Components);
   }
 };
 
 var Components = {
 
   // alias Obs components to make using them easier
-  form: _form2.default,
-  compoundLayout: _compoundLayout2.default,
-  label: _label2.default,
+  form: ObsForm,
+  compoundLayout: ObsCompoundLayout,
+  label: ObsLabel,
 
   textareaField: function textareaField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return React.createElement(_textarea2.default, { label: label, hint: options.hint, required: options.required,
+    return React.createElement(ObsTextarea, { label: label, hint: options.hint, required: options.required,
       value: this.get(attrName), rows: options.rows,
       className: options.className, id: options.id,
-      onChange: _lodash2.default.bind(this._onChange, this, options, attrName),
+      onChange: _.bind(this._onChange, this, options, attrName),
       placeholder: options.placeholder, errors: this._getErrors(attrName) });
   },
   formattedField: function formattedField(label, attrName, formatterFun) {
     var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
-    return React.createElement(_formattedText2.default, { label: label, hint: options.hint, required: options.required,
+    return React.createElement(ObsFormattedText, { label: label, hint: options.hint, required: options.required,
       object: this.object, errors: this._getErrors(attrName), attr: attrName, formatter: formatterFun,
       className: options.className, id: options.id,
-      onChange: _lodash2.default.bind(this._onChange, this, options),
-      onTouch: _lodash2.default.bind(this._fieldTouched, this),
-      onErrorChange: _lodash2.default.bind(this._formatErrorChanged, this),
+      onChange: _.bind(this._onChange, this, options),
+      onTouch: _.bind(this._fieldTouched, this),
+      onErrorChange: _.bind(this._formatErrorChanged, this),
       placeholder: options.placeholder });
   },
   checkboxField: function checkboxField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
     var options = this._mergeClasses(options, 'obs-checkbox');
-    return React.createElement(_checkbox2.default, { label: label, hint: options.hint, required: options.required,
+    return React.createElement(ObsCheckbox, { label: label, hint: options.hint, required: options.required,
       value: !!this.get(attrName), errors: this._getErrors(attrName),
       className: options.className, id: options.id,
-      onChange: _lodash2.default.bind(this._onChange, this, options, attrName),
-      onTouch: _lodash2.default.bind(this._fieldTouched, this, attrName) });
+      onChange: _.bind(this._onChange, this, options, attrName),
+      onTouch: _.bind(this._fieldTouched, this, attrName) });
   },
   textField: function textField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return this.formattedField(label, attrName, _formatters2.default.stringFormatter, options);
+    return this.formattedField(label, attrName, Formatters.stringFormatter, options);
   },
   phoneField: function phoneField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return this.formattedField(label, attrName, _formatters2.default.phoneFormatter, this._mergeClasses(options, 'obs-phone'));
+    return this.formattedField(label, attrName, Formatters.phoneFormatter, this._mergeClasses(options, 'obs-phone'));
   },
   ssnField: function ssnField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return this.formattedField(label, attrName, _formatters2.default.ssnFormatter, this._mergeClasses(options, 'obs-ssn'));
+    return this.formattedField(label, attrName, Formatters.ssnFormatter, this._mergeClasses(options, 'obs-ssn'));
   },
   stateField: function stateField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return this.formattedField(label, attrName, _formatters2.default.stateFormatter, this._mergeClasses(options, 'obs-state'));
+    return this.formattedField(label, attrName, Formatters.stateFormatter, this._mergeClasses(options, 'obs-state'));
   },
   zipcodeField: function zipcodeField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return this.formattedField(label, attrName, _formatters2.default.zipcodeFormatter, this._mergeClasses(options, 'obs-zipcode'));
+    return this.formattedField(label, attrName, Formatters.zipcodeFormatter, this._mergeClasses(options, 'obs-zipcode'));
   },
   currencyField: function currencyField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return this.formattedField(label, attrName, _formatters2.default.currencyFormatter, this._mergeClasses(options, 'obs-currency'));
+    return this.formattedField(label, attrName, Formatters.currencyFormatter, this._mergeClasses(options, 'obs-currency'));
   },
   dollarsField: function dollarsField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return this.formattedField(label, attrName, _formatters2.default.dollarsFormatter, this._mergeClasses(options, 'obs-dollars'));
+    return this.formattedField(label, attrName, Formatters.dollarsFormatter, this._mergeClasses(options, 'obs-dollars'));
   },
   dateField: function dateField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
     // merge the requested format option in for the formatter
     var formatter = function formatter(value, opt) {
-      return _formatters2.default.dateFormatter(value, _lodash2.default.merge({}, opt, { format: options.format }));
+      return Formatters.dateFormatter(value, _.merge({}, opt, { format: options.format }));
     };
     return this.formattedField(label, attrName, formatter, this._mergeClasses(options, 'obs-date'));
   },
@@ -26801,30 +26675,30 @@ var Components = {
 
     // merge the requested format option in for the formatter
     var formatter = function formatter(value, opt) {
-      return _formatters2.default.timeFormatter(value, _lodash2.default.merge({}, opt, { format: options.format }));
+      return Formatters.timeFormatter(value, _.merge({}, opt, { format: options.format }));
     };
     return this.formattedField(label, attrName, formatter, this._mergeClasses(options, 'obs-time'));
   },
   ordinalField: function ordinalField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return this.formattedField(label, attrName, _formatters2.default.ordinalFormatter, this._mergeClasses(options, 'obs-ordinal'));
+    return this.formattedField(label, attrName, Formatters.ordinalFormatter, this._mergeClasses(options, 'obs-ordinal'));
   },
   addressField: function addressField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return React.createElement(_addressUs2.default, { label: label, object: this.object, attr: attrName, errors: this.errors,
+    return React.createElement(ObsAddressUs, { label: label, object: this.object, attr: attrName, errors: this.errors,
       required: options.required, hint: options.hint, className: options.className,
-      onChange: _lodash2.default.bind(this._onChange, this, options),
-      onErrorChange: _lodash2.default.bind(this._formatErrorChanged, this),
-      onTouch: _lodash2.default.bind(this._fieldTouched, this) });
+      onChange: _.bind(this._onChange, this, options),
+      onErrorChange: _.bind(this._formatErrorChanged, this),
+      onTouch: _.bind(this._fieldTouched, this) });
   },
 
 
   // private-like methods
 
   _mergeClasses: function _mergeClasses(options, classes) {
-    options['className'] = (0, _classnames2.default)(options['className'], classes);
+    options['className'] = cx(options['className'], classes);
     return options;
   },
   _onChange: function _onChange(options, attrName, value) {
@@ -26833,44 +26707,36 @@ var Components = {
     // value on the object. Pass the attrName after the value as it is
     // "optional". For complex inputs, it gives context to which part that
     // changed (like with an address).
-    if (_lodash2.default.isFunction(options['onChange'])) options['onChange'](value, attrName);
+    if (_.isFunction(options['onChange'])) options['onChange'](value, attrName);
   },
   _formatErrorChanged: function _formatErrorChanged(attrName, errors) {
-    if (_lodash2.default.isEmpty(errors)) delete this.errors[attrName];else this.errors[attrName] = errors;
-    if (_lodash2.default.isFunction(this.onErrorChange)) this.onErrorChange();
+    if (_.isEmpty(errors)) delete this.errors[attrName];else this.errors[attrName] = errors;
+    if (_.isFunction(this.onErrorChange)) this.onErrorChange();
   },
   _fieldTouched: function _fieldTouched(attrName) {
     // remove any server errors from the list if the field was touched.
     delete this.errors[attrName];
-    if (_lodash2.default.isFunction(this.onTouch)) this.onTouch(attrName);
-    if (_lodash2.default.isFunction(this.onErrorChange)) this.onErrorChange();
+    if (_.isFunction(this.onTouch)) this.onTouch(attrName);
+    if (_.isFunction(this.onErrorChange)) this.onErrorChange();
   },
   _getErrors: function _getErrors(attrName) {
     return this.errors[attrName];
   }
 };
 
-exports.default = FormBuilder;
+module.exports = FormBuilder;
 });
 
 ;require.register("forms/form.js", function(exports, require, module) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var React = require('react');
 
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ObsForm = _react2.default.createClass({
+var ObsForm = React.createClass({
   displayName: "ObsForm",
 
   propTypes: {
-    onSubmit: _react2.default.PropTypes.func
+    onSubmit: React.PropTypes.func
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -26883,7 +26749,7 @@ var ObsForm = _react2.default.createClass({
     // don't do anything here. prevent hitting "ENTER" from reloading the form.
   },
   render: function render() {
-    return _react2.default.createElement(
+    return React.createElement(
       "form",
       { className: "form", onSubmit: this.props.onSubmit },
       this.props.children
@@ -26891,52 +26757,36 @@ var ObsForm = _react2.default.createClass({
   }
 });
 
-exports.default = ObsForm;
+module.exports = ObsForm;
 });
 
 ;require.register("forms/formatted-text.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var React = require('react');
+var cx = require('classnames');
+var _ = require('lodash');
 
-var _react = require('react');
+var ObsText = require('./text');
 
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _text = require('./text');
-
-var _text2 = _interopRequireDefault(_text);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ObsFormattedText = _react2.default.createClass({
+var ObsFormattedText = React.createClass({
   displayName: 'ObsFormattedText',
 
   propTypes: {
-    object: _react2.default.PropTypes.object.isRequired,
-    attr: _react2.default.PropTypes.string.isRequired,
-    onChange: _react2.default.PropTypes.func,
-    formatter: _react2.default.PropTypes.func.isRequired,
-    onErrorChange: _react2.default.PropTypes.func,
+    object: React.PropTypes.object.isRequired,
+    attr: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func,
+    formatter: React.PropTypes.func.isRequired,
+    onErrorChange: React.PropTypes.func,
     // field was "touched" by user. Requires a change.
-    onTouch: _react2.default.PropTypes.func,
-    errors: _react2.default.PropTypes.array,
-    label: _react2.default.PropTypes.string,
-    hint: _react2.default.PropTypes.string,
-    required: _react2.default.PropTypes.bool,
-    placeholder: _react2.default.PropTypes.string,
-    className: _react2.default.PropTypes.string,
-    id: _react2.default.PropTypes.string
+    onTouch: React.PropTypes.func,
+    errors: React.PropTypes.array,
+    label: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    required: React.PropTypes.bool,
+    placeholder: React.PropTypes.string,
+    className: React.PropTypes.string,
+    id: React.PropTypes.string
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -26946,7 +26796,7 @@ var ObsFormattedText = _react2.default.createClass({
     };
   },
   getInitialState: function getInitialState() {
-    return _lodash2.default.merge(this.processValue(_lodash2.default.get(this.props.object, this.props.attr)), { userTouched: false });
+    return _.merge(this.processValue(_.get(this.props.object, this.props.attr)), { userTouched: false });
   },
   processValue: function processValue(value) {
     var val;
@@ -26962,7 +26812,7 @@ var ObsFormattedText = _react2.default.createClass({
     // re-assign the same errors, so it will fire the callback. Inform
     // parent/subscriber that there are initial state formatting errors. No
     // state actually changes.
-    if (!_lodash2.default.isEmpty(this.state.formatErrors)) this.formatErrorsChange(this.state.formatErrors);
+    if (!_.isEmpty(this.state.formatErrors)) this.formatErrorsChange(this.state.formatErrors);
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     var rawFieldVal;
@@ -26971,7 +26821,7 @@ var ObsFormattedText = _react2.default.createClass({
     if (this.props.errors !== nextProps.errors) this.setState({ userTouched: false });
     // respond to the value being changed outside the input. display the new
     // value if it has changed.
-    rawFieldVal = _lodash2.default.get(this.props.object, this.props.attr);
+    rawFieldVal = _.get(this.props.object, this.props.attr);
     if (rawFieldVal !== this.state.value) this.setState(this.processValue(rawFieldVal));
   },
   _valueChanged: function _valueChanged(newVal) {
@@ -26981,7 +26831,7 @@ var ObsFormattedText = _react2.default.createClass({
     this.formatErrorsChange(null);
     this.fieldTouched();
     // only fire onChange if valid. Clear formatting errors
-    if (_lodash2.default.isFunction(this.props.onChange)) this.props.onChange(this.props.attr, val.parsed);
+    if (_.isFunction(this.props.onChange)) this.props.onChange(this.props.attr, val.parsed);
   },
   _onBlur: function _onBlur() {
     var val, display;
@@ -26993,56 +26843,48 @@ var ObsFormattedText = _react2.default.createClass({
     if (val.valid) display = val.formatted;else display = this.state.display;
     this.setState({ display: display, formatErrors: val.errors });
     this.formatErrorsChange(val.errors);
-    if (_lodash2.default.isFunction(this.props.onBlur)) this.props.onBlur();
+    if (_.isFunction(this.props.onBlur)) this.props.onBlur();
   },
   formatErrorsChange: function formatErrorsChange(newErrors) {
     this.setState({ formatErrors: newErrors });
     // callback that the error state changed.
     // Send the new error state. Expects null, [] or ['message'].
-    if (_lodash2.default.isFunction(this.props.onErrorChange)) this.props.onErrorChange(this.props.attr, newErrors);
+    if (_.isFunction(this.props.onErrorChange)) this.props.onErrorChange(this.props.attr, newErrors);
   },
   fieldTouched: function fieldTouched() {
     this.setState({ userTouched: true });
-    if (_lodash2.default.isFunction(this.props.onTouch)) this.props.onTouch(this.props.attr);
+    if (_.isFunction(this.props.onTouch)) this.props.onTouch(this.props.attr);
   },
   getDisplayErrors: function getDisplayErrors() {
     // this.state.formatErrors
     if (this.state.userTouched) return this.state.formatErrors;else return this.props.errors;
   },
   render: function render() {
-    return _react2.default.createElement(_text2.default, { label: this.props.label, hint: this.props.hint, required: this.props.required,
+    return React.createElement(ObsText, { label: this.props.label, hint: this.props.hint, required: this.props.required,
       id: this.props.id, value: this.state.display, placeholder: this.props.placeholder,
       errors: this.getDisplayErrors(), className: this.props.className,
       onChange: this._valueChanged, onBlur: this._onBlur });
   }
 });
 
-exports.default = ObsFormattedText;
+module.exports = ObsFormattedText;
 });
 
 ;require.register("forms/hint.js", function(exports, require, module) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var React = require('react');
 
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ObsHint = _react2.default.createClass({
+var ObsHint = React.createClass({
   displayName: "ObsHint",
 
   propTypes: {
-    hint: _react2.default.PropTypes.string
+    hint: React.PropTypes.string
   },
 
   render: function render() {
-    if (!this.props.hint) return _react2.default.createElement("noscript", null);
-    return _react2.default.createElement(
+    if (!this.props.hint) return React.createElement("noscript", null);
+    return React.createElement(
       "span",
       { className: "help-block" },
       this.props.hint
@@ -27050,42 +26892,25 @@ var ObsHint = _react2.default.createClass({
   }
 });
 
-exports.default = ObsHint;
+module.exports = ObsHint;
 });
 
 ;require.register("forms/label.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var React = require('react');
+var _ = require('lodash');
+var ObsRequiredMarker = require('./required-marker');
+var ObsHint = require('./hint');
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _requiredMarker = require('./required-marker');
-
-var _requiredMarker2 = _interopRequireDefault(_requiredMarker);
-
-var _hint = require('./hint');
-
-var _hint2 = _interopRequireDefault(_hint);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ObsLabel = _react2.default.createClass({
+var ObsLabel = React.createClass({
   displayName: 'ObsLabel',
 
   propTypes: {
-    text: _react2.default.PropTypes.string,
-    hint: _react2.default.PropTypes.string,
-    required: _react2.default.PropTypes.bool,
-    htmlFor: _react2.default.PropTypes.string
+    text: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    required: React.PropTypes.bool,
+    htmlFor: React.PropTypes.string
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -27094,41 +26919,33 @@ var ObsLabel = _react2.default.createClass({
     };
   },
   somethingToRender: function somethingToRender() {
-    return !_lodash2.default.isEmpty(this.props.text) || !_lodash2.default.isEmpty(this.props.hint);
+    return !_.isEmpty(this.props.text) || !_.isEmpty(this.props.hint);
   },
   render: function render() {
-    if (!this.somethingToRender()) return _react2.default.createElement('noscript', null);
-    return _react2.default.createElement(
+    if (!this.somethingToRender()) return React.createElement('noscript', null);
+    return React.createElement(
       'label',
       { className: 'control-label', htmlFor: this.props.htmlFor },
       this.props.text,
-      _react2.default.createElement(_requiredMarker2.default, { required: this.props.required }),
-      _react2.default.createElement(_hint2.default, { hint: this.props.hint })
+      React.createElement(ObsRequiredMarker, { required: this.props.required }),
+      React.createElement(ObsHint, { hint: this.props.hint })
     );
   }
 });
 
-exports.default = ObsLabel;
+module.exports = ObsLabel;
 });
 
 ;require.register("forms/required-marker.js", function(exports, require, module) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var React = require('react');
 
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ObsRequiredMarker = _react2.default.createClass({
+var ObsRequiredMarker = React.createClass({
   displayName: "ObsRequiredMarker",
 
   propTypes: {
-    required: _react2.default.PropTypes.bool
+    required: React.PropTypes.bool
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -27137,8 +26954,8 @@ var ObsRequiredMarker = _react2.default.createClass({
     };
   },
   render: function render() {
-    if (!this.props.required) return _react2.default.createElement("noscript", null);
-    return _react2.default.createElement(
+    if (!this.props.required) return React.createElement("noscript", null);
+    return React.createElement(
       "span",
       { "aria-hidden": "true", className: "required_marker", title: "Required Field" },
       "*"
@@ -27146,54 +26963,35 @@ var ObsRequiredMarker = _react2.default.createClass({
   }
 });
 
-exports.default = ObsRequiredMarker;
+module.exports = ObsRequiredMarker;
 });
 
 ;require.register("forms/text.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _label = require('./label');
-
-var _label2 = _interopRequireDefault(_label);
-
-var _error = require('./error');
-
-var _error2 = _interopRequireDefault(_error);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var ObsText = _react2.default.createClass({
+var React = require('react');
+var cx = require('classnames');
+var _ = require('lodash');
+
+var ObsLabel = require('./label');
+var ObsError = require('./error');
+
+var ObsText = React.createClass({
   displayName: 'ObsText',
 
   propTypes: {
-    value: _react2.default.PropTypes.string,
-    onChange: _react2.default.PropTypes.func,
-    onBlur: _react2.default.PropTypes.func,
-    label: _react2.default.PropTypes.string,
-    hint: _react2.default.PropTypes.string,
-    required: _react2.default.PropTypes.bool,
-    placeholder: _react2.default.PropTypes.string,
-    className: _react2.default.PropTypes.string,
-    id: _react2.default.PropTypes.string,
-    errors: _react2.default.PropTypes.array },
+    value: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
+    label: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    required: React.PropTypes.bool,
+    placeholder: React.PropTypes.string,
+    className: React.PropTypes.string,
+    id: React.PropTypes.string,
+    errors: React.PropTypes.array },
 
   // array of strings
   getDefaultProps: function getDefaultProps() {
@@ -27204,86 +27002,67 @@ var ObsText = _react2.default.createClass({
   },
   getInitialState: function getInitialState() {
     return {
-      linkingId: _lodash2.default.uniqueId('text_')
+      linkingId: _.uniqueId('text_')
     };
   },
   _valueChanged: function _valueChanged(e) {
-    if (_lodash2.default.isFunction(this.props.onChange)) this.props.onChange(e.target.value);
+    if (_.isFunction(this.props.onChange)) this.props.onChange(e.target.value);
   },
   render: function render() {
     var groupClasses, usingId;
-    groupClasses = (0, _classnames2.default)(_defineProperty({
+    groupClasses = cx(_defineProperty({
       "form-group": true,
-      "has-error": !_lodash2.default.isEmpty(this.props.errors)
+      "has-error": !_.isEmpty(this.props.errors)
     }, this.props.className, true));
 
     // determine the html ID used to link the label and the input If an explicit
     // ID is given, use that. Otherwise use a genrated one to reliably link them
     // together.
-    if (!_lodash2.default.isEmpty(this.props.id)) usingId = this.props.id;else usingId = this.state.linkingId;
+    if (!_.isEmpty(this.props.id)) usingId = this.props.id;else usingId = this.state.linkingId;
 
-    return _react2.default.createElement(
+    return React.createElement(
       'div',
       { className: groupClasses },
-      _react2.default.createElement(_label2.default, { text: this.props.label, hint: this.props.hint, htmlFor: usingId,
+      React.createElement(ObsLabel, { text: this.props.label, hint: this.props.hint, htmlFor: usingId,
         required: this.props.required }),
-      _react2.default.createElement('input', { id: usingId, className: 'form-control', type: 'text', value: this.props.value,
+      React.createElement('input', { id: usingId, className: 'form-control', type: 'text', value: this.props.value,
         placeholder: this.props.placeholder,
         onChange: this._valueChanged, onBlur: this.props.onBlur }),
-      _react2.default.createElement(_error2.default, { errors: this.props.errors })
+      React.createElement(ObsError, { errors: this.props.errors })
     );
   }
 });
 
-exports.default = ObsText;
+module.exports = ObsText;
 });
 
 ;require.register("forms/textarea.js", function(exports, require, module) {
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _label = require('./label');
-
-var _label2 = _interopRequireDefault(_label);
-
-var _error = require('./error');
-
-var _error2 = _interopRequireDefault(_error);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var ObsTextarea = _react2.default.createClass({
+var React = require('react');
+var cx = require('classnames');
+var _ = require('lodash');
+
+var ObsLabel = require('./label');
+var ObsError = require('./error');
+
+var ObsTextarea = React.createClass({
   displayName: 'ObsTextarea',
 
   propTypes: {
-    value: _react2.default.PropTypes.string,
-    onChange: _react2.default.PropTypes.func,
-    onBlur: _react2.default.PropTypes.func,
-    label: _react2.default.PropTypes.string,
-    hint: _react2.default.PropTypes.string,
-    required: _react2.default.PropTypes.bool,
-    placeholder: _react2.default.PropTypes.string,
-    className: _react2.default.PropTypes.string,
-    id: _react2.default.PropTypes.string,
-    rows: _react2.default.PropTypes.number,
-    errors: _react2.default.PropTypes.array // array of strings
+    value: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
+    label: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    required: React.PropTypes.bool,
+    placeholder: React.PropTypes.string,
+    className: React.PropTypes.string,
+    id: React.PropTypes.string,
+    rows: React.PropTypes.number,
+    errors: React.PropTypes.array // array of strings
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -27293,28 +27072,28 @@ var ObsTextarea = _react2.default.createClass({
     };
   },
   _valueChanged: function _valueChanged(e) {
-    if (_lodash2.default.isFunction(this.props.onChange)) this.props.onChange(e.target.value);
+    if (_.isFunction(this.props.onChange)) this.props.onChange(e.target.value);
   },
   render: function render() {
     var groupClasses;
-    groupClasses = (0, _classnames2.default)(_defineProperty({
+    groupClasses = cx(_defineProperty({
       "form-group": true,
-      "has-error": !_lodash2.default.isEmpty(this.props.errors)
+      "has-error": !_.isEmpty(this.props.errors)
     }, this.props.className, this.props.className));
 
-    return _react2.default.createElement(
+    return React.createElement(
       'div',
       { className: groupClasses },
-      _react2.default.createElement(_label2.default, { text: this.props.label, hint: this.props.hint, required: this.props.required }),
-      _react2.default.createElement('textarea', { id: this.props.id, className: 'form-control', rows: this.props.rows, type: 'text', value: this.props.value,
+      React.createElement(ObsLabel, { text: this.props.label, hint: this.props.hint, required: this.props.required }),
+      React.createElement('textarea', { id: this.props.id, className: 'form-control', rows: this.props.rows, type: 'text', value: this.props.value,
         placeholder: this.props.placeholder,
         onChange: this._valueChanged, onBlur: this.props.onBlur }),
-      _react2.default.createElement(_error2.default, { errors: this.props.errors })
+      React.createElement(ObsError, { errors: this.props.errors })
     );
   }
 });
 
-exports.default = ObsTextarea;
+module.exports = ObsTextarea;
 });
 
 ;
