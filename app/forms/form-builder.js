@@ -19,27 +19,52 @@ const Formatters        = require('../formatters/formatters')
 //   "address.state": ['is required']
 // }
 
+var _getState = function(reactComp, stateAttr) {
+  return reactComp.state[stateAttr]
+}
+
+var _setState = function(reactComp, stateAttr, newState) {
+  reactComp.setState({
+    [ stateAttr ]: newState
+  })
+}
 
 const FormBuilder = {
 
-  new(object, errors, options={}) {
+  // The FormBuilder does not maintain its own state.  Instead, you pass in a
+  // reference (reactComp) that is maintaining state.  dataAttr tells us where to
+  // find the data in the reactComp's state.
+  new(reactComp, dataAttr, errorsAttr, options={}) {
     var data = {
-      object,
-      errors,
+      reactComp,
+      dataAttr,
+      errorsAttr,
       onValueChange: options.onValueChange,
       onErrorChange: options.onErrorChange,
       onTouch:       options.onTouch,
+      data() { return _getState(this.reactComp, this.dataAttr) },
+      errors() { return _getState(this.reactComp, this.errorsAttr) },
+      setData(data) {
+        _setState(this.reactComp, this.dataAttr, data)
+        if (_.isFunction(this.onValueChange))
+          this.onValueChange(data)
+      },
+      setErrors(errors) {
+        _setState(this.reactComp, this.errorsAttr, errors)
+        if (_.isFunction(this.onErrorChange))
+          this.onErrorChange()
+      },
       // return if the form builder form is valid
-      isValid() { return_.isEmpty(this.errors) },
+      isValid() { return _.isEmpty(this.errors()) },
       // set the value for the attribute name.
       set(attrName, value) {
-        _.set(this.object, attrName, value)
-        if (_.isFunction(this.onValueChange))
-          this.onValueChange(this.object)
+        var state = this.data()
+        _.set(state, attrName, value)
+        this.setData(state)
       },
       // get the value for the attribute name.
       get(attrName) {
-        return _.get(this.object, attrName)
+        return _.get(this.data(), attrName)
       }
     }
 
@@ -68,7 +93,7 @@ const Components = {
   formattedField(label, attrName, formatterFun, options={}) {
     return (
       <ObsFormattedText label={label} hint={options.hint} required={options.required}
-        object={this.object} errors={this._getErrors(attrName)} attr={attrName} formatter={formatterFun}
+        object={this.data()} errors={this._getErrors(attrName)} attr={attrName} formatter={formatterFun}
         className={options.className} id={options.id}
         onChange={_.bind(this._onChange, this, options)}
         onTouch={_.bind(this._fieldTouched, this)}
@@ -138,7 +163,7 @@ const Components = {
 
   addressField(label, attrName, options={}) {
     return (
-      <ObsAddressUs label={label} object={this.object} attr={attrName} errors={this.errors}
+      <ObsAddressUs label={label} object={this.data()} attr={attrName} errors={this.errors()}
         required={options.required} hint={options.hint} className={options.className}
         onChange={_.bind(this._onChange, this, options)}
         onErrorChange={_.bind(this._formatErrorChanged, this)}
@@ -164,26 +189,26 @@ const Components = {
   },
 
   _formatErrorChanged(attrName, errors) {
+    // either add or remove the errors stored for the attribute
+    var storedErrors = this.errors()
     if (_.isEmpty(errors))
-      delete this.errors[attrName]
+      delete storedErrors[attrName]
     else
-      this.errors[attrName] = errors
-    if (_.isFunction(this.onErrorChange))
-      this.onErrorChange()
-
+      storedErrors[attrName] = errors
+    this.setErrors(storedErrors)
   },
 
   _fieldTouched(attrName) {
     // remove any server errors from the list if the field was touched.
-    delete this.errors[attrName]
+    var storedErrors = this.errors()
+    delete storedErrors[attrName]
+    this.setErrors(storedErrors)
     if (_.isFunction(this.onTouch))
       this.onTouch(attrName)
-    if (_.isFunction(this.onErrorChange))
-      this.onErrorChange()
   },
 
   _getErrors(attrName) {
-    return this.errors[attrName]
+    return this.errors()[attrName]
   }
 }
 
