@@ -1,5 +1,5 @@
-import React from 'react'
-import cx    from 'classnames'
+const React = require('react')
+const cx    = require('classnames')
 
 const ObsCompoundLayout = React.createClass({
   propTypes: {
@@ -34,4 +34,4 @@ const ObsCompoundLayout = React.createClass({
   }
 })
 
-export default ObsCompoundLayout
+module.exports = ObsCompoundLayout

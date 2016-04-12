@@ -1,4 +1,4 @@
-import React from 'react'
+const React = require('react')
 
 const ObsForm = React.createClass({
   propTypes: {
@@ -25,4 +25,4 @@ const ObsForm = React.createClass({
   }
 })
 
-export default ObsForm
+module.exports = ObsForm

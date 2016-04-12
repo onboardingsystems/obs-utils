@@ -1,10 +1,10 @@
-import React from 'react'
-import cx    from 'classnames'
-import _     from 'lodash'
+const React = require('react')
+const cx    = require('classnames')
+const _     = require('lodash')
 
-import ObsError          from './error'
-import ObsRequiredMarker from './required-marker'
-import ObsHint           from './hint'
+const ObsError          = require('./error')
+const ObsRequiredMarker = require('./required-marker')
+const ObsHint           = require('./hint')
 
 const ObsCheckbox = React.createClass({
   propTypes: {
@@ -62,4 +62,4 @@ const ObsCheckbox = React.createClass({
   }
 })
 
-export default ObsCheckbox
+module.exports = ObsCheckbox

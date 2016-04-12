@@ -1,6 +1,6 @@
-import _       from 'lodash'
-import moment  from 'moment'
-import numeral from 'numeral'
+const _       = require('lodash')
+const moment  = require('moment')
+const numeral = require('numeral')
 
 const Formatters = {
 
@@ -334,4 +334,4 @@ const Formatters = {
   }
 }
 
-export default Formatters
+module.exports = Formatters
