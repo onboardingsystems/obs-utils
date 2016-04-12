@@ -1,1 +1,2 @@
-module.exports = require('./dist/react-utils.js')
+'use strict';
+module.exports = require('./app/forms/form-builder.js');
