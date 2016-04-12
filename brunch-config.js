@@ -2,14 +2,7 @@ module.exports = {
   files: {
     javascripts: {
       entryPoints: {
-        'app/app.js': 'app.js'
-      },
-      order: {
-        before: [
-          "fbjs",
-          "react",
-          "react-dom"
-        ]
+        'app/obs_utils.js': 'obs_utils.js'
       }
     }
   },
@@ -25,6 +18,9 @@ module.exports = {
   modules: {
     // wrapper: false,
     // definition: false
+    // autoRequire: {
+    //   'app.js': ['app']
+    // }
   }
 
 };

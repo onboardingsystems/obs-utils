@@ -42293,53 +42293,7 @@ require.alias("process/browser.js", "process");
 require.alias("base64-js/lib/b64.js", "base64-js");
 require.alias("buffer/index.js", "buffer");process = require('process');})();
 
-require.register("app.js", function(exports, require, module) {
-'use strict';
-
-// Forms
-// const FormBuilder         = require('./forms/form-builder')
-// import FormBuilder     from './forms/form-builder'
-// import AddressUS       from './forms/address-us'
-// import CompoundLayout  from './forms/compound-layout'
-// import Error           from './forms/error'
-// import Form            from './forms/form'
-// import FormattedText   from './forms/formatted-text'
-// import Hint            from './forms/hint'
-// import Label           from './forms/label'
-// import RequiredMarker  from './forms/required-marker'
-// import Text            from './forms/text'
-// import Textarea        from './forms/textarea'
-// export { FormBuilder, AddressUS, CompoundLayout, Error, Form, FormattedText, Hint, Label, RequiredMarker, Text, Textarea }
-//
-// // Formatters
-// import Formatters from './formatters/formatters'
-// export { Formatters }
-
-// const stuff = {
-//   FormBuilder: require('./forms/form-builder'),
-//   Form: require('./forms/form')
-// }
-
-module.exports = {
-  success: true,
-  Forms: {
-    FormBuilder: require('./forms/form-builder'),
-    AddressUS: require('./forms/address-us'),
-    CompoundLayout: require('./forms/compound-layout'),
-    Error: require('./forms/error'),
-    Form: require('./forms/form'),
-    FormattedText: require('./forms/formatted-text'),
-    Hint: require('./forms/hint'),
-    Label: require('./forms/label'),
-    RequiredMarker: require('./forms/required-marker'),
-    Text: require('./forms/text'),
-    Textarea: require('./forms/textarea')
-  },
-  Formatters: require("./formatters/formatters")
-};
-});
-
-;require.register("formatters/formatters.js", function(exports, require, module) {
+require.register("formatters/formatters.js", function(exports, require, module) {
 'use strict';
 
 var _ = require('lodash');
@@ -43045,6 +42999,8 @@ module.exports = ObsError;
 ;require.register("forms/form-builder.js", function(exports, require, module) {
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var _ = require('lodash');
@@ -43065,30 +43021,60 @@ var Formatters = require('../formatters/formatters');
 //   "address.state": ['is required']
 // }
 
+var _getState = function _getState(reactComp, stateAttr) {
+  return reactComp.state[stateAttr];
+};
+
+var _setState = function _setState(reactComp, stateAttr, newState) {
+  reactComp.setState(_defineProperty({}, stateAttr, newState));
+};
+
 var FormBuilder = {
-  new: function _new(object, errors) {
-    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+  // The FormBuilder does not maintain its own state.  Instead, you pass in a
+  // reference (reactComp) that is maintaining state.  dataAttr tells us where to
+  // find the data in the reactComp's state.
+
+  new: function _new(reactComp, dataAttr, errorsAttr) {
+    var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
     var data = {
-      object: object,
-      errors: errors,
+      reactComp: reactComp,
+      dataAttr: dataAttr,
+      errorsAttr: errorsAttr,
       onValueChange: options.onValueChange,
       onErrorChange: options.onErrorChange,
       onTouch: options.onTouch,
+      data: function data() {
+        return _getState(this.reactComp, this.dataAttr);
+      },
+      errors: function errors() {
+        return _getState(this.reactComp, this.errorsAttr);
+      },
+      setData: function setData(data) {
+        _setState(this.reactComp, this.dataAttr, data);
+        if (_.isFunction(this.onValueChange)) this.onValueChange(data);
+      },
+      setErrors: function setErrors(errors) {
+        _setState(this.reactComp, this.errorsAttr, errors);
+        if (_.isFunction(this.onErrorChange)) this.onErrorChange();
+      },
+
       // return if the form builder form is valid
       isValid: function isValid() {
-        return_.isEmpty(this.errors);
+        return _.isEmpty(this.errors());
       },
 
       // set the value for the attribute name.
       set: function set(attrName, value) {
-        _.set(this.object, attrName, value);
-        if (_.isFunction(this.onValueChange)) this.onValueChange(this.object);
+        var state = this.data();
+        _.set(state, attrName, value);
+        this.setData(state);
       },
 
       // get the value for the attribute name.
       get: function get(attrName) {
-        return _.get(this.object, attrName);
+        return _.get(this.data(), attrName);
       }
     };
 
@@ -43116,7 +43102,7 @@ var Components = {
     var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
     return React.createElement(ObsFormattedText, { label: label, hint: options.hint, required: options.required,
-      object: this.object, errors: this._getErrors(attrName), attr: attrName, formatter: formatterFun,
+      object: this.data(), errors: this._getErrors(attrName), attr: attrName, formatter: formatterFun,
       className: options.className, id: options.id,
       onChange: _.bind(this._onChange, this, options),
       onTouch: _.bind(this._fieldTouched, this),
@@ -43194,7 +43180,7 @@ var Components = {
   addressField: function addressField(label, attrName) {
     var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-    return React.createElement(ObsAddressUs, { label: label, object: this.object, attr: attrName, errors: this.errors,
+    return React.createElement(ObsAddressUs, { label: label, object: this.data(), attr: attrName, errors: this.errors(),
       required: options.required, hint: options.hint, className: options.className,
       onChange: _.bind(this._onChange, this, options),
       onErrorChange: _.bind(this._formatErrorChanged, this),
@@ -43217,17 +43203,20 @@ var Components = {
     if (_.isFunction(options['onChange'])) options['onChange'](value, attrName);
   },
   _formatErrorChanged: function _formatErrorChanged(attrName, errors) {
-    if (_.isEmpty(errors)) delete this.errors[attrName];else this.errors[attrName] = errors;
-    if (_.isFunction(this.onErrorChange)) this.onErrorChange();
+    // either add or remove the errors stored for the attribute
+    var storedErrors = this.errors();
+    if (_.isEmpty(errors)) delete storedErrors[attrName];else storedErrors[attrName] = errors;
+    this.setErrors(storedErrors);
   },
   _fieldTouched: function _fieldTouched(attrName) {
     // remove any server errors from the list if the field was touched.
-    delete this.errors[attrName];
+    var storedErrors = this.errors();
+    delete storedErrors[attrName];
+    this.setErrors(storedErrors);
     if (_.isFunction(this.onTouch)) this.onTouch(attrName);
-    if (_.isFunction(this.onErrorChange)) this.onErrorChange();
   },
   _getErrors: function _getErrors(attrName) {
-    return this.errors[attrName];
+    return this.errors()[attrName];
   }
 };
 
@@ -43603,5 +43592,51 @@ var ObsTextarea = React.createClass({
 module.exports = ObsTextarea;
 });
 
+;require.register("obs_utils.js", function(exports, require, module) {
+'use strict';
+
+// Forms
+// const FormBuilder         = require('./forms/form-builder')
+// import FormBuilder     from './forms/form-builder'
+// import AddressUS       from './forms/address-us'
+// import CompoundLayout  from './forms/compound-layout'
+// import Error           from './forms/error'
+// import Form            from './forms/form'
+// import FormattedText   from './forms/formatted-text'
+// import Hint            from './forms/hint'
+// import Label           from './forms/label'
+// import RequiredMarker  from './forms/required-marker'
+// import Text            from './forms/text'
+// import Textarea        from './forms/textarea'
+// export { FormBuilder, AddressUS, CompoundLayout, Error, Form, FormattedText, Hint, Label, RequiredMarker, Text, Textarea }
+//
+// // Formatters
+// import Formatters from './formatters/formatters'
+// export { Formatters }
+
+// const stuff = {
+//   FormBuilder: require('./forms/form-builder'),
+//   Form: require('./forms/form')
+// }
+
+module.exports = {
+  success: true,
+  Forms: {
+    FormBuilder: require('./forms/form-builder'),
+    AddressUS: require('./forms/address-us'),
+    CompoundLayout: require('./forms/compound-layout'),
+    Error: require('./forms/error'),
+    Form: require('./forms/form'),
+    FormattedText: require('./forms/formatted-text'),
+    Hint: require('./forms/hint'),
+    Label: require('./forms/label'),
+    RequiredMarker: require('./forms/required-marker'),
+    Text: require('./forms/text'),
+    Textarea: require('./forms/textarea')
+  },
+  Formatters: require("./formatters/formatters")
+};
+});
+
 ;
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=obs_utils.js.map
