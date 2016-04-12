@@ -1,8 +1,8 @@
 module.exports = {
   files: {
     javascripts: {
-      entryPoints: {
-        'app/app.js': 'react-utils.js'
+      joinTo: {
+        'react-utils.js': /^app/
       }
     }
   },
