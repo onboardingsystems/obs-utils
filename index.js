@@ -1,2 +1,2 @@
 'use strict';
-module.exports = require('./app/forms/form-builder.js');
+module.exports = require('./dist/form-builder.js');
