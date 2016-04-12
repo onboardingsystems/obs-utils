@@ -1,3 +1,118 @@
+(function() {
+  'use strict';
+
+  var globals = typeof window === 'undefined' ? global : window;
+  if (typeof globals.require === 'function') return;
+
+  var modules = {};
+  var cache = {};
+  var aliases = {};
+  var has = ({}).hasOwnProperty;
+
+  var expRe = /^\.\.?(\/|$)/;
+  var expand = function(root, name) {
+    var results = [], part;
+    var parts = (expRe.test(name) ? root + '/' + name : name).split('/');
+    for (var i = 0, length = parts.length; i < length; i++) {
+      part = parts[i];
+      if (part === '..') {
+        results.pop();
+      } else if (part !== '.' && part !== '') {
+        results.push(part);
+      }
+    }
+    return results.join('/');
+  };
+
+  var dirname = function(path) {
+    return path.split('/').slice(0, -1).join('/');
+  };
+
+  var localRequire = function(path) {
+    return function expanded(name) {
+      var absolute = expand(dirname(path), name);
+      return globals.require(absolute, path);
+    };
+  };
+
+  var initModule = function(name, definition) {
+    var module = {id: name, exports: {}};
+    cache[name] = module;
+    definition(module.exports, localRequire(name), module);
+    return module.exports;
+  };
+
+  var expandAlias = function(name) {
+    return aliases[name] ? expandAlias(aliases[name]) : name;
+  };
+
+  var require = function(name, loaderPath) {
+    if (loaderPath == null) loaderPath = '/';
+    var path = expandAlias(name);
+
+    if (has.call(cache, path)) return cache[path].exports;
+    if (has.call(modules, path)) return initModule(path, modules[path]);
+
+    throw new Error("Cannot find module '" + name + "' from '" + loaderPath + "'");
+  };
+
+  require.alias = function(from, to) {
+    aliases[to] = from;
+  };
+
+  require.reset = function() {
+    modules = {};
+    cache = {};
+    aliases = {};
+  };
+
+  var extRe = /\.[^.\/]+$/;
+  var indexRe = /\/index(\.[^\/]+)?$/;
+  var addExtensions = function(bundle) {
+    if (extRe.test(bundle)) {
+      var alias = bundle.replace(extRe, '');
+      if (!has.call(aliases, alias) || aliases[alias].replace(extRe, '') === alias + '/index') {
+        aliases[alias] = bundle;
+      }
+    }
+
+    if (indexRe.test(bundle)) {
+      var iAlias = bundle.replace(indexRe, '');
+      if (!has.call(aliases, iAlias)) {
+        aliases[iAlias] = bundle;
+      }
+    }
+  };
+
+  require.register = require.define = function(bundle, fn) {
+    if (typeof bundle === 'object') {
+      for (var key in bundle) {
+        if (has.call(bundle, key)) {
+          require.register(key, bundle[key]);
+        }
+      }
+    } else {
+      modules[bundle] = fn;
+      delete cache[bundle];
+      addExtensions(bundle);
+    }
+  };
+
+  require.list = function() {
+    var result = [];
+    for (var item in modules) {
+      if (has.call(modules, item)) {
+        result.push(item);
+      }
+    }
+    return result;
+  };
+
+  require.brunch = true;
+  require._cache = cache;
+  globals.require = require;
+})();
+require.register("app.js", function(exports, require, module) {
 'use strict';
 
 // Forms
@@ -25,7 +140,10 @@ var FormBuilder = require('./forms/form-builder');
 // }
 
 module.exports = FormBuilder;
-;'use strict';
+});
+
+;require.register("formatters/formatters.js", function(exports, require, module) {
+'use strict';
 
 var _ = require('lodash');
 var moment = require('moment');
@@ -379,7 +497,10 @@ var Formatters = {
 };
 
 module.exports = Formatters;
-;'use strict';
+});
+
+;require.register("forms/address-us.js", function(exports, require, module) {
+'use strict';
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -571,7 +692,10 @@ var ObsAddressUs = React.createClass({
 });
 
 module.exports = ObsAddressUs;
-;'use strict';
+});
+
+;require.register("forms/checkbox.js", function(exports, require, module) {
+'use strict';
 
 var React = require('react');
 var cx = require('classnames');
@@ -639,7 +763,10 @@ var ObsCheckbox = React.createClass({
 });
 
 module.exports = ObsCheckbox;
-;'use strict';
+});
+
+;require.register("forms/compound-layout.js", function(exports, require, module) {
+'use strict';
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -682,7 +809,10 @@ var ObsCompoundLayout = React.createClass({
 });
 
 module.exports = ObsCompoundLayout;
-;'use strict';
+});
+
+;require.register("forms/error.js", function(exports, require, module) {
+'use strict';
 
 var React = require('react');
 var _ = require('lodash');
@@ -713,7 +843,10 @@ var ObsError = React.createClass({
 });
 
 module.exports = ObsError;
-;'use strict';
+});
+
+;require.register("forms/form-builder.js", function(exports, require, module) {
+'use strict';
 
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -902,7 +1035,10 @@ var Components = {
 };
 
 module.exports = FormBuilder;
-;"use strict";
+});
+
+;require.register("forms/form.js", function(exports, require, module) {
+"use strict";
 
 var React = require('react');
 
@@ -932,7 +1068,10 @@ var ObsForm = React.createClass({
 });
 
 module.exports = ObsForm;
-;'use strict';
+});
+
+;require.register("forms/formatted-text.js", function(exports, require, module) {
+'use strict';
 
 var React = require('react');
 var cx = require('classnames');
@@ -1039,7 +1178,10 @@ var ObsFormattedText = React.createClass({
 });
 
 module.exports = ObsFormattedText;
-;"use strict";
+});
+
+;require.register("forms/hint.js", function(exports, require, module) {
+"use strict";
 
 var React = require('react');
 
@@ -1061,7 +1203,10 @@ var ObsHint = React.createClass({
 });
 
 module.exports = ObsHint;
-;'use strict';
+});
+
+;require.register("forms/label.js", function(exports, require, module) {
+'use strict';
 
 var React = require('react');
 var _ = require('lodash');
@@ -1099,7 +1244,10 @@ var ObsLabel = React.createClass({
 });
 
 module.exports = ObsLabel;
-;"use strict";
+});
+
+;require.register("forms/required-marker.js", function(exports, require, module) {
+"use strict";
 
 var React = require('react');
 
@@ -1126,7 +1274,10 @@ var ObsRequiredMarker = React.createClass({
 });
 
 module.exports = ObsRequiredMarker;
-;'use strict';
+});
+
+;require.register("forms/text.js", function(exports, require, module) {
+'use strict';
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1193,7 +1344,10 @@ var ObsText = React.createClass({
 });
 
 module.exports = ObsText;
-;'use strict';
+});
+
+;require.register("forms/textarea.js", function(exports, require, module) {
+'use strict';
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1250,5 +1404,7 @@ var ObsTextarea = React.createClass({
 });
 
 module.exports = ObsTextarea;
+});
+
 ;
 //# sourceMappingURL=react-utils.js.map
