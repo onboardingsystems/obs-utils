@@ -6,6 +6,7 @@ module.exports = {
       },
       order: {
         before: [
+          "fbjs",
           "react",
           "react-dom"
         ]
