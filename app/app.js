@@ -17,9 +17,13 @@
 // import Formatters from './formatters/formatters'
 // export { Formatters }
 
+// const stuff = {
+//   FormBuilder: require('./forms/form-builder'),
+//   Form: require('./forms/form')
+// }
+
 const stuff = {
-  FormBuilder: require('./forms/form-builder'),
-  Form: require('./forms/form')
+  test: true
 }
 
 module.exports = stuff
