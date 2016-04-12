@@ -25,7 +25,7 @@
 module.exports = {
   success: true,
   Forms: {
-    FormBuilder:     require('./form/form-builder'),
+    FormBuilder:     require('./forms/form-builder'),
     AddressUS:       require('./forms/address-us'),
     CompoundLayout:  require('./forms/compound-layout'),
     Error:           require('./forms/error'),

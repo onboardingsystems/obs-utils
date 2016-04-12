@@ -16,7 +16,9 @@ module.exports = {
         'forms/text.js': /^app\/forms\/text/,
         'forms/textarea.js': /^app\/forms\/textarea/,
 
-        'formatters/formatters.js': /^app\/formatters/
+        'formatters/formatters.js': /^app\/formatters/,
+
+        'vendor.js': /(?!app)/
       }
     }
   },
@@ -32,9 +34,6 @@ module.exports = {
   modules: {
     wrapper: false,
     definition: false
-    // autoRequire: {
-    //   'test.js': ['app/forms/app']
-    // }
   }
 
 };
