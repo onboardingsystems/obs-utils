@@ -1,5 +1,5 @@
 // Forms
-// const FormBuilder         = require('./forms/form-builder')
+const FormBuilder         = require('./forms/form-builder')
 // import FormBuilder     from './forms/form-builder'
 // import AddressUS       from './forms/address-us'
 // import CompoundLayout  from './forms/compound-layout'
@@ -22,6 +22,4 @@
 //   Form: require('./forms/form')
 // }
 
-module.exports = {
-  test: true
-}
+module.exports = FormBuilder
