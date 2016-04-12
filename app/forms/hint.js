@@ -1,4 +1,4 @@
-const React = require('react')
+import React from 'react'
 
 const ObsHint = React.createClass({
   propTypes: {
@@ -12,4 +12,4 @@ const ObsHint = React.createClass({
   }
 })
 
-module.exports = ObsHint
+export default ObsHint
