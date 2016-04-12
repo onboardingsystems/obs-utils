@@ -139,7 +139,9 @@ var FormBuilder = require('./forms/form-builder');
 //   Form: require('./forms/form')
 // }
 
-module.exports = FormBuilder;
+module.exports = {
+  success: true
+};
 });
 
 ;require.register("formatters/formatters.js", function(exports, require, module) {

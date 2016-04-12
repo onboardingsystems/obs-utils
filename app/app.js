@@ -22,4 +22,6 @@ const FormBuilder         = require('./forms/form-builder')
 //   Form: require('./forms/form')
 // }
 
-module.exports = FormBuilder
+module.exports = {
+  success: true
+}
