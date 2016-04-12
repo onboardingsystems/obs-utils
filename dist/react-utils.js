@@ -112,7 +112,6 @@
   require._cache = cache;
   globals.require = require;
 })();
-require.register("app.js", function(exports, require, module) {
 'use strict';
 
 // Forms
@@ -139,7 +138,5 @@ function hello() {
 }
 
 module.exports = hello;
-});
-
 ;
 //# sourceMappingURL=react-utils.js.map
