@@ -17,8 +17,8 @@ module.exports = {
   },
 
   modules: {
-    // wrapper: false,
-    // definition: false
+    wrapper: false,
+    definition: false
   }
 
 };
