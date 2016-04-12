@@ -15,14 +15,14 @@
     "test": "jest"
   },
   "dependencies": {
+  },
+  "devDependencies": {
     "classnames": "^2.2.3",
     "lodash": "^4.10.0",
     "moment": "^2.12.0",
     "numeral": "^1.5.3",
     "react": "^15.0.0",
-    "react-dom": "^15.0.0"
-  },
-  "devDependencies": {
+    "react-dom": "^15.0.0",
     "auto-reload-brunch": "^2.0.0",
     "babel-brunch": "~6.0.0",
     "babel-jest": "^10.0.2",
