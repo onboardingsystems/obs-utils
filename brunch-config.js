@@ -2,13 +2,15 @@ module.exports = {
   files: {
     javascripts: {
       joinTo: {
-        'react-utils.js': /^app/
+        'obs-utils.js': /^app\/app.js/
+      },
+      entryPoints: {
+        'app/app.js': 'test.js'
       }
     }
   },
 
   paths: {
-    // Where to compile files to
     public: "dist"
   },
 
@@ -17,8 +19,11 @@ module.exports = {
   },
 
   modules: {
-    wrapper: false,
-    definition: false
+    // wrapper: false,
+    // definition: false
+    autoRequire: {
+      'test.js': ['app/forms/app']
+    }
   }
 
 };

@@ -1,2 +1,2 @@
 'use strict';
-module.exports = require('./dist/react-utils');
+module.exports = require('./dist/test');
