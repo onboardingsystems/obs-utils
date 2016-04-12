@@ -25830,7 +25830,12 @@ require.alias("buffer/index.js", "buffer");process = require('process');})();
 // import Formatters from './formatters/formatters'
 // export { Formatters }
 
-module.exports = require('./forms/form-builder');
+var stuff = {
+  FormBuilder: require('./forms/form-builder'),
+  Form: require('./forms/form')
+};
+
+module.exports = stuff;
 ;'use strict';
 
 var _ = require('lodash');
