@@ -112,6 +112,7 @@
   require._cache = cache;
   globals.require = require;
 })();
+require.register("app.js", function(exports, require, module) {
 "use strict";
 
 // Forms
@@ -143,5 +144,7 @@ var stuff = {
 };
 
 module.exports = stuff;
+});
+
 ;
 //# sourceMappingURL=react-utils.js.map
