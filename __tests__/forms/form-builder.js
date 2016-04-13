@@ -6,7 +6,11 @@ import OBSFormBuilder from '../../app/forms/form-builder';
 describe('OBSFormBuilder', ()=> {
 
   it('does not blow up', ()=> {
-    var formBuilder = OBSFormBuilder.new()
+    var formBuilder = OBSFormBuilder.new({
+      parent: {},
+      formDataAttr: 'a',
+      errorDataAttr: 'a'
+    })
     expect(_.isObject(formBuilder)).toBe(true)
     expect(_.isFunction(formBuilder.form)).toBe(true)
     expect(_.isFunction(formBuilder.phoneField)).toBe(true)
