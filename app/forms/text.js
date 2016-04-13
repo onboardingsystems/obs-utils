@@ -2,8 +2,9 @@ const React = require('react')
 const cx    = require('classnames')
 const _     = require('lodash')
 
-const ObsLabel = require('./label')
-const ObsError = require('./error')
+const ObsLabel   = require('./label')
+const ObsError   = require('./error')
+const Formatters = require('../formatters/formatters')
 
 const ObsText = React.createClass({
   propTypes: {
@@ -28,7 +29,7 @@ const ObsText = React.createClass({
       required: false,
       errors:   [],
       id: _.uniqueId('text_'),
-      formatter: OBSUtils.Formatters.requiredFormatter
+      formatter: Formatters.requiredFormatter
     }
   },
 

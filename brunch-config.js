@@ -2,7 +2,8 @@ module.exports = {
   files: {
     javascripts: {
       joinTo: {
-        'obs_utils.js': /^app/
+        'obs_utils.js': /^app/,
+        'vendor.js': /(?!app)/
       }
     }
   },
@@ -16,8 +17,11 @@ module.exports = {
   },
 
   modules: {
-    wrapper: false,
-    definition: false
+    // wrapper: false,
+    // definition: false
+    autoRequire: {
+      'obs_utils.js': ['obs_utils']
+    }
   }
 
 };

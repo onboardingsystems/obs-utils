@@ -1,5 +1,4 @@
-module.exports = {
-  success: true,
+window.OBSUtils = {
   Forms: {
     FormBuilder:     require('./forms/form-builder'),
     AddressUS:       require('./forms/address-us'),
