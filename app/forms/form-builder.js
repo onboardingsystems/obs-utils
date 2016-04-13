@@ -112,7 +112,6 @@ const Components = {
         object={this.data()} errors={this._getErrors(attrName)} attr={attrName} formatter={formatterFun}
         className={options.className} id={options.id}
         onChange={_.bind(this._onChange, this, options)}
-        onTouch={_.bind(this._fieldTouched, this)}
         onErrorChange={_.bind(this._formatErrorChanged, this)}
         placeholder={options.placeholder}
         didMount={this._register} willUnmount={this._unregister} />
@@ -126,7 +125,6 @@ const Components = {
         value={!!this.get(attrName)} errors={this._getErrors(attrName)}
         className={options.className} id={options.id}
         onChange={_.bind(this._onChange, this, options, attrName)}
-        onTouch={_.bind(this._fieldTouched, this, attrName)}
         didMount={this._register} willUnmount={this._unregister} />
     )
   },
@@ -185,7 +183,6 @@ const Components = {
         required={options.required} hint={options.hint} className={options.className}
         onChange={_.bind(this._onChange, this, options)}
         onErrorChange={_.bind(this._formatErrorChanged, this)}
-        onTouch={_.bind(this._fieldTouched, this)}
         didMount={this._register} willUnmount={this._unregister} />
     )
   },
@@ -215,15 +212,6 @@ const Components = {
     else
       storedErrors[attrName] = errors
     this.setErrors(storedErrors)
-  },
-
-  _fieldTouched(attrName) {
-    // remove any server errors from the list if the field was touched.
-    var storedErrors = this.errors()
-    delete storedErrors[attrName]
-    this.setErrors(storedErrors)
-    if (_.isFunction(this.onTouch))
-      this.onTouch(attrName)
   },
 
   _getErrors(attrName) {
