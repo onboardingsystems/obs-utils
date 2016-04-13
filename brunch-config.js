@@ -1,8 +1,8 @@
 module.exports = {
   files: {
     javascripts: {
-      entryPoints: {
-        'app/obs_utils.js': 'obs_utils.js'
+      joinTo: {
+        'obs_utils.js': /^app/
       }
     }
   },
@@ -16,11 +16,8 @@ module.exports = {
   },
 
   modules: {
-    // wrapper: false,
-    // definition: false
-    // autoRequire: {
-    //   'app.js': ['app']
-    // }
+    wrapper: false,
+    definition: false
   }
 
 };
