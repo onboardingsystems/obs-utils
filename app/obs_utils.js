@@ -6,7 +6,7 @@ module.exports = {
     CompoundLayout:  require('./forms/compound-layout'),
     Error:           require('./forms/error'),
     Form:            require('./forms/form'),
-    FormattedText:   require('./forms/formatted-text'),
+    FormattedText:   require('./forms/text'),
     Hint:            require('./forms/hint'),
     Label:           require('./forms/label'),
     RequiredMarker:  require('./forms/required-marker'),

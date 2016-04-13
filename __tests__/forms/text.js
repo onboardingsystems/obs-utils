@@ -9,7 +9,7 @@ describe('OBSText', ()=> {
 
   it('does not blow up', ()=> {
     const comp = TestUtils.renderIntoDocument(
-      <OBSText />
+      <OBSText object={{a: 'hi'}} attr="a"/>
     )
     const node = ReactDOM.findDOMNode(comp)
 

@@ -85,6 +85,21 @@ const Formatters = {
   },
 
 
+  requiredFormatter(value, options={}) {
+    var options = _.merge({}, {required: false}, options)
+    var errors = []
+
+    if (options.required && _.isEmpty(value))
+      errors.push('is required')
+    return {
+      valid: errors.length === 0,
+      parsed: value,
+      formatted: value,
+      errors
+    }
+  },
+  
+
   stringFormatter(value, options={}) {
     var options = _.merge({}, {required: false}, options)
     var parsed, formatted, errors = []

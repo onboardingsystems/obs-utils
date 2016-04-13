@@ -56,6 +56,39 @@ describe("datetimeDisplay", ()=> {
 })
 
 
+describe('requiredFormatter', () => {
+
+  it("does not change the value", ()=> {
+    expect(formatters.requiredFormatter(" hi "))
+      .toEqual({
+        errors: [],
+        formatted: ' hi ',
+        parsed: ' hi ',
+        valid: true
+      })
+  })
+
+  it("returns an error if required", ()=> {
+    expect(formatters.requiredFormatter("", {required: true}))
+      .toEqual({
+        errors: ['is required'],
+        formatted: '',
+        parsed: '',
+        valid: false
+      })
+
+    // not the string formatter, it doesn't trim
+    expect(formatters.requiredFormatter(" ", {required: true}))
+      .toEqual({
+        errors: [],
+        formatted: ' ',
+        parsed: ' ',
+        valid: true
+      })
+  })
+})
+
+
 describe('stringFormatter', () => {
 
   it("trims white space", ()=> {

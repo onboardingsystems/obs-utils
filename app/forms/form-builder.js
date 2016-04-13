@@ -6,7 +6,7 @@ const ObsForm           = require('./form')
 const ObsLabel          = require('./label')
 const ObsError          = require('./error')
 const ObsTextarea       = require('./textarea')
-const ObsFormattedText  = require('./formatted-text')
+const ObsText           = require('./text')
 const ObsCheckbox       = require('./checkbox')
 const ObsCompoundLayout = require('./compound-layout')
 const ObsAddressUs      = require('./address-us')
@@ -108,7 +108,7 @@ const Components = {
 
   formattedField(label, attrName, formatterFun, options={}) {
     return (
-      <ObsFormattedText label={label} hint={options.hint} required={options.required}
+      <ObsText label={label} hint={options.hint} required={options.required}
         object={this.data()} errors={this._getErrors(attrName)} attr={attrName} formatter={formatterFun}
         className={options.className} id={options.id}
         onChange={_.bind(this._onChange, this, options)}

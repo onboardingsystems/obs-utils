@@ -5,7 +5,7 @@ const _     = require('lodash')
 const Formatters = require('../formatters/formatters')
 
 const ObsCompoundLayout = require('./compound-layout')
-const ObsFormattedText  = require('./formatted-text')
+const ObsText           = require('./text')
 const ObsLabel          = require('./label')
 const ObsHint           = require('./hint')
 const ObsError          = require('./error')
@@ -155,7 +155,7 @@ const ObsAddressUs = React.createClass({
         <ObsLabel text={this.props.label} required={this.props.required} htmlFor={this.state.addressId} />
         <ObsHint  hint={this.props.hint} />
         <ObsCompoundLayout label={this.props.label} layout={"full"} className={this.props.className}>
-          <ObsFormattedText id={this.state.addressId}
+          <ObsText id={this.state.addressId}
             object={addrObject} attr={this.fields.street_1.attr} formatter={Formatters.stringFormatter}
             required={this.props.required} errors={this._getErrors(this.fields.street_1.attr)}
             placeholder={"Address"} onErrorChange={this._errorsChanged}
@@ -163,19 +163,19 @@ const ObsAddressUs = React.createClass({
 
           <ObsCompoundLayout label={this.props.label} layout={"inline"} className={this.props.className}>
             <div className="flex-grow-shrink">
-              <ObsFormattedText object={addrObject} attr={this.fields.city.attr} formatter={Formatters.stringFormatter}
+              <ObsText object={addrObject} attr={this.fields.city.attr} formatter={Formatters.stringFormatter}
                 required={this.props.required} errors={this._getErrors(this.fields.city.attr)}
                 placeholder={"City"} onErrorChange={this._errorsChanged}
                 onChange={_.bind(this._valueChanged, this)} className="address-city" />
             </div>
             <div className="flex-static">
-              <ObsFormattedText object={addrObject} attr={this.fields.state.attr} formatter={Formatters.stateFormatter}
+              <ObsText object={addrObject} attr={this.fields.state.attr} formatter={Formatters.stateFormatter}
                 required={this.props.required} errors={this._getErrors(this.fields.state.attr)}
                 placeholder={"ST"} onErrorChange={this._errorsChanged}
                 onChange={_.bind(this._valueChanged, this)} className="address-state state" />
             </div>
             <div className="flex-static">
-              <ObsFormattedText object={addrObject} attr={this.fields.zip.attr} formatter={Formatters.zipcodeFormatter}
+              <ObsText object={addrObject} attr={this.fields.zip.attr} formatter={Formatters.zipcodeFormatter}
                 required={this.props.required} errors={this._getErrors(this.fields.zip.attr)}
                 placeholder={"Zip"} onErrorChange={this._errorsChanged}
                 onChange={_.bind(this._valueChanged, this)} className="address-zipcode zipcode" />
