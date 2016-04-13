@@ -47,8 +47,6 @@ const ObsCheckbox = React.createClass({
     this.setState({checked: e.target.checked})
     if (_.isFunction(this.props.onChange))
       this.props.onChange(e.target.checked)
-    if (_.isFunction(this.props.onTouch))
-      this.props.onTouch()
   },
 
   render() {
