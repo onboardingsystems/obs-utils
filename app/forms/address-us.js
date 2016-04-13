@@ -24,6 +24,8 @@ const ObsAddressUs = React.createClass({
     hint:         React.PropTypes.string,
     required:     React.PropTypes.bool,
     className:    React.PropTypes.string,
+    didMount:     React.PropTypes.func,
+    willUnmount:   React.PropTypes.func
   },
 
   fields: {
@@ -44,6 +46,16 @@ const ObsAddressUs = React.createClass({
       addressId: _.uniqueId('address1_'),
       errors: this._addressErrors(this.props.errors)
     }
+  },
+
+  componentDidMount() {
+    if (_.isFunction(this.props.didMount))
+      this.props.didMount(this)
+  },
+
+  componentWillUnount() {
+    if (_.isFunction(this.props.willUnmount))
+      this.props.willUnmount(this)
   },
 
   componentWillReceiveProps(nextProps) {

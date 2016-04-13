@@ -17,6 +17,8 @@ const ObsText = React.createClass({
     className:    React.PropTypes.string,
     id:           React.PropTypes.string,
     errors:       React.PropTypes.array,   // array of strings
+    didMount:     React.PropTypes.func,
+    willUnmount:   React.PropTypes.func
   },
 
   getDefaultProps() {
@@ -30,6 +32,16 @@ const ObsText = React.createClass({
     return {
       linkingId: _.uniqueId('text_')
     }
+  },
+
+  componentDidMount() {
+    if (_.isFunction(this.props.didMount))
+      this.props.didMount(this)
+  },
+
+  componentWillUnount() {
+    if (_.isFunction(this.props.willUnmount))
+      this.props.willUnmount(this)
   },
 
   _valueChanged(e) {

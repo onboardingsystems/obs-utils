@@ -101,7 +101,8 @@ const Components = {
         value={this.get(attrName)} rows={options.rows}
         className={options.className} id={options.id}
         onChange={_.bind(this._onChange, this, options, attrName)}
-        placeholder={options.placeholder} errors={this._getErrors(attrName)} />
+        placeholder={options.placeholder} errors={this._getErrors(attrName)}
+        didMount={this._register} willUnmount={this._unregister} />
     )
   },
 
@@ -113,7 +114,8 @@ const Components = {
         onChange={_.bind(this._onChange, this, options)}
         onTouch={_.bind(this._fieldTouched, this)}
         onErrorChange={_.bind(this._formatErrorChanged, this)}
-        placeholder={options.placeholder} />
+        placeholder={options.placeholder}
+        didMount={this._register} willUnmount={this._unregister} />
     )
   },
 
@@ -124,7 +126,8 @@ const Components = {
         value={!!this.get(attrName)} errors={this._getErrors(attrName)}
         className={options.className} id={options.id}
         onChange={_.bind(this._onChange, this, options, attrName)}
-        onTouch={_.bind(this._fieldTouched, this, attrName)} />
+        onTouch={_.bind(this._fieldTouched, this, attrName)}
+        didMount={this._register} willUnmount={this._unregister} />
     )
   },
 
@@ -182,7 +185,8 @@ const Components = {
         required={options.required} hint={options.hint} className={options.className}
         onChange={_.bind(this._onChange, this, options)}
         onErrorChange={_.bind(this._formatErrorChanged, this)}
-        onTouch={_.bind(this._fieldTouched, this)} />
+        onTouch={_.bind(this._fieldTouched, this)}
+        didMount={this._register} willUnmount={this._unregister} />
     )
   },
 
@@ -224,6 +228,15 @@ const Components = {
 
   _getErrors(attrName) {
     return this.errors()[attrName]
+  },
+
+  _register(input) {
+    if (!_.includes(this.inputs, input))
+      this.inputs.push(input)
+  },
+
+  _unregister(input) {
+    this.inputs = _.without(this.inputs, input)
   }
 }
 

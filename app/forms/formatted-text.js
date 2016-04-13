@@ -20,6 +20,8 @@ const ObsFormattedText = React.createClass({
     placeholder:  React.PropTypes.string,
     className:    React.PropTypes.string,
     id:           React.PropTypes.string,
+    didMount:     React.PropTypes.func,
+    willUnmount:   React.PropTypes.func
   },
 
   getDefaultProps() {
@@ -50,6 +52,14 @@ const ObsFormattedText = React.createClass({
     // state actually changes.
     if (!_.isEmpty(this.state.formatErrors))
       this.formatErrorsChange(this.state.formatErrors)
+
+    if (_.isFunction(this.props.didMount))
+      this.props.didMount(this)
+  },
+
+  componentWillUnount() {
+    if (_.isFunction(this.props.willUnmount))
+      this.props.willUnmount(this)
   },
 
   componentWillReceiveProps(nextProps) {

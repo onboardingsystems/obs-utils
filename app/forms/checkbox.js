@@ -15,7 +15,9 @@ const ObsCheckbox = React.createClass({
     required:     React.PropTypes.bool,
     className:    React.PropTypes.string,
     id:           React.PropTypes.string,
-    errors:       React.PropTypes.array   // array of strings
+    errors:       React.PropTypes.array,   // array of strings
+    didMount:     React.PropTypes.func,
+    willUnmount:   React.PropTypes.func
   },
 
   getDefaultProps() {
@@ -29,6 +31,16 @@ const ObsCheckbox = React.createClass({
     return {
       checked: this.props.value
     }
+  },
+
+  componentDidMount() {
+    if (_.isFunction(this.props.didMount))
+      this.props.didMount(this)
+  },
+
+  componentWillUnount() {
+    if (_.isFunction(this.props.willUnmount))
+      this.props.willUnmount(this)
   },
 
   _valueChanged(e) {

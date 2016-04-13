@@ -17,7 +17,9 @@ const ObsTextarea = React.createClass({
     className:    React.PropTypes.string,
     id:           React.PropTypes.string,
     rows:         React.PropTypes.number,
-    errors:       React.PropTypes.array  // array of strings
+    errors:       React.PropTypes.array,  // array of strings
+    didMount:     React.PropTypes.func,
+    willUnmount:   React.PropTypes.func
   },
 
   getDefaultProps() {
@@ -25,6 +27,17 @@ const ObsTextarea = React.createClass({
       required: false,
       rows:     3
     }
+  },
+
+  componentDidMount() {
+    if (_.isFunction(this.props.didMount))
+      this.props.didMount(this)
+  },
+
+
+  componentWillUnount() {
+    if (_.isFunction(this.props.willUnmount))
+      this.props.willUnmount(this)
   },
 
   _valueChanged(e) {
