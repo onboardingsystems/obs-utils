@@ -2,8 +2,8 @@ const React = require('react')
 const cx    = require('classnames')
 const _     = require('lodash')
 
-const ObsLabel = OBSUtils.Forms.Label
-const ObsError = OBSUtils.Forms.Error
+const ObsLabel = require('./label')
+const ObsError = require('./error')
 
 const ObsTextarea = React.createClass({
   propTypes: {
@@ -65,4 +65,4 @@ const ObsTextarea = React.createClass({
   }
 })
 
-_.set(window, 'OBSUtils.Forms.Textarea', ObsTextarea)
+module.exports = ObsTextarea

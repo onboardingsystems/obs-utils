@@ -2,16 +2,15 @@ const React             = require('react')
 const ReactDOM          = require('react-dom')
 const _                 = require('lodash')
 const cx                = require('classnames')
-
-const ObsForm           = OBSUtils.Forms.Form
-const ObsLabel          = OBSUtils.Forms.Label
-const ObsError          = OBSUtils.Forms.Error
-const ObsTextarea       = OBSUtils.Forms.Textarea
-const ObsText           = OBSUtils.Forms.Text
-const ObsCheckbox       = OBSUtils.Forms.Checkbox
-const ObsCompoundLayout = OBSUtils.Forms.CompoundLayout
-const ObsAddressUs      = OBSUtils.Forms.AddressUS
-const Formatters        = OBSUtils.Formatters
+const ObsForm           = require('./form')
+const ObsLabel          = require('./label')
+const ObsError          = require('./error')
+const ObsTextarea       = require('./textarea')
+const ObsText           = require('./text')
+const ObsCheckbox       = require('./checkbox')
+const ObsCompoundLayout = require('./compound-layout')
+const ObsAddressUs      = require('./address-us')
+const Formatters        = require('../formatters/formatters')
 
 
 // Expected errors format.
@@ -229,4 +228,4 @@ const Components = {
   }
 }
 
-_.set(window, 'OBSUtils.Forms.FormBuilder', ObsFormBuilder)
+module.exports = FormBuilder

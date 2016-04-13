@@ -2,13 +2,13 @@ const React = require('react')
 const cx    = require('classnames')
 const _     = require('lodash')
 
-const Formatters = OBSUtils.Formatters
+const Formatters = require('../formatters/formatters')
 
-const ObsCompoundLayout = OBSUtils.Forms.CompoundLayout
-const ObsText           = OBSUtils.Forms.Text
-const ObsLabel          = OBSUtils.Forms.Label
-const ObsHint           = OBSUtils.Forms.Hint
-const ObsError          = OBSUtils.Forms.Error
+const ObsCompoundLayout = require('./compound-layout')
+const ObsText           = require('./text')
+const ObsLabel          = require('./label')
+const ObsHint           = require('./hint')
+const ObsError          = require('./error')
 
 const ObsAddressUs = React.createClass({
   propTypes: {
@@ -188,4 +188,4 @@ const ObsAddressUs = React.createClass({
   }
 })
 
-_.set(window, 'OBSUtils.Forms.AddressUS', ObsAddressUs)
+module.exports = ObsAddressUs

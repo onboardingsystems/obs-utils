@@ -1,8 +1,8 @@
 const React             = require('react')
 const _                 = require('lodash')
+const ObsRequiredMarker = require('./required-marker')
+const ObsHint           = require('./hint')
 
-const ObsRequiredMarker = OBSUtils.Forms.RequiredMarker
-const ObsHint           = OBSUtils.Forms.Hint
 
 const ObsLabel = React.createClass({
   propTypes: {
@@ -36,4 +36,4 @@ const ObsLabel = React.createClass({
 
 })
 
-_.set(window, 'OBSUtils.Forms.Label', ObsLabel)
+module.exports = ObsLabel

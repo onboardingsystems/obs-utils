@@ -34,4 +34,4 @@ const ObsCompoundLayout = React.createClass({
   }
 })
 
-_.set(window, 'OBSUtils.Forms.CompoundLayout', ObsCompoundLayout)
+module.exports = ObsCompoundLayout

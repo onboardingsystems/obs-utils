@@ -18,4 +18,4 @@ const ObsRequiredMarker = React.createClass({
   }
 })
 
-_.set(window, 'OBSUtils.Forms.RequiredMarker', ObsRequiredMarker)
+module.exports = ObsRequiredMarker

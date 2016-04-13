@@ -98,7 +98,7 @@ const Formatters = {
       errors
     }
   },
-
+  
 
   stringFormatter(value, options={}) {
     var options = _.merge({}, {required: false}, options)
@@ -349,4 +349,4 @@ const Formatters = {
   }
 }
 
-_.set(window, 'OBSUtils.Formatters', Formatters)
+module.exports = Formatters
