@@ -35,7 +35,7 @@ const ObsTextarea = React.createClass({
   },
 
 
-  componentWillUnount() {
+  componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
   },

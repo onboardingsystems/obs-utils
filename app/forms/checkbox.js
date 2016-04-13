@@ -38,7 +38,7 @@ const ObsCheckbox = React.createClass({
       this.props.didMount(this)
   },
 
-  componentWillUnount() {
+  componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
   },
