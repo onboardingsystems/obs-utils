@@ -19,12 +19,12 @@ const Formatters        = require('../formatters/formatters')
 //   "address.state": ['is required']
 // }
 
-var _getState = function(reactComp, stateAttr) {
-  return reactComp.state[stateAttr]
+var _getState = function(parent, stateAttr) {
+  return parent.state[stateAttr]
 }
 
-var _setState = function(reactComp, stateAttr, newState) {
-  reactComp.setState({
+var _setState = function(parent, stateAttr, newState) {
+  parent.setState({
     [ stateAttr ]: newState
   })
 }
@@ -32,25 +32,27 @@ var _setState = function(reactComp, stateAttr, newState) {
 const FormBuilder = {
 
   // The FormBuilder does not maintain its own state.  Instead, you pass in a
-  // reference (reactComp) that is maintaining state.  dataAttr tells us where to
-  // find the data in the reactComp's state.
-  new(reactComp, dataAttr, errorsAttr, options={}) {
+  // reference (parent) that is maintaining state.  formStateAttr tells us where to
+  // find the data in the parent's state.
+  new(options) {
     var data = {
-      reactComp,
-      dataAttr,
-      errorsAttr,
+      parent: options.parent,
+      formStateAttr: options.formStateAttr,
+      errorStateAttr: options.errorStateAttr,
+      onSubmit: options.onSubmit,
       onValueChange: options.onValueChange,
       onErrorChange: options.onErrorChange,
       onTouch:       options.onTouch,
-      data() { return _getState(this.reactComp, this.dataAttr) },
-      errors() { return _getState(this.reactComp, this.errorsAttr) },
+      inputs: [],
+      data() { return _getState(this.parent, this.formStateAttr) },
+      errors() { return _getState(this.parent, this.errorStateAttr) },
       setData(data) {
-        _setState(this.reactComp, this.dataAttr, data)
+        _setState(this.parent, this.formStateAttr, data)
         if (_.isFunction(this.onValueChange))
           this.onValueChange(data)
       },
       setErrors(errors) {
-        _setState(this.reactComp, this.errorsAttr, errors)
+        _setState(this.parent, this.errorStateAttr, errors)
         if (_.isFunction(this.onErrorChange))
           this.onErrorChange()
       },
@@ -65,6 +67,19 @@ const FormBuilder = {
       // get the value for the attribute name.
       get(attrName) {
         return _.get(this.data(), attrName)
+      },
+      onSubmit(e) {
+        // ask our components/inputs to report back their validation state -
+        // usefull for inputs that have focus and that would not have reported
+        // back validation
+        var valid = _.reduce(this.inputs, (valid, input)=> {
+          if (!_.isEmpty(input.runValidations()))
+            valid = false
+        }, true)
+
+        // fire our own onSubmit callback
+        if (_.isFunction(this.onSubmit))
+          this.onSubmit(e, valid, this)
       }
     }
 
