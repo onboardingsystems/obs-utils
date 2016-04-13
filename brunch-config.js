@@ -1,15 +1,14 @@
 module.exports = {
   files: {
     javascripts: {
-      joinTo: {
-        'obs_utils.js': /^app/,
-        'vendor.js': /(?!app)/
+      // joinTo: {
+      //   'obs_utils.js': /^app/,
+      //   'vendor.js': /(?!app)/
+      // },
+      entryPoints: {
+        'app/obs_utils.js': 'obs-utils.js'
       }
     }
-  },
-
-  paths: {
-    public: "dist"
   },
 
   plugins: {
@@ -20,7 +19,7 @@ module.exports = {
     // wrapper: false,
     // definition: false
     autoRequire: {
-      'obs_utils.js': ['obs_utils']
+      'obs-utils.js': ['obs_utils']
     }
   }
 
