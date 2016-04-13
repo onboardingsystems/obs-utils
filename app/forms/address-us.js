@@ -16,8 +16,6 @@ const ObsAddressUs = React.createClass({
     attr:         React.PropTypes.string.isRequired,
     onChange:     React.PropTypes.func,
     onErrorChange:React.PropTypes.func,
-    // field was "touched" by user. Requires a change.
-    onTouch:      React.PropTypes.func,
     // errors are an object here (covers multiple fields)
     errors:       React.PropTypes.object,
     label:        React.PropTypes.string,
@@ -124,11 +122,6 @@ const ObsAddressUs = React.createClass({
       this.props.onChange(this._fullAttrName(attr), newVal)
   },
 
-  _fieldTouched(attr) {
-    if (_.isFunction(this.props.onTouch))
-      this.props.onTouch(this._fullAttrName(attr))
-  },
-
   _errorsChanged(attr, errors) {
     var newErrors
     // update the errors state. start with existing, remove resolved errors and
@@ -166,30 +159,26 @@ const ObsAddressUs = React.createClass({
             object={addrObject} attr={this.fields.street_1.attr} formatter={Formatters.stringFormatter}
             required={this.props.required} errors={this._getErrors(this.fields.street_1.attr)}
             placeholder={"Address"} onErrorChange={this._errorsChanged}
-            onChange={_.bind(this._valueChanged, this)} className="address-line-1"
-            onTouch={this._fieldTouched} />
+            onChange={_.bind(this._valueChanged, this)} className="address-line-1" />
 
           <ObsCompoundLayout label={this.props.label} layout={"inline"} className={this.props.className}>
             <div className="flex-grow-shrink">
               <ObsFormattedText object={addrObject} attr={this.fields.city.attr} formatter={Formatters.stringFormatter}
                 required={this.props.required} errors={this._getErrors(this.fields.city.attr)}
                 placeholder={"City"} onErrorChange={this._errorsChanged}
-                onChange={_.bind(this._valueChanged, this)} className="address-city"
-                onTouch={this._fieldTouched} />
+                onChange={_.bind(this._valueChanged, this)} className="address-city" />
             </div>
             <div className="flex-static">
               <ObsFormattedText object={addrObject} attr={this.fields.state.attr} formatter={Formatters.stateFormatter}
                 required={this.props.required} errors={this._getErrors(this.fields.state.attr)}
                 placeholder={"ST"} onErrorChange={this._errorsChanged}
-                onChange={_.bind(this._valueChanged, this)} className="address-state state"
-                onTouch={this._fieldTouched} />
+                onChange={_.bind(this._valueChanged, this)} className="address-state state" />
             </div>
             <div className="flex-static">
               <ObsFormattedText object={addrObject} attr={this.fields.zip.attr} formatter={Formatters.zipcodeFormatter}
                 required={this.props.required} errors={this._getErrors(this.fields.zip.attr)}
                 placeholder={"Zip"} onErrorChange={this._errorsChanged}
-                onChange={_.bind(this._valueChanged, this)} className="address-zipcode zipcode"
-                onTouch={this._fieldTouched} />
+                onChange={_.bind(this._valueChanged, this)} className="address-zipcode zipcode" />
             </div>
           </ObsCompoundLayout>
         </ObsCompoundLayout>
