@@ -2,23 +2,23 @@ const React = require('react')
 
 const ObsForm = React.createClass({
   propTypes: {
-    onSubmit: React.PropTypes.func
+    onSubmit: React.PropTypes.func,
+    builder: React.PropTypes.object
   },
 
-  getDefaultProps() {
-    return {
-      onSubmit: this.blockManualSubmit
-    }
-  },
-
-  blockManualSubmit(e) {
+  onSubmit(e) {
+    e.stopPropagation()
     e.preventDefault()
-    // don't do anything here. prevent hitting "ENTER" from reloading the form.
+    if (_.isObject(this.props.builder)) {
+      this.props.builder.onSubmit(e)
+    } else if (_.isFunction(this.props.onSubmit)) {
+      this.props.onSubmit(e)
+    }
   },
 
   render() {
     return (
-      <form className="form" onSubmit={this.props.onSubmit}>
+      <form className="form" onSubmit={this.onSubmit}>
         {this.props.children}
       </form>
     )
