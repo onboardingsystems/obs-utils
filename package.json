@@ -13,7 +13,7 @@
     "prod": "brunch build --production",
     "test": "jest"
   },
-  "main": "dist/obs_utils.js",
+  "main": "app/obs_utils.js",
   "dependencies": {},
   "devDependencies": {
     "classnames": "^2.2.3",
