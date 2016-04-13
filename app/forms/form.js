@@ -25,4 +25,4 @@ const ObsForm = React.createClass({
   }
 })
 
-module.exports = ObsForm
+_.set(window, 'OBSUtils.Forms.Form', ObsForm)

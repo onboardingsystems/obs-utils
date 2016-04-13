@@ -2,8 +2,8 @@ const React = require('react')
 const cx    = require('classnames')
 const _     = require('lodash')
 
-const ObsLabel = require('./label')
-const ObsError = require('./error')
+const ObsLabel = OBSUtils.Forms.Label
+const ObsError = OBSUtils.Forms.Error
 
 const ObsText = React.createClass({
   propTypes: {
@@ -118,4 +118,4 @@ const ObsText = React.createClass({
   }
 })
 
-module.exports = ObsText
+_.set(window, 'OBSUtils.Forms.Text', ObsText)

@@ -23,4 +23,4 @@ const ObsError = React.createClass({
   }
 })
 
-module.exports = ObsError
+_.set(window, 'OBSUtils.Forms.Error', ObsError)

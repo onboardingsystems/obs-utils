@@ -12,4 +12,4 @@ const ObsHint = React.createClass({
   }
 })
 
-module.exports = ObsHint
+_.set(window, 'OBSUtils.Forms.Hint', ObsHint)

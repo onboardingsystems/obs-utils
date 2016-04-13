@@ -2,9 +2,9 @@ const React = require('react')
 const cx    = require('classnames')
 const _     = require('lodash')
 
-const ObsError          = require('./error')
-const ObsRequiredMarker = require('./required-marker')
-const ObsHint           = require('./hint')
+const ObsError          = OBSUtils.Forms.Error
+const ObsRequiredMarker = OBSUtils.Forms.RequiredMarker
+const ObsHint           = OBSUtils.Forms.Hint
 
 const ObsCheckbox = React.createClass({
   propTypes: {
@@ -72,4 +72,4 @@ const ObsCheckbox = React.createClass({
   }
 })
 
-module.exports = ObsCheckbox
+_.set(window, 'OBSUtils.Forms.Checkbox', ObsCheckbox)
