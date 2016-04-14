@@ -103,7 +103,7 @@ const ObsText = React.createClass({
     var groupClasses = cx({
       "form-group": true,
       "has-error":  !_.isEmpty(this.props.errors),
-      [ this.props.className ]: true
+      [ this.props.className ]: _.isString(this.props.className)
     })
 
     return (

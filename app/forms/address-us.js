@@ -21,9 +21,10 @@ const ObsAddressUs = React.createClass({
     label:        React.PropTypes.string,
     hint:         React.PropTypes.string,
     required:     React.PropTypes.bool,
+    id:           React.PropTypes.string,
     className:    React.PropTypes.string,
     didMount:     React.PropTypes.func,
-    willUnmount:   React.PropTypes.func
+    willUnmount:  React.PropTypes.func
   },
 
   fields: {
@@ -35,14 +36,10 @@ const ObsAddressUs = React.createClass({
 
   getDefaultProps() {
     return {
-      label: "Address"
-    }
-  },
-
-  getInitialState() {
-    return {
-      addressId: _.uniqueId('address1_'),
-      errors: this._addressErrors(this.props.errors)
+      label: "Address",
+      required: false,
+      errors: [],
+      id: _.uniqueId('address1_'),
     }
   },
 
@@ -56,64 +53,38 @@ const ObsAddressUs = React.createClass({
       this.props.willUnmount(this)
   },
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({errors: this._addressErrors(nextProps.errors)})
-  },
-
   _address_attrs() {
     var list = []
     _.forOwn(this.fields, (field, value)=> {
-      list.push(this._fullAttrName(value.attr))
+      list.push(this._fullAttrName(field.attr))
     })
     return list
   },
 
-  _addressErrors(errors) {
-    var fullAttrErrors, result = {}
-    // turn fully-qualified errors structure into one that
-    // is only relevant for this context for the defined fields.
-    // {
-    //   "person.address.state": ["is required"]
-    // }
-    //
-    // Convert to format:
-    //
-    // {
-    //   "state": ["is required"]
-    // }
-    fullAttrErrors = _.pick(errors, this._address_attrs())
-    // loop through all the defined fields and look for any fully qualified
-    // errors for it. If found, add then to the result object with the local
-    // attr path.
+  // turn fully-qualified errors structure into one that
+  // is only relevant for this context for the defined fields.
+  // {
+  //   "person.address.state": ["is required"]
+  // }
+  //
+  // Convert to format:
+  //
+  // {
+  //   "state": ["is required"]
+  // }
+  _addressErrors() {
+    var addressErrors, result = {}
+    addressErrors = _.pick(this.props.errors, this._address_attrs())
     _.forOwn(this.fields, (value, field)=> {
-      var errors
-      errors = fullAttrErrors[this._fullAttrName(value.attr)]
+      var errors = addressErrors[this._fullAttrName(value.attr)]
       if (!_.isEmpty(errors))
         result[value.attr] = errors
     })
     return result
   },
 
-  _getErrors(attr) {
-    return this.state.errors[attr]
-  },
-
-  _anyChildErrors() {
-    return !_.isEmpty(this.state.errors)
-  },
-
   _fullAttrName(attr) {
     return `${this.props.attr}.${attr}`
-  },
-
-  _errorsText() {
-    var list = []
-    _.forEach(this.state.errors, (errors, field)=> {
-      _.forEach(errors, (error)=> {
-        list.push(`${this.fields[field].name} ${error}`)
-      })
-    })
-    return list
   },
 
   _valueChanged(attr, newVal) {
@@ -123,19 +94,26 @@ const ObsAddressUs = React.createClass({
   },
 
   _errorsChanged(attr, errors) {
-    var newErrors
-    // update the errors state. start with existing, remove resolved errors and
-    // add new ones.
-    newErrors = this.state.errors
-    if (_.isEmpty(errors))
-      delete newErrors[attr]
-    else
-      newErrors[attr] = errors
-    this.setState({errors: newErrors})
     // if have onErrorChange event, convert errors back to global version and
     // fire update
     if (_.isFunction(this.props.onErrorChange))
       this.props.onErrorChange(this._fullAttrName(attr), errors)
+  },
+
+  errorsWithLabelNames() {
+    return _.reduce(this._addressErrors(), (acc, errors, attr)=> {
+      _.forEach(errors, (error)=> {
+        acc.push(`${this.fields[attr].name} ${error}`)
+      })
+      return acc
+    }, [])
+  },
+
+  classesForAttr(attr, classes="") {
+    return cx({
+      [classes]: _.isString(classes),
+      "has-error": !_.isEmpty(this._addressErrors()[attr])
+    })
   },
 
   render() {
@@ -146,43 +124,43 @@ const ObsAddressUs = React.createClass({
       'address-us': true,
       'address-us': true,
       'form-group': true,
-      'has-child-error': this._anyChildErrors(),
-      [ this.props.className ]: true
+      'has-child-error': !_.isEmpty(this.errorsWithLabelNames()),
+      [ this.props.className ]: _.isString(this.props.className)
     })
 
     return (
       <div className={classes}>
-        <ObsLabel text={this.props.label} required={this.props.required} htmlFor={this.state.addressId} />
+        <ObsLabel text={this.props.label} required={this.props.required} htmlFor={this.props.id} />
         <ObsHint  hint={this.props.hint} />
         <ObsCompoundLayout label={this.props.label} layout={"full"} className={this.props.className}>
-          <ObsText id={this.state.addressId}
+          <ObsText id={this.props.id}
             object={addrObject} attr={this.fields.street_1.attr} formatter={Formatters.stringFormatter}
-            required={this.props.required} errors={this._getErrors(this.fields.street_1.attr)}
+            required={this.props.required} errors={[]}
             placeholder={"Address"} onErrorChange={this._errorsChanged}
-            onChange={_.bind(this._valueChanged, this)} className="address-line-1" />
+            onChange={_.bind(this._valueChanged, this)} className={this.classesForAttr(this.fields.street_1.attr, "address-line-1")} />
 
           <ObsCompoundLayout label={this.props.label} layout={"inline"} className={this.props.className}>
             <div className="flex-grow-shrink">
               <ObsText object={addrObject} attr={this.fields.city.attr} formatter={Formatters.stringFormatter}
-                required={this.props.required} errors={this._getErrors(this.fields.city.attr)}
+                required={this.props.required} errors={[]}
                 placeholder={"City"} onErrorChange={this._errorsChanged}
-                onChange={_.bind(this._valueChanged, this)} className="address-city" />
+                onChange={_.bind(this._valueChanged, this)} className={this.classesForAttr(this.fields.city.attr, "address-city")} />
             </div>
             <div className="flex-static">
               <ObsText object={addrObject} attr={this.fields.state.attr} formatter={Formatters.stateFormatter}
-                required={this.props.required} errors={this._getErrors(this.fields.state.attr)}
+                required={this.props.required} errors={[]}
                 placeholder={"ST"} onErrorChange={this._errorsChanged}
-                onChange={_.bind(this._valueChanged, this)} className="address-state state" />
+                onChange={_.bind(this._valueChanged, this)} className={this.classesForAttr(this.fields.state.attr, "address-state state")} />
             </div>
             <div className="flex-static">
               <ObsText object={addrObject} attr={this.fields.zip.attr} formatter={Formatters.zipcodeFormatter}
-                required={this.props.required} errors={this._getErrors(this.fields.zip.attr)}
+                required={this.props.required} errors={[]}
                 placeholder={"Zip"} onErrorChange={this._errorsChanged}
-                onChange={_.bind(this._valueChanged, this)} className="address-zipcode zipcode" />
+                onChange={_.bind(this._valueChanged, this)} className={this.classesForAttr(this.fields.zip.attr, "address-zipcode zipcode")} />
             </div>
           </ObsCompoundLayout>
         </ObsCompoundLayout>
-        <ObsError errors={this._errorsText()} />
+        <ObsError errors={this.errorsWithLabelNames()} />
       </div>
     )
   }
