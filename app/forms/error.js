@@ -19,7 +19,7 @@ const ObsError = React.createClass({
   render() {
     if (_.isEmpty(this.props.errors))
       return <noscript />
-    return <div className="error error">{this.getErrorText()}</div>
+    return <div className="error">{this.getErrorText()}</div>
   }
 })
 
