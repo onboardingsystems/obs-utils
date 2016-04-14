@@ -141,6 +141,10 @@ const FormBuilder = {
         return this.formattedField(label, attrName, Formatters.phoneFormatter, this._mergeClasses(options, 'obs-phone'))
       },
 
+      emailField(label, attrName, options={}) {
+        return this.formattedField(label, attrName, Formatters.emailFormatter, this._mergeClasses(options, 'obs-email'))
+      },
+
       ssnField(label, attrName, options={}) {
         return this.formattedField(label, attrName, Formatters.ssnFormatter, this._mergeClasses(options, 'obs-ssn'))
       },

@@ -38,7 +38,7 @@ const ObsAddressUs = React.createClass({
     return {
       label: "Address",
       required: false,
-      errors: [],
+      errors: {},
       id: _.uniqueId('address1_'),
     }
   },

@@ -89,16 +89,21 @@ const Formatters = {
     var options = _.merge({}, {required: false}, options)
     var errors = []
 
+    // react inputs don't like null values - otherwise they are considered
+    // uncontrolled inputs and we want controlled inputs.  So all formatters
+    // must at least return an empty string.
+    if (_.isNil(value))
+      value = ""
+
     if (options.required && _.isEmpty(value))
       errors.push('is required')
     return {
       valid: errors.length === 0,
-      parsed: value,
-      formatted: value,
+      value: value,
       errors
     }
   },
-  
+
 
   stringFormatter(value, options={}) {
     var options = _.merge({}, {required: false}, options)
@@ -133,6 +138,26 @@ const Formatters = {
       formatted = parsed
       errors.push('invalid phone number')
     }
+    return {
+      valid,
+      parsed,
+      formatted,
+      errors
+    }
+  },
+
+  emailFormatter(value, options={}) {
+    var val, emailRegex, valid, errors = []
+    val = Formatters.stringFormatter(value, options)
+    if (_.isEmpty(val.parsed))
+      return val
+    var {formatted: formatted, parsed: parsed} = val
+    // check that it matches our regex for a email
+    emailRegex = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/
+    if (valid = emailRegex.test(formatted))
+      parsed = formatted
+    else
+      errors.push('invalid email')
     return {
       valid,
       parsed,
@@ -301,14 +326,14 @@ const Formatters = {
   ordinalFormatter(value, options={}) {
     var parsed, formatted, errors = []
     // remove all non-digits
-    var {parsed: string} = this.stringFormatter(value, options)
+    var {parsed: string} = Formatters.stringFormatter(value, options)
     parsed = string.replace(/\D/g, '')
     // convert an empty string to a null
     if (_.isEmpty(parsed))
       parsed = null
     // if have a parsed value (not blank/empty)
     if (!_.isEmpty(parsed)) {
-      formatted = this.ordinalize(parsed)
+      formatted = Formatters.ordinalize(parsed)
       // convert parsed value from string to integer storing the value as an
       // integer.
       parsed = parseInt(parsed)
