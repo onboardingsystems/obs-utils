@@ -1,6 +1,6 @@
 'use strict';
 
-window.OBSUtils = {
+module.exports = {
   Forms: {
     FormBuilder: require('./forms/form-builder'),
     AddressUS: require('./forms/address-us'),
