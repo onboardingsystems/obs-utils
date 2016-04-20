@@ -289,7 +289,7 @@ const Formatters = {
   dateFormatter(value, options={}) {
     var val, temp, valid, parsed, formatted, errors = []
     val = Formatters.stringFormatter(value, options)
-    if (_.isEmpty(val.parsed))
+    if (!val.valid)
       return val
     options = _.merge({}, {format: 'full-date'}, options)
     temp = this.parseDate(val.parsed)
@@ -304,6 +304,7 @@ const Formatters = {
     } else {
       errors.push('invalid date')
       formatted = value
+      parsed = null
     }
     return {
       valid,
@@ -320,7 +321,7 @@ const Formatters = {
   timeFormatter(value, options={}) {
     var val, temp, valid, parsed, formatted, errors = []
     val = Formatters.stringFormatter(value, options)
-    if (_.isEmpty(val.parsed))
+    if (!val.valid)
       return val
     temp = moment(val.parsed, "hh:mm:ss a")
     valid = temp.isValid()
@@ -330,6 +331,7 @@ const Formatters = {
     } else {
       errors.push('invalid time')
       formatted = value
+      parsed = null
     }
     return {
       valid,

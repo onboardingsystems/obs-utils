@@ -317,7 +317,7 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_.isEmpty(val.parsed)) return val;
+    if (!val.valid) return val;
     options = _.merge({}, { format: 'full-date' }, options);
     temp = this.parseDate(val.parsed);
     valid = temp.isValid();
@@ -328,6 +328,7 @@ var Formatters = {
     } else {
       errors.push('invalid date');
       formatted = value;
+      parsed = null;
     }
     return {
       valid: valid,
@@ -352,7 +353,7 @@ var Formatters = {
         formatted,
         errors = [];
     val = Formatters.stringFormatter(value, options);
-    if (_.isEmpty(val.parsed)) return val;
+    if (!val.valid) return val;
     temp = moment(val.parsed, "hh:mm:ss a");
     valid = temp.isValid();
     if (valid) {
@@ -361,6 +362,7 @@ var Formatters = {
     } else {
       errors.push('invalid time');
       formatted = value;
+      parsed = null;
     }
     return {
       valid: valid,
