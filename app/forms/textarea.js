@@ -1,31 +1,42 @@
-const React = require('react')
-const cx    = require('classnames')
-const _     = require('lodash')
+const React    = require('react')
+const ReactDOM = require('react-dom')
+const cx       = require('classnames')
+const _        = require('lodash')
 
-const ObsLabel = require('./label')
-const ObsError = require('./error')
+const ObsLabel   = require('./label')
+const ObsError   = require('./error')
+const Formatters = require('../formatters/formatters')
 
 const ObsTextarea = React.createClass({
   propTypes: {
-    value:        React.PropTypes.string,
-    onChange:     React.PropTypes.func,
-    onBlur:       React.PropTypes.func,
+    // value
+    errors:       React.PropTypes.array,
+    formatter:    React.PropTypes.func,
+    id:           React.PropTypes.string,
+    className:    React.PropTypes.string,
+    placeholder:  React.PropTypes.string,
     label:        React.PropTypes.string,
     hint:         React.PropTypes.string,
     required:     React.PropTypes.bool,
-    placeholder:  React.PropTypes.string,
-    className:    React.PropTypes.string,
-    id:           React.PropTypes.string,
     rows:         React.PropTypes.number,
-    errors:       React.PropTypes.array,  // array of strings
+    onChange:     React.PropTypes.func,
+    onBlur:       React.PropTypes.func,
     didMount:     React.PropTypes.func,
-    willUnmount:   React.PropTypes.func
+    willUnmount:  React.PropTypes.func
+  },
+
+  $() {
+    return $(reactDOM.findDOMNode(this))
   },
 
   getDefaultProps() {
     return {
+      value: "",
       required: false,
-      rows:     3
+      errors:   [],
+      id: _.uniqueId('text_'),
+      formatter: Formatters.requiredFormatter,
+      rows: 3
     }
   },
 
@@ -34,31 +45,44 @@ const ObsTextarea = React.createClass({
       this.props.didMount(this)
   },
 
-
   componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
   },
 
-  _valueChanged(e) {
+  format(value) {
+    return this.props.formatter(value, {required: this.props.required})
+  },
+
+  runValidations() {
+    this.onBlur()
+  },
+
+  onChange(e) {
     if (_.isFunction(this.props.onChange))
       this.props.onChange(e.target.value)
   },
 
+  onBlur(e) {
+    if (_.isFunction(this.props.onBlur)) {
+      var inputValue = this.$().find(':input').val()
+      this.props.onBlur(this.format(inputValue))
+    }
+  },
+
   render() {
-    var groupClasses
-    groupClasses = cx({
+    var groupClasses = cx({
       "form-group": true,
       "has-error":  !_.isEmpty(this.props.errors),
-      [ this.props.className ]: this.props.className
+      [ this.props.className ]: _.isString(this.props.className)
     })
 
     return (
       <div className={groupClasses}>
-        <ObsLabel text={this.props.label} hint={this.props.hint} required={this.props.required} />
-        <textarea id={this.props.id} className="form-control" rows={this.props.rows} type="text" value={this.props.value}
+        <ObsLabel text={this.props.label} hint={this.props.hint} htmlFor={this.props.id} required={this.props.required} />
+        <textarea id={this.props.id} className="form-control" rows={this.props.rows} value={this.props.value}
           placeholder={this.props.placeholder}
-          onChange={this._valueChanged} onBlur={this.props.onBlur} />
+          onChange={this.onChange} onBlur={this.onBlur} />
         <ObsError errors={this.props.errors} />
       </div>
     )

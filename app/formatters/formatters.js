@@ -87,19 +87,27 @@ const Formatters = {
 
   requiredFormatter(value, options={}) {
     var options = _.merge({}, {required: false}, options)
-    var errors = []
+    var parsed, formatted, errors = []
 
     // react inputs don't like null values - otherwise they are considered
     // uncontrolled inputs and we want controlled inputs.  So all formatters
     // must at least return an empty string.
-    if (_.isNil(value))
-      value = ""
+    if (_.isNil(value)) {
+      formatted = ""
+    } else {
+      formatted = value
+    }
 
-    if (options.required && _.isEmpty(value))
+    if (options.required && _.isEmpty(value.toString().trim())) {
+      parsed = null
       errors.push('is required')
+    } else {
+      parsed = formatted
+    }
     return {
       valid: errors.length === 0,
-      value: value,
+      parsed,
+      formatted,
       errors
     }
   },
@@ -113,13 +121,15 @@ const Formatters = {
       value = value.toString()
     if (_.isEmpty(value))
       value = ""
-    parsed = _.trim(value.toString())
-    if (options.required && _.isEmpty(parsed))
+    formatted = parsed = _.trim(value.toString())
+    if (options.required && _.isEmpty(parsed)) {
+      parsed = null
       errors.push('is required')
+    }
     return {
       valid: errors.length === 0,
       parsed,
-      formatted: parsed,
+      formatted,
       errors
     }
   },
@@ -136,6 +146,7 @@ const Formatters = {
       formatted = parsed.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
     } else {
       formatted = parsed
+      parsed = null
       errors.push('invalid phone number')
     }
     return {
@@ -154,10 +165,12 @@ const Formatters = {
     var {formatted: formatted, parsed: parsed} = val
     // check that it matches our regex for a email
     emailRegex = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/
-    if (valid = emailRegex.test(formatted))
+    if (valid = emailRegex.test(formatted)) {
       parsed = formatted
-    else
+    } else {
+      parsed = null
       errors.push('invalid email')
+    }
     return {
       valid,
       parsed,
@@ -178,6 +191,7 @@ const Formatters = {
       formatted = parsed.replace(/^(\d{3})(\d{2})(\d{4})$/, "$1-$2-$3")
     } else {
       formatted = parsed
+      parsed = null
       errors.push('invalid SSN')
     }
     return {
@@ -196,6 +210,7 @@ const Formatters = {
     // remove 0-9
     parsed = _.toUpper(val.parsed.replace(/\d/g, ''))
     valid = parsed.length === 2
+    // TODO: compare against a list of known states?
     if (valid) {
       formatted = parsed.replace(/^(\D{2})$/, "$1")
     } else {
@@ -222,6 +237,7 @@ const Formatters = {
       formatted = parsed.replace(/^(\d{5})$/, "$1")
     } else {
       formatted = parsed
+      parsed = null
       errors.push('is invalid')
     }
     return {
@@ -324,24 +340,24 @@ const Formatters = {
   },
 
   ordinalFormatter(value, options={}) {
-    var parsed, formatted, errors = []
+    var val, parsed, formatted, errors = []
     // remove all non-digits
-    var {parsed: string} = Formatters.stringFormatter(value, options)
-    parsed = string.replace(/\D/g, '')
-    // convert an empty string to a null
-    if (_.isEmpty(parsed))
-      parsed = null
+    var val = Formatters.stringFormatter(value, options)
+    if (!val.valid) {
+      return val
+    }
+    formatted = val.parsed.replace(/\D/g, '')
     // if have a parsed value (not blank/empty)
-    if (!_.isEmpty(parsed)) {
-      formatted = Formatters.ordinalize(parsed)
-      // convert parsed value from string to integer storing the value as an
-      // integer.
-      parsed = parseInt(parsed)
+    if (!_.isEmpty(formatted)) {
+      parsed = parseInt(formatted)
+      formatted = Formatters.ordinalize(formatted)
     } else {
-      formatted = parsed
+      errors.push('is invalid')
+      formatted = val.parsed
+      parsed = null
     }
     return {
-      valid: true,
+      valid: errors.length === 0,
       parsed,
       formatted,
       errors

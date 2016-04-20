@@ -32,52 +32,63 @@ var _setState = function(parent, stateAttr, newState) {
 const FormBuilder = {
 
   // The FormBuilder does not maintain its own state.  Instead, you pass in a
-  // reference (parent) that is maintaining state.  formStateAttr tells us where to
+  // reference (parent) that is maintaining state.  formDataAttr tells us where to
   // find the data in the parent's state.
   new(options) {
+    // add default options for the formData, errorData, and parsedData attr's.
+    options = _.merge({}, {
+      formDataAttr: 'formData',
+      errorDataAttr: 'errorData',
+      parsedDataAttr: 'parsedData'
+    }, options)
     return {
       parent: options.parent,
-      formStateAttr: options.formStateAttr,
-      errorStateAttr: options.errorStateAttr,
+      formDataAttr: options.formDataAttr,
+      errorDataAttr: options.errorDataAttr,
+      parsedDataAttr: options.parsedDataAttr,
       onSubmit: options.onSubmit,
-      onValueChange: options.onValueChange,
+      onChange: options.onChange,
       onErrorChange: options.onErrorChange,
       onTouch:       options.onTouch,
       inputs: [],
 
       data() {
-        return _getState(this.parent, this.formStateAttr)
+        return _getState(this.parent, this.formDataAttr) || {}
+      },
+
+      parsed() {
+        return _getState(this.parent, this.parsedDataAttr) || {}
       },
 
       errors() {
-        return _getState(this.parent, this.errorStateAttr)
+        return _getState(this.parent, this.errorDataAttr) || {}
       },
 
-      setData(data) {
-        _setState(this.parent, this.formStateAttr, data)
-        if (_.isFunction(this.onValueChange))
-          this.onValueChange(data)
+      updateFormattedValue(attr, value) {
+        var state = this.data()
+        _.set(state, attr, value)
+        _setState(this.parent, this.formDataAttr, state)
+        if (_.isFunction(this.onChange))
+          this.onChange()
       },
 
-      setErrors(errors) {
-        _setState(this.parent, this.errorStateAttr, errors)
+      updateParsedValue(attr, value) {
+        var state = this.parsed()
+        _.set(state, attr, value)
+        _setState(this.parent, this.parsedDataAttr, state)
+        if (_.isFunction(this.onChange))
+          this.onChange()
+      },
+
+      updateErrors(attr, newErrors) {
+        var storedErrors = this.errors()
+        if (_.isEmpty(newErrors))
+          delete storedErrors[attr]
+        else
+          storedErrors[attr] = newErrors
+        _setState(this.parent, this.errorDataAttr, storedErrors)
         if (_.isFunction(this.onErrorChange))
           this.onErrorChange()
-      },
-
-      // return if the form builder form is valid
-      isValid() { return _.isEmpty(this.errors()) },
-
-      // set the value for the attribute name.
-      set(attrName, value) {
-        var state = this.data()
-        _.set(state, attrName, value)
-        this.setData(state)
-      },
-
-      // get the value for the attribute name.
-      get(attrName) {
-        return _.get(this.data(), attrName)
       },
 
       onSubmit(e) {
@@ -101,34 +112,41 @@ const FormBuilder = {
 
       textareaField(label, attrName, options={}) {
         return (
-          <ObsTextarea label={label} hint={options.hint} required={options.required}
-            value={this.get(attrName)} rows={options.rows}
+          <ObsTextarea
+            value={this._getValue(attrName)} errors={this._getErrors(attrName)}
+            label={label} hint={options.hint} placeholder={options.placeholder}
+            required={options.required} formatter={formatterFun}
             className={options.className} id={options.id}
-            onChange={_.bind(this._onChange, this, options, attrName)}
-            placeholder={options.placeholder} errors={this._getErrors(attrName)}
-            didMount={_.bind(this._register, this)} willUnmount={_.bind(this._unregister, this)} />
+            rows={options.rows}
+            onChange={_.bind(this._onChange, this, attrName)}
+            onBlur={_.bind(this._onBlur, this, attrName)}
+            didMount={_.bind(this._register, this)}
+            willUnmount={_.bind(this._unregister, this)} />
         )
       },
 
       formattedField(label, attrName, formatterFun, options={}) {
         return (
-          <ObsText label={label} hint={options.hint} required={options.required}
-            object={this.data()} errors={this._getErrors(attrName)} attr={attrName} formatter={formatterFun}
+          <ObsText
+            value={this._getValue(attrName)} errors={this._getErrors(attrName)}
+            label={label} hint={options.hint} placeholder={options.placeholder}
+            required={options.required} formatter={formatterFun}
             className={options.className} id={options.id}
-            onChange={_.bind(this._onChange, this, options)}
-            onErrorChange={_.bind(this._formatErrorChanged, this)}
-            placeholder={options.placeholder}
-            didMount={_.bind(this._register, this)} willUnmount={_.bind(this._unregister, this)} />
+            onChange={_.bind(this._onChange, this, attrName)}
+            onBlur={_.bind(this._onBlur, this, attrName)}
+            didMount={_.bind(this._register, this)}
+            willUnmount={_.bind(this._unregister, this)} />
         )
       },
 
       checkboxField(label, attrName, options={}) {
         var options = this._mergeClasses(options, 'obs-checkbox')
+        var value = !!this._getValue(attrName)
         return (
           <ObsCheckbox label={label} hint={options.hint} required={options.required}
-            value={!!this.get(attrName)} errors={this._getErrors(attrName)}
+            value={value} errors={this._getErrors(attrName)}
             className={options.className} id={options.id}
-            onChange={_.bind(this._onChange, this, options, attrName)}
+            onChange={_.bind(this._onChange, this, attrName)}
             didMount={_.bind(this._register, this)} willUnmount={_.bind(this._unregister, this)} />
         )
       },
@@ -187,11 +205,15 @@ const FormBuilder = {
 
       addressField(label, attrName, options={}) {
         return (
-          <ObsAddressUs label={label} object={this.data()} attr={attrName} errors={this.errors()}
-            required={options.required} hint={options.hint} className={options.className}
-            onChange={_.bind(this._onChange, this, options)}
-            onErrorChange={_.bind(this._formatErrorChanged, this)}
-            didMount={_.bind(this._register, this)} willUnmount={_.bind(this._unregister, this)} />
+          <ObsAddressUs
+            value={this._getValue(attrName)} attr={attrName} errors={this.errors()}
+            label={label} hint={options.hint}
+            required={options.required}
+            className={options.className}
+            onChange={_.bind(this._onChange, this)}
+            onBlur={_.bind(this._onBlur, this)}
+            didMount={_.bind(this._register, this)}
+            willUnmount={_.bind(this._unregister, this)} />
         )
       },
 
@@ -202,28 +224,33 @@ const FormBuilder = {
         return options
       },
 
-      _onChange(options, attrName, value) {
-        this.set(attrName, value)
-        // if given an 'onChange' event in the options, fire it after setting the
-        // value on the object. Pass the attrName after the value as it is
-        // "optional". For complex inputs, it gives context to which part that
-        // changed (like with an address).
-        if (_.isFunction(options['onChange']))
-          options['onChange'](value, attrName)
+      // Expect the attrName and the results of a formatter.  Always update the
+      // formatted and parsed values eventhough the parsed value might be blank.
+      // Ignore any errors that might be in the results however.
+      _onChange(attrName, value) {
+        // store the formatted and parsed values
+        this.updateFormattedValue(attrName, value)
+
+        // TODO: remove any errors we already have
       },
 
-      _formatErrorChanged(attrName, errors) {
-        // either add or remove the errors stored for the attribute
-        var storedErrors = this.errors()
-        if (_.isEmpty(errors))
-          delete storedErrors[attrName]
-        else
-          storedErrors[attrName] = errors
-        this.setErrors(storedErrors)
+      // Similar to _onChange above except it logs any errors received from the
+      // formatter.
+      _onBlur(attrName, results) {
+        // store the parsed and formatted values
+        this.updateFormattedValue(attrName, results.formatted)
+        this.updateParsedValue(attrName, results.parsed)
+
+        // update the errors for this attribute
+        this.updateErrors(attrName, results.errors)
       },
 
       _getErrors(attrName) {
         return this.errors()[attrName]
+      },
+
+      _getValue(attrName) {
+        return this.data()[attrName]
       },
 
       _register(input) {

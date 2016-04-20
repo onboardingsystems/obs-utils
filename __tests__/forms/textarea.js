@@ -9,7 +9,7 @@ describe('OBSTextarea', ()=> {
 
   it('does not blow up', ()=> {
     const comp = TestUtils.renderIntoDocument(
-      <OBSTextarea />
+      <OBSTextarea object={{a: 'test'}} attr="a" />
     )
     const node = ReactDOM.findDOMNode(comp)
 

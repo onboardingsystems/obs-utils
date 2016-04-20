@@ -30,7 +30,7 @@ describe('emailFormatter', () => {
       .toEqual({
         errors: ['invalid email'],
         formatted: "bob@example. com",
-        parsed: "bob@example. com",
+        parsed: null,
         valid: false
       })
   })
