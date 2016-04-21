@@ -25,6 +25,7 @@ var ObsTextarea = React.createClass({
     hint: React.PropTypes.string,
     required: React.PropTypes.bool,
     rows: React.PropTypes.number,
+    customValidator: React.PropTypes.func,
     onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
     didMount: React.PropTypes.func,
@@ -71,8 +72,22 @@ var ObsTextarea = React.createClass({
   },
   onBlur: function onBlur(e) {
     if (_.isFunction(this.props.onBlur)) {
-      var inputValue = this.$().find(':input').val();
-      this.props.onBlur(this.format(inputValue));
+      var inputValue,
+          formatResult,
+          customErrors = [];
+      inputValue = this.$().find(':input').val();
+      formatResult = this.format(inputValue);
+      // run the customValidator if there is one.  Modify the formatResults if
+      // there are errors.
+      if (_.isFunction(this.props.customValidator)) {
+        customErrors = this.props.customValidator(formatResult.formatted);
+        if (!_.isEmpty(customErrors)) {
+          formatResult.valid = false;
+          formatResult.parsed = null;
+          formatResult.errors = _.concat(formatResult.errors, customErrors);
+        }
+      }
+      this.props.onBlur(formatResult);
     }
   },
   render: function render() {
