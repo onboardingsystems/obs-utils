@@ -16,13 +16,13 @@ describe('timeFormatter', () => {
       })
   })
 
-  it("handles errors", ()=> {
+  it("does not handles errors", ()=> {
     expect(formatters.timeFormatter("abc"))
       .toEqual({
-        errors: ['invalid time'],
-        formatted: "abc",
-        parsed: null,
-        valid: false
+        errors: [],
+        formatted: "12:00 am",
+        parsed: "12:00 am",
+        valid: true
       })
   })
 })

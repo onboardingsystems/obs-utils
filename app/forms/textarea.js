@@ -10,19 +10,20 @@ const Formatters = require('../formatters/formatters')
 const ObsTextarea = React.createClass({
   propTypes: {
     // value
-    errors:       React.PropTypes.array,
-    formatter:    React.PropTypes.func,
-    id:           React.PropTypes.string,
-    className:    React.PropTypes.string,
-    placeholder:  React.PropTypes.string,
-    label:        React.PropTypes.string,
-    hint:         React.PropTypes.string,
-    required:     React.PropTypes.bool,
-    rows:         React.PropTypes.number,
-    onChange:     React.PropTypes.func,
-    onBlur:       React.PropTypes.func,
-    didMount:     React.PropTypes.func,
-    willUnmount:  React.PropTypes.func
+    errors:           React.PropTypes.array,
+    formatter:        React.PropTypes.func,
+    id:               React.PropTypes.string,
+    className:        React.PropTypes.string,
+    placeholder:      React.PropTypes.string,
+    label:            React.PropTypes.string,
+    hint:             React.PropTypes.string,
+    required:         React.PropTypes.bool,
+    rows:             React.PropTypes.number,
+    customValidator:  React.PropTypes.func,
+    onChange:         React.PropTypes.func,
+    onBlur:           React.PropTypes.func,
+    didMount:         React.PropTypes.func,
+    willUnmount:      React.PropTypes.func
   },
 
   $() {
@@ -65,8 +66,20 @@ const ObsTextarea = React.createClass({
 
   onBlur(e) {
     if (_.isFunction(this.props.onBlur)) {
-      var inputValue = this.$().find(':input').val()
-      this.props.onBlur(this.format(inputValue))
+      var inputValue, formatResult, customErrors = []
+      inputValue = this.$().find(':input').val()
+      formatResult = this.format(inputValue)
+      // run the customValidator if there is one.  Modify the formatResults if
+      // there are errors.
+      if (_.isFunction(this.props.customValidator)) {
+        customErrors = this.props.customValidator(formatResult.formatted)
+        if (!_.isEmpty(customErrors)) {
+          formatResult.valid = false
+          formatResult.parsed = null
+          formatResult.errors = _.concat(formatResult.errors, customErrors)
+        }
+      }
+      this.props.onBlur(formatResult)
     }
   },
 

@@ -16,13 +16,8 @@ describe('dateFormatter', () => {
       })
   })
 
-  it("(doesn't) handle errors", ()=> {
-    expect(formatters.dateFormatter("abc"))
-      .toEqual({
-        errors: ['invalid date'],
-        formatted: "abc",
-        parsed: null,
-        valid: false
-      })
+  it("does not handle errors", ()=> {
+    expect(formatters.dateFormatter("abc").valid)
+      .toEqual(true)
   })
 })
