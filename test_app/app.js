@@ -9,7 +9,7 @@ const App = React.createClass({
 
   getInitialState() {
     return {
-      data: {
+      formData: {
         first_name: 'Bob'
       }
     }
@@ -39,23 +39,28 @@ const App = React.createClass({
     var f = this.form
 
     return (
-      <div>
-        Hello from react
-
-        <f.form builder={f}>
-          {f.textField('First Name', 'first_name', {required: true})}
-          {f.textField('Last Name', 'last_name', {required: true})}
-          {f.addressField('Address', 'address', {required: true})}
-          {f.dateField('DOB', 'dob', {required: true})}
-          {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true})}
-        </f.form>
-
-        <p>{_.get(this.state.data, 'first_name')} {_.get(this.state.data, 'last_name')}</p>
-        <p>
-          {_.get(this.state.data, 'address.street')}
-          <br />
-          {_.get(this.state.data, 'address.city')} {_.get(this.state.data, 'address.state')}, {_.get(this.state.data, 'address.zip')}
-        </p>
+      <div className="row">
+        <div className="col-xs-12">
+          <h1>Test Form</h1>
+          <hr />
+        </div>
+        <div className="col-xs-6">
+          <f.form builder={f}>
+            {f.textField('First Name', 'first_name', {required: true})}
+            {f.textField('Last Name', 'last_name', {required: true})}
+            {f.addressField('Address', 'address', {required: true})}
+            {f.dateField('DOB', 'dob', {required: true})}
+            {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
+          </f.form>
+        </div>
+        <div className="col-xs-6">
+          <p>{_.get(this.state.formData, 'first_name')} {_.get(this.state.formData, 'last_name')}</p>
+          <p>
+            {_.get(this.state.formData, 'address.street_1')}
+            <br />
+            {_.get(this.state.formData, 'address.city')} {_.get(this.state.formData, 'address.state')}, {_.get(this.state.formData, 'address.zip')}
+          </p>
+        </div>
       </div>
     )
   }
@@ -64,22 +69,3 @@ const App = React.createClass({
 
 // Render the app
 ReactDOM.render(<App />, document.getElementById("test_app"))
-
-  //
-  //
-  //
-  // render() {
-  //
-  //
-  //   return (
-  //     <div id="form">
-  //       <pre>
-  //         {stuff}
-  //       </pre>
-  //
-
-
-  //       <div className="button-bar">
-  //         <button id="back_btn" onClick={this.props.prevStep}>Back</button>
-  //       </div>
-  //     </div>
