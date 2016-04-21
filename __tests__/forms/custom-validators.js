@@ -81,4 +81,46 @@ describe('Custom Validators', ()=> {
     })
   })
 
+  it('works without custom validators', ()=> {
+    var results = {}, onBlur, comp
+
+    // define a onBlur callback to receive the output from the component and
+    // store it so we can compare and test it
+    onBlur = function(value) {
+      results = value
+    }
+
+    // test that the component still uses the formatter and that it passes
+    // validation
+    comp = TestUtils.renderIntoDocument(
+      <Text
+        value=" abcd "
+        onBlur={onBlur}
+        formatter={Formatters.stringFormatter} />
+    )
+    comp.runValidations()
+    expect(results).toEqual({
+      errors: [],
+      formatted: 'abcd',
+      parsed: 'abcd',
+      valid: true
+    })
+
+    // test when the input is invalid to both the formatter and customValidator
+    comp = TestUtils.renderIntoDocument(
+      <Text
+        value=""
+        onBlur={onBlur}
+        formatter={Formatters.stringFormatter}
+        required={true} />
+    )
+    comp.runValidations()
+    expect(results).toEqual({
+      errors: ['is required'],
+      formatted: '',
+      parsed: null,
+      valid: false
+    })
+  })
+
 })
