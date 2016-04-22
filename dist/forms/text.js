@@ -57,11 +57,9 @@ var ObsText = React.createClass({
   },
   onBlur: function onBlur(e) {
     if (_.isFunction(this.props.onBlur)) {
-      var inputValue,
-          formatResult,
+      var formatResult,
           customErrors = [];
-      inputValue = $(ReactDOM.findDOMNode(this)).find(':input').val();
-      formatResult = this.format(inputValue);
+      formatResult = this.format(this.props.value);
       // run the customValidator if there is one.  Modify the formatResults if
       // there are errors.
       if (_.isFunction(this.props.customValidator)) {

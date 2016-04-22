@@ -13,12 +13,6 @@ module.exports = {
     babel: {presets: ['es2015', 'react']}
   },
 
-  npm: {
-    globals: {
-      '$': 'jquery'
-    }
-  },
-
   paths: {
     watched: ['app', 'vendor', 'test_app']
   },
