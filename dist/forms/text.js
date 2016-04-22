@@ -31,19 +31,6 @@ var ObsText = React.createClass({
     willUnmount: React.PropTypes.func
   },
 
-  $: function (_$) {
-    function $() {
-      return _$.apply(this, arguments);
-    }
-
-    $.toString = function () {
-      return _$.toString();
-    };
-
-    return $;
-  }(function () {
-    return $(ReactDOM.findDOMNode(this));
-  }),
   getDefaultProps: function getDefaultProps() {
     return {
       value: "",
@@ -73,7 +60,7 @@ var ObsText = React.createClass({
       var inputValue,
           formatResult,
           customErrors = [];
-      inputValue = this.$().find(':input').val();
+      inputValue = $(ReactDOM.findDOMNode(this)).find(':input').val();
       formatResult = this.format(inputValue);
       // run the customValidator if there is one.  Modify the formatResults if
       // there are errors.

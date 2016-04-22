@@ -26,10 +26,6 @@ const ObsTextarea = React.createClass({
     willUnmount:      React.PropTypes.func
   },
 
-  $() {
-    return $(reactDOM.findDOMNode(this))
-  },
-
   getDefaultProps() {
     return {
       value: "",
@@ -67,7 +63,7 @@ const ObsTextarea = React.createClass({
   onBlur(e) {
     if (_.isFunction(this.props.onBlur)) {
       var inputValue, formatResult, customErrors = []
-      inputValue = this.$().find(':input').val()
+      inputValue = $(ReactDOM.findDOMNode(this)).find(':input').val()
       formatResult = this.format(inputValue)
       // run the customValidator if there is one.  Modify the formatResults if
       // there are errors.
