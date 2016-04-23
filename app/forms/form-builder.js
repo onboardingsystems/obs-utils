@@ -10,6 +10,7 @@ const ObsText           = require('./text')
 const ObsCheckbox       = require('./checkbox')
 const ObsCompoundLayout = require('./compound-layout')
 const ObsAddressUs      = require('./address-us')
+const ObsName           = require('./name')
 const Formatters        = require('../formatters/formatters')
 
 
@@ -208,6 +209,20 @@ const FormBuilder = {
       addressField(label, attrName, options={}) {
         return (
           <ObsAddressUs
+            value={this._getValue(attrName)} attr={attrName} errors={this.errors()}
+            label={label} hint={options.hint}
+            required={options.required}
+            className={options.className}
+            onChange={_.bind(this._onChange, this)}
+            onBlur={_.bind(this._onBlur, this)}
+            didMount={_.bind(this._register, this)}
+            willUnmount={_.bind(this._unregister, this)} />
+        )
+      },
+
+      nameField(label, attrName, options={}) {
+        return (
+          <ObsName
             value={this._getValue(attrName)} attr={attrName} errors={this.errors()}
             label={label} hint={options.hint}
             required={options.required}

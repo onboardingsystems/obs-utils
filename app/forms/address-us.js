@@ -133,7 +133,7 @@ const ObsAddressUs = React.createClass({
       <div className={classes}>
         <ObsLabel text={this.props.label} required={this.props.required} htmlFor={this.props.id} />
         <ObsHint  hint={this.props.hint} />
-        <ObsCompoundLayout layout={"full"} className={this.props.className}>
+        <ObsCompoundLayout layout={"full"}>
           <ObsText id={this.props.id}
             value={valueFor(this.fields.street_1.attr)} errors={[]}
             required={this.props.required} formatter={Formatters.stringFormatter}
@@ -142,7 +142,7 @@ const ObsAddressUs = React.createClass({
             onChange={_.bind(this.onChange, this, this.fields.street_1.attr)}
             onBlur={_.bind(this.onBlur, this, this.fields.street_1.attr)} />
 
-          <ObsCompoundLayout layout={"inline"} className={this.props.className}>
+          <ObsCompoundLayout layout={"inline"}>
             <div className="flex-grow-shrink">
               <ObsText
                 value={valueFor(this.fields.city.attr)} errors={[]}

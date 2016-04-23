@@ -14,6 +14,7 @@ var ObsText = require('./text');
 var ObsCheckbox = require('./checkbox');
 var ObsCompoundLayout = require('./compound-layout');
 var ObsAddressUs = require('./address-us');
+var ObsName = require('./name');
 var Formatters = require('../formatters/formatters');
 
 // Expected errors format.
@@ -206,6 +207,19 @@ var FormBuilder = {
         var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
         return React.createElement(ObsAddressUs, {
+          value: this._getValue(attrName), attr: attrName, errors: this.errors(),
+          label: label, hint: options.hint,
+          required: options.required,
+          className: options.className,
+          onChange: _.bind(this._onChange, this),
+          onBlur: _.bind(this._onBlur, this),
+          didMount: _.bind(this._register, this),
+          willUnmount: _.bind(this._unregister, this) });
+      },
+      nameField: function nameField(label, attrName) {
+        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+        return React.createElement(ObsName, {
           value: this._getValue(attrName), attr: attrName, errors: this.errors(),
           label: label, hint: options.hint,
           required: options.required,

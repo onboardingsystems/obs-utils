@@ -10,7 +10,9 @@ const App = React.createClass({
   getInitialState() {
     return {
       formData: {
-        first_name: 'Bob'
+        name: {
+          first: 'Bob'
+        }
       }
     }
   },
@@ -46,15 +48,14 @@ const App = React.createClass({
         </div>
         <div className="col-xs-6">
           <f.form builder={f}>
-            {f.textField('First Name', 'first_name', {required: true})}
-            {f.textField('Last Name', 'last_name', {required: true})}
+            {f.nameField('Name', 'name', {required: true})}
             {f.addressField('Address', 'address', {required: true})}
             {f.dateField('DOB', 'dob', {required: true})}
             {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
           </f.form>
         </div>
         <div className="col-xs-6">
-          <p>{_.get(this.state.formData, 'first_name')} {_.get(this.state.formData, 'last_name')}</p>
+          <p>{_.get(this.state.formData, 'name.first')} {_.get(this.state.formData, 'name.last')}</p>
           <p>
             {_.get(this.state.formData, 'address.street_1')}
             <br />

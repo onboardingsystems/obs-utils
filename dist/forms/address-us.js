@@ -144,7 +144,7 @@ var ObsAddressUs = React.createClass({
       React.createElement(ObsHint, { hint: this.props.hint }),
       React.createElement(
         ObsCompoundLayout,
-        { layout: "full", className: this.props.className },
+        { layout: "full" },
         React.createElement(ObsText, { id: this.props.id,
           value: valueFor(this.fields.street_1.attr), errors: [],
           required: this.props.required, formatter: Formatters.stringFormatter,
@@ -154,7 +154,7 @@ var ObsAddressUs = React.createClass({
           onBlur: _.bind(this.onBlur, this, this.fields.street_1.attr) }),
         React.createElement(
           ObsCompoundLayout,
-          { layout: "inline", className: this.props.className },
+          { layout: "inline" },
           React.createElement(
             'div',
             { className: 'flex-grow-shrink' },
