@@ -32,6 +32,7 @@ const ObsAddressUs = React.createClass({
     state:    {name: 'State',   attr: 'state'},
     zip:      {name: 'Zip',     attr: 'zip'}
   },
+  inputs: [],
 
   getDefaultProps() {
     return {
@@ -112,6 +113,19 @@ const ObsAddressUs = React.createClass({
       this.props.onBlur(this._fullAttrName(attr), results)
   },
 
+  // run through validations on each input
+  runValidations() {
+    _.forEach(this.inputs, (input)=> { input.runValidations() })
+  },
+
+  register(input) {
+    _.concat(this.inputs, input)
+  },
+
+  unregister(input) {
+    this.inputs = _.without(this.inputs(input))
+  },
+
   classesForAttr(attr, classes="") {
     return cx({
       [classes]: _.isString(classes),
@@ -140,7 +154,8 @@ const ObsAddressUs = React.createClass({
             placeholder={"Address"}
             className={this.classesForAttr(this.fields.street_1.attr, "address-line-1")}
             onChange={_.bind(this.onChange, this, this.fields.street_1.attr)}
-            onBlur={_.bind(this.onBlur, this, this.fields.street_1.attr)} />
+            onBlur={_.bind(this.onBlur, this, this.fields.street_1.attr)}
+            didMount={this.register} willUnmount={this.unregister} />
 
           <ObsCompoundLayout layout={"inline"}>
             <div className="flex-grow-shrink">
@@ -150,7 +165,8 @@ const ObsAddressUs = React.createClass({
                 placeholder={"City"}
                 className={this.classesForAttr(this.fields.city.attr, "address-city")}
                 onChange={_.bind(this.onChange, this, this.fields.city.attr)}
-                onBlur={_.bind(this.onBlur, this, this.fields.city.attr)} />
+                onBlur={_.bind(this.onBlur, this, this.fields.city.attr)}
+                didMount={this.register} willUnmount={this.unregister} />
             </div>
             <div className="flex-static">
               <ObsText
@@ -159,7 +175,8 @@ const ObsAddressUs = React.createClass({
                 placeholder={"ST"}
                 className={this.classesForAttr(this.fields.state.attr, "address-state state")}
                 onChange={_.bind(this.onChange, this, this.fields.state.attr)}
-                onBlur={_.bind(this.onBlur, this, this.fields.state.attr)} />
+                onBlur={_.bind(this.onBlur, this, this.fields.state.attr)}
+                didMount={this.register} willUnmount={this.unregister} />
             </div>
             <div className="flex-static">
               <ObsText
@@ -168,7 +185,8 @@ const ObsAddressUs = React.createClass({
                 placeholder={"Zip"}
                 className={this.classesForAttr(this.fields.zip.attr, "address-zipcode zipcode")}
                 onChange={_.bind(this.onChange, this, this.fields.zip.attr)}
-                onBlur={_.bind(this.onBlur, this, this.fields.zip.attr)} />
+                onBlur={_.bind(this.onBlur, this, this.fields.zip.attr)}
+                didMount={this.register} willUnmount={this.unregister} />
             </div>
           </ObsCompoundLayout>
         </ObsCompoundLayout>

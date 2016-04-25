@@ -27,6 +27,8 @@ const Name = React.createClass({
     willUnmount:   React.PropTypes.func
   },
 
+  inputs: [],
+
   getDefaultProps() {
     return {
       label: "Name",
@@ -111,6 +113,19 @@ const Name = React.createClass({
       this.props.onBlur(this._fullAttrName(attr), results)
   },
 
+  // run through validations on each input
+  runValidations() {
+    _.forEach(this.inputs, (input)=> { input.runValidations() })
+  },
+
+  register(input) {
+    _.concat(this.inputs, input)
+  },
+
+  unregister(input) {
+    this.inputs = _.without(this.inputs(input))
+  },
+
   render() {
     var valueFor = (attr)=> { return _.get((this.props.value || {}), attr) }
     var classesFor = (attr, classes="")=> {
@@ -139,7 +154,8 @@ const Name = React.createClass({
               placeholder={"First"}
               className={classesFor(this.props.firstNameAttr, "name-first")}
               onChange={_.bind(this.onChange, this, this.props.firstNameAttr)}
-              onBlur={_.bind(this.onBlur, this, this.props.firstNameAttr)} />
+              onBlur={_.bind(this.onBlur, this, this.props.firstNameAttr)}
+              didMount={this.register} willUnmount={this.unregister} />
           </div>
           <div className="flex-grow-shrink">
             <ObsText
@@ -148,7 +164,8 @@ const Name = React.createClass({
               placeholder={"Last"}
               className={classesFor(this.props.lastNameAttr, "name-last")}
               onChange={_.bind(this.onChange, this, this.props.lastNameAttr)}
-              onBlur={_.bind(this.onBlur, this, this.props.lastNameAttr)} />
+              onBlur={_.bind(this.onBlur, this, this.props.lastNameAttr)}
+              didMount={this.register} willUnmount={this.unregister} />
           </div>
         </ObsCompoundLayout>
         <ObsError errors={this.errorsWithLabelNames()} />
