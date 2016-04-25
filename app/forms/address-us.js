@@ -126,7 +126,7 @@ const ObsAddressUs = React.createClass({
   },
 
   unregister(input) {
-    this.inputs = _.without(this.inputs(input))
+    this.inputs = _.without(this.inputs, input)
   },
 
   classesForAttr(attr, classes="") {

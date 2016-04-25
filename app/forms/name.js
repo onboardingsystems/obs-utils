@@ -126,7 +126,7 @@ const Name = React.createClass({
   },
 
   unregister(input) {
-    this.inputs = _.without(this.inputs(input))
+    this.inputs = _.without(this.inputs, input)
   },
 
   render() {
