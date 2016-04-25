@@ -1,6 +1,6 @@
 {
   "name": "obs-utils",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "private": true,
   "description": "A collection of react utilities",
   "author": "OBS",
