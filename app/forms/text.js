@@ -51,7 +51,7 @@ const ObsText = React.createClass({
   },
 
   runValidations() {
-    this.onBlur()
+    return this.onBlur()
   },
 
   onChange(e) {
@@ -74,6 +74,7 @@ const ObsText = React.createClass({
         }
       }
       this.props.onBlur(formatResult)
+      return formatResult.errors
     }
   },
 

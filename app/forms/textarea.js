@@ -52,7 +52,7 @@ const ObsTextarea = React.createClass({
   },
 
   runValidations() {
-    this.onBlur()
+    return this.onBlur()
   },
 
   onChange(e) {
@@ -76,6 +76,7 @@ const ObsTextarea = React.createClass({
         }
       }
       this.props.onBlur(formatResult)
+      return formatResult.errors
     }
   },
 

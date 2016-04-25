@@ -37,6 +37,10 @@ const App = React.createClass({
       return ['must be 4 digits']
   },
 
+  submitForm() {
+    this.form.onSubmit()
+  },
+
   render() {
     var f = this.form
 
@@ -53,6 +57,7 @@ const App = React.createClass({
             {f.dateField('DOB', 'dob', {required: true})}
             {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
           </f.form>
+          <button onClick={this.submitForm}>Submit</button>
         </div>
         <div className="col-xs-6">
           <p>{_.get(this.state.formData, 'name.first')} {_.get(this.state.formData, 'name.last')}</p>

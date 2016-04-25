@@ -42,27 +42,34 @@ const FormBuilder = {
       errorDataAttr: 'errorData',
       parsedDataAttr: 'parsedData'
     }, options)
+    // initialize data sources on parent
+    if (_.isNil(_getState(options.parent, options.formDataAttr)))
+      _setState(options.parent, options.formDataAttr, {})
+    if (_.isNil(_getState(options.parent, options.errorDataAttr)))
+      _setState(options.parent, options.errorDataAttr, {})
+    if (_.isNil(_getState(options.parent, options.parsedDataAttr)))
+      _setState(options.parent, options.parsedDataAttr, {})
     return {
       parent: options.parent,
       formDataAttr: options.formDataAttr,
       errorDataAttr: options.errorDataAttr,
       parsedDataAttr: options.parsedDataAttr,
-      onSubmit: options.onSubmit,
+      _onSubmit: options.onSubmit,
       onChange: options.onChange,
       onErrorChange: options.onErrorChange,
       onTouch:       options.onTouch,
       inputs: [],
 
       data() {
-        return _getState(this.parent, this.formDataAttr) || {}
+        return _getState(this.parent, this.formDataAttr)
       },
 
       parsed() {
-        return _getState(this.parent, this.parsedDataAttr) || {}
+        return _getState(this.parent, this.parsedDataAttr)
       },
 
       errors() {
-        return _getState(this.parent, this.errorDataAttr) || {}
+        return _getState(this.parent, this.errorDataAttr)
       },
 
       updateFormattedValue(attr, value) {
@@ -82,6 +89,7 @@ const FormBuilder = {
       },
 
       updateErrors(attr, newErrors) {
+        console.log("Update Errors:", attr, newErrors)
         var storedErrors = this.errors()
         if (_.isEmpty(newErrors))
           delete storedErrors[attr]
@@ -98,12 +106,13 @@ const FormBuilder = {
         // back validation
         var valid = _.reduce(this.inputs, (valid, input)=> {
           if (!_.isEmpty(input.runValidations()))
-            valid = false
+            return false
+          else
+            return valid
         }, true)
-
         // fire our own onSubmit callback
-        if (_.isFunction(this.onSubmit))
-          this.onSubmit(e, valid, this)
+        if (_.isFunction(this._onSubmit))
+          this._onSubmit(e, valid, this)
       },
 
       // alias Obs components to make using them easier

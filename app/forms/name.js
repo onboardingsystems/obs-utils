@@ -115,11 +115,14 @@ const Name = React.createClass({
 
   // run through validations on each input
   runValidations() {
-    _.forEach(this.inputs, (input)=> { input.runValidations() })
+    var errors = _.reduce(this.inputs, (errors, input)=> {
+      return _.concat(errors, input.runValidations())
+    }, [])
+    return errors
   },
 
   register(input) {
-    _.concat(this.inputs, input)
+    this.inputs = _.concat(this.inputs, input)
   },
 
   unregister(input) {
