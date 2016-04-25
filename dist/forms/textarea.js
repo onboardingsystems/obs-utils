@@ -52,7 +52,7 @@ var ObsTextarea = React.createClass({
     return this.props.formatter(value, { required: this.props.required });
   },
   runValidations: function runValidations() {
-    this.onBlur();
+    return this.onBlur();
   },
   onChange: function onChange(e) {
     if (_.isFunction(this.props.onChange)) this.props.onChange(e.target.value);
@@ -74,6 +74,7 @@ var ObsTextarea = React.createClass({
         }
       }
       this.props.onBlur(formatResult);
+      return formatResult.errors;
     }
   },
   render: function render() {

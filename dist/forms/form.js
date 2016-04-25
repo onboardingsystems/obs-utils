@@ -23,6 +23,7 @@ var ObsForm = React.createClass({
     return React.createElement(
       "form",
       { className: "form", onSubmit: this.onSubmit },
+      React.createElement("input", { type: "submit", className: "hidden" }),
       this.props.children
     );
   }

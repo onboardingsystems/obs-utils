@@ -33,6 +33,8 @@ var Name = React.createClass({
     willUnmount: React.PropTypes.func
   },
 
+  inputs: [],
+
   getDefaultProps: function getDefaultProps() {
     return {
       label: "Name",
@@ -107,6 +109,21 @@ var Name = React.createClass({
     // attribute name to a fully qualified name
     if (_.isFunction(this.props.onBlur)) this.props.onBlur(this._fullAttrName(attr), results);
   },
+
+
+  // run through validations on each input
+  runValidations: function runValidations() {
+    var errors = _.reduce(this.inputs, function (errors, input) {
+      return _.concat(errors, input.runValidations());
+    }, []);
+    return errors;
+  },
+  register: function register(input) {
+    this.inputs = _.concat(this.inputs, input);
+  },
+  unregister: function unregister(input) {
+    this.inputs = _.without(this.inputs(input));
+  },
   render: function render() {
     var _this3 = this;
 
@@ -144,7 +161,8 @@ var Name = React.createClass({
             placeholder: "First",
             className: classesFor(this.props.firstNameAttr, "name-first"),
             onChange: _.bind(this.onChange, this, this.props.firstNameAttr),
-            onBlur: _.bind(this.onBlur, this, this.props.firstNameAttr) })
+            onBlur: _.bind(this.onBlur, this, this.props.firstNameAttr),
+            didMount: this.register, willUnmount: this.unregister })
         ),
         React.createElement(
           'div',
@@ -155,7 +173,8 @@ var Name = React.createClass({
             placeholder: "Last",
             className: classesFor(this.props.lastNameAttr, "name-last"),
             onChange: _.bind(this.onChange, this, this.props.lastNameAttr),
-            onBlur: _.bind(this.onBlur, this, this.props.lastNameAttr) })
+            onBlur: _.bind(this.onBlur, this, this.props.lastNameAttr),
+            didMount: this.register, willUnmount: this.unregister })
         )
       ),
       React.createElement(ObsError, { errors: this.errorsWithLabelNames() })

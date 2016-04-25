@@ -38,6 +38,7 @@ var ObsAddressUs = React.createClass({
     state: { name: 'State', attr: 'state' },
     zip: { name: 'Zip', attr: 'zip' }
   },
+  inputs: [],
 
   getDefaultProps: function getDefaultProps() {
     return {
@@ -117,6 +118,21 @@ var ObsAddressUs = React.createClass({
     // attribute name to a fully qualified name
     if (_.isFunction(this.props.onBlur)) this.props.onBlur(this._fullAttrName(attr), results);
   },
+
+
+  // run through validations on each input
+  runValidations: function runValidations() {
+    var errors = _.reduce(this.inputs, function (errors, input) {
+      return _.concat(errors, input.runValidations());
+    }, []);
+    return errors;
+  },
+  register: function register(input) {
+    this.inputs = _.concat(this.inputs, input);
+  },
+  unregister: function unregister(input) {
+    this.inputs = _.without(this.inputs(input));
+  },
   classesForAttr: function classesForAttr(attr) {
     var _cx;
 
@@ -151,7 +167,8 @@ var ObsAddressUs = React.createClass({
           placeholder: "Address",
           className: this.classesForAttr(this.fields.street_1.attr, "address-line-1"),
           onChange: _.bind(this.onChange, this, this.fields.street_1.attr),
-          onBlur: _.bind(this.onBlur, this, this.fields.street_1.attr) }),
+          onBlur: _.bind(this.onBlur, this, this.fields.street_1.attr),
+          didMount: this.register, willUnmount: this.unregister }),
         React.createElement(
           ObsCompoundLayout,
           { layout: "inline" },
@@ -164,7 +181,8 @@ var ObsAddressUs = React.createClass({
               placeholder: "City",
               className: this.classesForAttr(this.fields.city.attr, "address-city"),
               onChange: _.bind(this.onChange, this, this.fields.city.attr),
-              onBlur: _.bind(this.onBlur, this, this.fields.city.attr) })
+              onBlur: _.bind(this.onBlur, this, this.fields.city.attr),
+              didMount: this.register, willUnmount: this.unregister })
           ),
           React.createElement(
             'div',
@@ -175,7 +193,8 @@ var ObsAddressUs = React.createClass({
               placeholder: "ST",
               className: this.classesForAttr(this.fields.state.attr, "address-state state"),
               onChange: _.bind(this.onChange, this, this.fields.state.attr),
-              onBlur: _.bind(this.onBlur, this, this.fields.state.attr) })
+              onBlur: _.bind(this.onBlur, this, this.fields.state.attr),
+              didMount: this.register, willUnmount: this.unregister })
           ),
           React.createElement(
             'div',
@@ -186,7 +205,8 @@ var ObsAddressUs = React.createClass({
               placeholder: "Zip",
               className: this.classesForAttr(this.fields.zip.attr, "address-zipcode zipcode"),
               onChange: _.bind(this.onChange, this, this.fields.zip.attr),
-              onBlur: _.bind(this.onBlur, this, this.fields.zip.attr) })
+              onBlur: _.bind(this.onBlur, this, this.fields.zip.attr),
+              didMount: this.register, willUnmount: this.unregister })
           )
         )
       ),

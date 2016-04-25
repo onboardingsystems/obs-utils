@@ -44,25 +44,29 @@ var FormBuilder = {
       errorDataAttr: 'errorData',
       parsedDataAttr: 'parsedData'
     }, options);
+    // initialize data sources on parent
+    if (_.isNil(_getState(options.parent, options.formDataAttr))) _setState(options.parent, options.formDataAttr, {});
+    if (_.isNil(_getState(options.parent, options.errorDataAttr))) _setState(options.parent, options.errorDataAttr, {});
+    if (_.isNil(_getState(options.parent, options.parsedDataAttr))) _setState(options.parent, options.parsedDataAttr, {});
     return {
       parent: options.parent,
       formDataAttr: options.formDataAttr,
       errorDataAttr: options.errorDataAttr,
       parsedDataAttr: options.parsedDataAttr,
-      onSubmit: options.onSubmit,
+      _onSubmit: options.onSubmit,
       onChange: options.onChange,
       onErrorChange: options.onErrorChange,
       onTouch: options.onTouch,
       inputs: [],
 
       data: function data() {
-        return _getState(this.parent, this.formDataAttr) || {};
+        return _getState(this.parent, this.formDataAttr);
       },
       parsed: function parsed() {
-        return _getState(this.parent, this.parsedDataAttr) || {};
+        return _getState(this.parent, this.parsedDataAttr);
       },
       errors: function errors() {
-        return _getState(this.parent, this.errorDataAttr) || {};
+        return _getState(this.parent, this.errorDataAttr);
       },
       updateFormattedValue: function updateFormattedValue(attr, value) {
         var state = this.data();
@@ -77,6 +81,7 @@ var FormBuilder = {
         if (_.isFunction(this.onChange)) this.onChange();
       },
       updateErrors: function updateErrors(attr, newErrors) {
+        console.log("Update Errors:", attr, newErrors);
         var storedErrors = this.errors();
         if (_.isEmpty(newErrors)) delete storedErrors[attr];else storedErrors[attr] = newErrors;
         _setState(this.parent, this.errorDataAttr, storedErrors);
@@ -87,11 +92,10 @@ var FormBuilder = {
         // usefull for inputs that have focus and that would not have reported
         // back validation
         var valid = _.reduce(this.inputs, function (valid, input) {
-          if (!_.isEmpty(input.runValidations())) valid = false;
+          if (!_.isEmpty(input.runValidations())) return false;else return valid;
         }, true);
-
         // fire our own onSubmit callback
-        if (_.isFunction(this.onSubmit)) this.onSubmit(e, valid, this);
+        if (_.isFunction(this._onSubmit)) this._onSubmit(e, valid, this);
       },
 
 
