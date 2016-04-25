@@ -122,7 +122,7 @@ var Name = React.createClass({
     this.inputs = _.concat(this.inputs, input);
   },
   unregister: function unregister(input) {
-    this.inputs = _.without(this.inputs(input));
+    this.inputs = _.without(this.inputs, input);
   },
   render: function render() {
     var _this3 = this;
