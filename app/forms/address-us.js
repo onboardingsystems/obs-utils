@@ -38,7 +38,12 @@ const ObsAddressUs = React.createClass({
       label: "Address",
       required: false,
       errors: {},
-      id: _.uniqueId('address1_'),
+    }
+  },
+
+  getInitialState() {
+    return {
+      id: this.props.id ||  _.uniqueId('address_'),
     }
   },
 
@@ -147,10 +152,10 @@ const ObsAddressUs = React.createClass({
 
     return (
       <div className={classes}>
-        <ObsLabel text={this.props.label} required={this.props.required} htmlFor={this.props.id} />
+        <ObsLabel text={this.props.label} required={this.props.required} htmlFor={this.state.id} />
         <ObsHint  hint={this.props.hint} />
         <ObsCompoundLayout layout={"full"}>
-          <ObsText id={this.props.id}
+          <ObsText id={this.state.id}
             value={valueFor(this.fields.street_1.attr)} errors={[]}
             required={this.props.required} formatter={Formatters.stringFormatter}
             placeholder={"Address"}

@@ -30,8 +30,13 @@ const ObsText = React.createClass({
       value: "",
       required: false,
       errors:   [],
-      id: _.uniqueId('text_'),
       formatter: Formatters.requiredFormatter
+    }
+  },
+
+  getInitialState() {
+    return {
+      id: this.props.id || _.uniqueId('text_'),
     }
   },
 
@@ -54,7 +59,7 @@ const ObsText = React.createClass({
   },
 
   componentWillReceiveProps(newProps) {
-    var currentValue = document.getElementById(this.props.id).value
+    var currentValue = document.getElementById(this.state.id).value
     if (newProps.value !== currentValue && _.isFunction(this.props.onChange)) {
       var result = this.formatAndValidate(newProps.value)
       if (result.valid)
@@ -108,8 +113,8 @@ const ObsText = React.createClass({
 
     return (
       <div className={groupClasses}>
-        <ObsLabel text={this.props.label} hint={this.props.hint} htmlFor={this.props.id} required={this.props.required} />
-        <input id={this.props.id} className="form-control" type="text" value={this.props.value}
+        <ObsLabel text={this.props.label} hint={this.props.hint} htmlFor={this.state.id} required={this.props.required} />
+        <input id={this.state.id} className="form-control" type="text" value={this.props.value}
           placeholder={this.props.placeholder}
           onChange={this.onChange} onBlur={this.onBlur} />
         <ObsError errors={this.props.errors} />
