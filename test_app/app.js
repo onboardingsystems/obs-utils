@@ -10,7 +10,8 @@ const App = React.createClass({
   getInitialState() {
     return {
       formData: {
-        first_name: 'Bob'
+        first_name: 'Bob',
+        phone: '1112223333'
       }
     }
   },
@@ -23,7 +24,7 @@ const App = React.createClass({
   },
 
   onSubmit(e, valid, builder) {
-    console.log('form submitted!')
+    alert('form submitted!')
   },
 
   // custom validator for the last 4 of the SSN.  Just checks that the number is
@@ -36,7 +37,10 @@ const App = React.createClass({
   },
 
   submitForm() {
-    this.form.onSubmit()
+    this.setState({formData: {
+      first_name: 'Bobby',
+      phone: '8015039733'
+    }})
   },
 
   render() {
@@ -51,6 +55,7 @@ const App = React.createClass({
         <div className="col-xs-6">
           <f.form builder={f}>
             {f.nameField('Name', {required: true})}
+            {f.phoneField('Phone', 'phone')}
             {f.addressField('Address', 'address', {required: true})}
             {f.dateField('DOB', 'dob', {required: true})}
             {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}

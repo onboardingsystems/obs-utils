@@ -37,13 +37,32 @@ const ObsText = React.createClass({
   },
 
   componentDidMount() {
+    // register this component with the formBuilder
     if (_.isFunction(this.props.didMount))
       this.props.didMount(this)
+    // attempt to perform the intial format (server values might not be
+    // formatted)
+    if (_.isFunction(this.props.onChange)) {
+      var result = this.formatAndValidate(this.props.value)
+      if (result.valid)
+        this.props.onChange(result.formatted)
+    }
   },
 
   componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
+  },
+
+  componentWillReceiveProps(newProps) {
+    var currentValue = ReactDOM.findDOMNode(this).getElementsByTagName("input")[0].value
+    if (newProps.value !== currentValue) {
+      if (_.isFunction(this.props.onChange)) {
+        var result = this.formatAndValidate(newProps.value)
+        if (result.valid)
+          this.props.onChange(result.formatted)
+      }
+    }
   },
 
   format(value) {
@@ -61,21 +80,26 @@ const ObsText = React.createClass({
 
   onBlur(e) {
     if (_.isFunction(this.props.onBlur)) {
-      var formatResult, customErrors = []
-      formatResult = this.format(this.props.value)
-      // run the customValidator if there is one.  Modify the formatResults if
-      // there are errors.
-      if (_.isFunction(this.props.customValidator)) {
-        customErrors = this.props.customValidator(formatResult.formatted)
-        if (!_.isEmpty(customErrors)) {
-          formatResult.valid = false
-          formatResult.parsed = null
-          formatResult.errors = _.concat(formatResult.errors, customErrors)
-        }
-      }
-      this.props.onBlur(formatResult)
-      return formatResult.errors
+      var result = this.formatAndValidate(this.props.value)
+      this.props.onBlur(result)
+      return result.errors
     }
+  },
+
+  formatAndValidate(value) {
+    var formatResult, customErrors = []
+    formatResult = this.format(value)
+    // run the customValidator if there is one.  Modify the formatResults if
+    // there are errors.
+    if (_.isFunction(this.props.customValidator)) {
+      customErrors = this.props.customValidator(formatResult.formatted)
+      if (!_.isEmpty(customErrors)) {
+        formatResult.valid = false
+        formatResult.parsed = null
+        formatResult.errors = _.concat(formatResult.errors, customErrors)
+      }
+    }
+    return formatResult
   },
 
   render() {
