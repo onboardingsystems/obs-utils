@@ -89,7 +89,6 @@ const FormBuilder = {
       },
 
       updateErrors(attr, newErrors) {
-        console.log("Update Errors:", attr, newErrors)
         var storedErrors = this.errors()
         if (_.isEmpty(newErrors))
           delete storedErrors[attr]
