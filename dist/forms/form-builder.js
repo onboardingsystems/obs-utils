@@ -81,7 +81,6 @@ var FormBuilder = {
         if (_.isFunction(this.onChange)) this.onChange();
       },
       updateErrors: function updateErrors(attr, newErrors) {
-        console.log("Update Errors:", attr, newErrors);
         var storedErrors = this.errors();
         if (_.isEmpty(newErrors)) delete storedErrors[attr];else storedErrors[attr] = newErrors;
         _setState(this.parent, this.errorDataAttr, storedErrors);
@@ -220,11 +219,13 @@ var FormBuilder = {
           didMount: _.bind(this._register, this),
           willUnmount: _.bind(this._unregister, this) });
       },
-      nameField: function nameField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+      nameField: function nameField(label) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
         return React.createElement(ObsName, {
-          value: this._getValue(attrName), attr: attrName, errors: this.errors(),
+          value: this.data(), errors: this.errors(),
+          firstNameAttr: options.firstNameAttr,
+          lastNameAttr: options.lastNameAttr,
           label: label, hint: options.hint,
           required: options.required,
           className: options.className,

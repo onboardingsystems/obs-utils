@@ -19,7 +19,6 @@ var Name = React.createClass({
 
   propTypes: {
     value: React.PropTypes.object,
-    attr: React.PropTypes.string,
     firstNameAttr: React.PropTypes.string,
     lastNameAttr: React.PropTypes.string,
     onChange: React.PropTypes.func,
@@ -38,8 +37,8 @@ var Name = React.createClass({
   getDefaultProps: function getDefaultProps() {
     return {
       label: "Name",
-      firstNameAttr: "first",
-      lastNameAttr: "last",
+      firstNameAttr: "first_name",
+      lastNameAttr: "last_name",
       required: false,
       errors: {},
       id: _.uniqueId('name_')
@@ -53,46 +52,16 @@ var Name = React.createClass({
   },
 
 
-  // returns a list of fully qualified address attributes (such as address.city
-  // and address.zip)
-  _name_attrs: function _name_attrs() {
-    return [this._fullAttrName(this.props.firstNameAttr), this._fullAttrName(this.props.lastNameAttr)];
-  },
-
-
-  // turn fully-qualified errors structure into one that is relative to the fields
-  // this component renders
-  // {
-  //   "person.name.first": ["is required"]
-  // }
-  //
-  // Convert to format:
-  //
-  // {
-  //   "first": ["is required"]
-  // }
+  // takes the errors passed in and selects out only errors for this component
   _nameErrors: function _nameErrors() {
-    var _this = this;
-
-    var errors = this.props.errors;
-    return _.reduce([this.props.firstNameAttr, this.props.lastNameAttr], function (acc, attr) {
-      var attrErrors = _.get(errors, _this._fullAttrName(attr));
-      if (!_.isEmpty(attrErrors)) acc[attr] = attrErrors;
-      return acc;
-    }, {});
-  },
-
-
-  // converts the partial field names into fully qualified names
-  _fullAttrName: function _fullAttrName(attr) {
-    return this.props.attr + '.' + attr;
+    return _.pick(this.props.errors, [this.props.firstNameAttr, this.props.lastNameAttr]);
   },
   errorsWithLabelNames: function errorsWithLabelNames() {
-    var _this2 = this;
+    var _this = this;
 
     return _.reduce(this._nameErrors(), function (acc, errors, attr) {
       var name;
-      if (attr === _this2.props.firstNameAttr) name = "First name";else name = "Last name";
+      if (attr === _this.props.firstNameAttr) name = "First name";else name = "Last name";
       _.forEach(errors, function (error) {
         acc.push(name + ' ' + error);
       });
@@ -101,13 +70,13 @@ var Name = React.createClass({
   },
   onChange: function onChange(attr, value) {
     // Fire onChange event for the full attribute name
-    if (_.isFunction(this.props.onChange)) this.props.onChange(this._fullAttrName(attr), value);
+    if (_.isFunction(this.props.onChange)) this.props.onChange(attr, value);
   },
   onBlur: function onBlur(attr, results) {
     // since the input is already returning the results of the formatter, we
     // don't need to call the formetter here.  We only need to convert the
     // attribute name to a fully qualified name
-    if (_.isFunction(this.props.onBlur)) this.props.onBlur(this._fullAttrName(attr), results);
+    if (_.isFunction(this.props.onBlur)) this.props.onBlur(attr, results);
   },
 
 
@@ -125,17 +94,17 @@ var Name = React.createClass({
     this.inputs = _.without(this.inputs, input);
   },
   render: function render() {
-    var _this3 = this;
+    var _this2 = this;
 
     var valueFor = function valueFor(attr) {
-      return _.get(_this3.props.value || {}, attr);
+      return _.get(_this2.props.value || {}, attr);
     };
     var classesFor = function classesFor(attr) {
       var _cx;
 
       var classes = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
 
-      return cx((_cx = {}, _defineProperty(_cx, classes, _.isString(classes)), _defineProperty(_cx, "has-error", !_.isEmpty(_this3._nameErrors()[attr])), _cx));
+      return cx((_cx = {}, _defineProperty(_cx, classes, _.isString(classes)), _defineProperty(_cx, "has-error", !_.isEmpty(_this2._nameErrors()[attr])), _cx));
     };
     var classes = cx(_defineProperty({
       'address-us': true,
