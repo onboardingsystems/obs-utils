@@ -55,7 +55,10 @@ const ObsText = React.createClass({
   },
 
   componentWillReceiveProps(newProps) {
-    var currentValue = ReactDOM.findDOMNode(this).getElementsByTagName("input")[0].value
+    var node = ReactDOM.findDOMNode(this)
+    if (_.isNil(node))
+      return
+    var currentValue = node.getElementsByTagName("input")[0].value
     if (newProps.value !== currentValue && _.isFunction(this.props.onChange)) {
       var result = this.formatAndValidate(newProps.value)
       if (result.valid)
