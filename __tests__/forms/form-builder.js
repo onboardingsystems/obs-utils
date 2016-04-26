@@ -1,13 +1,18 @@
 jest.unmock('../../app/forms/form-builder')
+jest.unmock('../../app/forms/text')
 
 import _ from 'lodash'
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import OBSFormBuilder from '../../app/forms/form-builder';
+import OBSText from '../../app/forms/text';
 
 describe('OBSFormBuilder', ()=> {
 
   it('does not blow up', ()=> {
+    const parent = TestUtils.renderIntoDocument(<OBSText />)
     var formBuilder = OBSFormBuilder.new({
-      parent: {},
+      parent: parent,
       formDataAttr: 'a',
       errorDataAttr: 'b',
       parsedDataAttr: 'c'
@@ -20,8 +25,9 @@ describe('OBSFormBuilder', ()=> {
   })
 
   it('has defaults', ()=> {
+    const parent = TestUtils.renderIntoDocument(<OBSText />)
     var formBuilder = OBSFormBuilder.new({
-      parent: {}
+      parent: parent
     })
     expect(_.isObject(formBuilder)).toBe(true)
     expect(formBuilder.formDataAttr).toEqual('formData')
