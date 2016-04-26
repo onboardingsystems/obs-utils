@@ -4,6 +4,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var _ = require('lodash');
 var cx = require('classnames');
 var ObsForm = require('./form');
 var ObsLabel = require('./label');

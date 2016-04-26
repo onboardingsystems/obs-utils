@@ -5,6 +5,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var React = require('react');
 var ReactDOM = require('react-dom');
 var cx = require('classnames');
+var _ = require('lodash');
 
 var ObsLabel = require('./label');
 var ObsError = require('./error');
@@ -35,8 +36,12 @@ var ObsText = React.createClass({
       value: "",
       required: false,
       errors: [],
-      id: _.uniqueId('text_'),
       formatter: Formatters.requiredFormatter
+    };
+  },
+  getInitialState: function getInitialState() {
+    return {
+      id: this.props.id || _.uniqueId('text_')
     };
   },
   componentDidMount: function componentDidMount() {
@@ -53,9 +58,8 @@ var ObsText = React.createClass({
     if (_.isFunction(this.props.willUnmount)) this.props.willUnmount(this);
   },
   componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-    var currentValue = document.getElementById(this.props.id).value;
+    var currentValue = document.getElementById(this.state.id).value;
     if (newProps.value !== currentValue && _.isFunction(this.props.onChange)) {
-      debugger;
       var result = this.formatAndValidate(newProps.value);
       if (result.valid) this.props.onChange(result.formatted);
     }
@@ -101,8 +105,8 @@ var ObsText = React.createClass({
     return React.createElement(
       'div',
       { className: groupClasses },
-      React.createElement(ObsLabel, { text: this.props.label, hint: this.props.hint, htmlFor: this.props.id, required: this.props.required }),
-      React.createElement('input', { id: this.props.id, className: 'form-control', type: 'text', value: this.props.value,
+      React.createElement(ObsLabel, { text: this.props.label, hint: this.props.hint, htmlFor: this.state.id, required: this.props.required }),
+      React.createElement('input', { id: this.state.id, className: 'form-control', type: 'text', value: this.props.value,
         placeholder: this.props.placeholder,
         onChange: this.onChange, onBlur: this.onBlur }),
       React.createElement(ObsError, { errors: this.props.errors })

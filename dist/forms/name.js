@@ -4,6 +4,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var React = require('react');
 var cx = require('classnames');
+var _ = require('lodash');
 
 var Formatters = require('../formatters/formatters');
 
@@ -39,8 +40,12 @@ var Name = React.createClass({
       firstNameAttr: "first_name",
       lastNameAttr: "last_name",
       required: false,
-      errors: {},
-      id: _.uniqueId('name_')
+      errors: {}
+    };
+  },
+  getInitialState: function getInitialState() {
+    return {
+      id: this.props.id || _.uniqueId('name_')
     };
   },
   componentDidMount: function componentDidMount() {
@@ -115,7 +120,7 @@ var Name = React.createClass({
     return React.createElement(
       'div',
       { className: classes },
-      React.createElement(ObsLabel, { text: this.props.label, required: this.props.required, htmlFor: this.props.id }),
+      React.createElement(ObsLabel, { text: this.props.label, required: this.props.required, htmlFor: this.state.id }),
       React.createElement(ObsHint, { hint: this.props.hint }),
       React.createElement(
         ObsCompoundLayout,
@@ -123,7 +128,7 @@ var Name = React.createClass({
         React.createElement(
           'div',
           { className: 'flex-grow-shrink' },
-          React.createElement(ObsText, { id: this.props.id,
+          React.createElement(ObsText, { id: this.state.id,
             value: valueFor(this.props.firstNameAttr), errors: [],
             required: this.props.required, formatter: Formatters.stringFormatter,
             placeholder: "First",

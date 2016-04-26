@@ -4,6 +4,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var React = require('react');
 var cx = require('classnames');
+var _ = require('lodash');
 
 var Formatters = require('../formatters/formatters');
 
@@ -43,8 +44,12 @@ var ObsAddressUs = React.createClass({
     return {
       label: "Address",
       required: false,
-      errors: {},
-      id: _.uniqueId('address1_')
+      errors: {}
+    };
+  },
+  getInitialState: function getInitialState() {
+    return {
+      id: this.props.id || _.uniqueId('address_')
     };
   },
   componentDidMount: function componentDidMount() {
@@ -155,12 +160,12 @@ var ObsAddressUs = React.createClass({
     return React.createElement(
       'div',
       { className: classes },
-      React.createElement(ObsLabel, { text: this.props.label, required: this.props.required, htmlFor: this.props.id }),
+      React.createElement(ObsLabel, { text: this.props.label, required: this.props.required, htmlFor: this.state.id }),
       React.createElement(ObsHint, { hint: this.props.hint }),
       React.createElement(
         ObsCompoundLayout,
         { layout: "full" },
-        React.createElement(ObsText, { id: this.props.id,
+        React.createElement(ObsText, { id: this.state.id,
           value: valueFor(this.fields.street_1.attr), errors: [],
           required: this.props.required, formatter: Formatters.stringFormatter,
           placeholder: "Address",

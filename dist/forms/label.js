@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var _ = require('lodash');
 var ObsRequiredMarker = require('./required-marker');
 var ObsHint = require('./hint');
 
