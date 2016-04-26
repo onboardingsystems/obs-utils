@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react');
-var _ = require('lodash');
 
 var ObsError = React.createClass({
   displayName: 'ObsError',

@@ -2,7 +2,6 @@
 
 var React = require('react');
 var cx = require('classnames');
-var _ = require('lodash');
 
 var ObsError = require('./error');
 var ObsRequiredMarker = require('./required-marker');

@@ -4,7 +4,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var React = require('react');
 var cx = require('classnames');
-var _ = require('lodash');
 
 var Formatters = require('../formatters/formatters');
 

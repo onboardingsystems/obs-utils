@@ -5,7 +5,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var React = require('react');
 var ReactDOM = require('react-dom');
 var cx = require('classnames');
-var _ = require('lodash');
 
 var ObsLabel = require('./label');
 var ObsError = require('./error');
@@ -56,6 +55,7 @@ var ObsText = React.createClass({
   componentWillReceiveProps: function componentWillReceiveProps(newProps) {
     var currentValue = document.getElementById(this.props.id).value;
     if (newProps.value !== currentValue && _.isFunction(this.props.onChange)) {
+      debugger;
       var result = this.formatAndValidate(newProps.value);
       if (result.valid) this.props.onChange(result.formatted);
     }
