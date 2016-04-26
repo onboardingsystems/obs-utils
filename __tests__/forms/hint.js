@@ -1,6 +1,5 @@
 jest.unmock('../../app/forms/hint')
 
-import _ from 'lodash'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
@@ -16,5 +15,5 @@ describe('OBSHint', ()=> {
 
     expect(markerNode.textContent).toEqual('Stuff')
   })
-
+  
 })

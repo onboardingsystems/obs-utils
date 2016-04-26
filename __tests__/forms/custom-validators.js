@@ -1,7 +1,6 @@
 jest.unmock('../../app/forms/text')
 jest.unmock('../../app/formatters/formatters')
 
-import _ from 'lodash'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
