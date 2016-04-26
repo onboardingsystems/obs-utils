@@ -13,7 +13,6 @@ const ObsError          = require('./error')
 const Name = React.createClass({
   propTypes: {
     value:         React.PropTypes.object,
-    attr:          React.PropTypes.string,
     firstNameAttr: React.PropTypes.string,
     lastNameAttr:  React.PropTypes.string,
     onChange:      React.PropTypes.func,
@@ -32,8 +31,8 @@ const Name = React.createClass({
   getDefaultProps() {
     return {
       label: "Name",
-      firstNameAttr: "first",
-      lastNameAttr: "last",
+      firstNameAttr: "first_name",
+      lastNameAttr: "last_name",
       required: false,
       errors: {},
       id: _.uniqueId('name_'),
@@ -50,39 +49,9 @@ const Name = React.createClass({
       this.props.willUnmount(this)
   },
 
-  // returns a list of fully qualified address attributes (such as address.city
-  // and address.zip)
-  _name_attrs() {
-    return [
-      this._fullAttrName(this.props.firstNameAttr),
-      this._fullAttrName(this.props.lastNameAttr)
-    ]
-  },
-
-  // turn fully-qualified errors structure into one that is relative to the fields
-  // this component renders
-  // {
-  //   "person.name.first": ["is required"]
-  // }
-  //
-  // Convert to format:
-  //
-  // {
-  //   "first": ["is required"]
-  // }
+  // takes the errors passed in and selects out only errors for this component
   _nameErrors() {
-    var errors = this.props.errors
-    return _.reduce([this.props.firstNameAttr, this.props.lastNameAttr], (acc, attr)=> {
-      var attrErrors = _.get(errors, this._fullAttrName(attr))
-      if (!_.isEmpty(attrErrors))
-        acc[attr] = attrErrors
-      return acc
-    }, {})
-  },
-
-  // converts the partial field names into fully qualified names
-  _fullAttrName(attr) {
-    return `${this.props.attr}.${attr}`
+    return _.pick(this.props.errors, [this.props.firstNameAttr, this.props.lastNameAttr])
   },
 
   errorsWithLabelNames() {
@@ -102,7 +71,7 @@ const Name = React.createClass({
   onChange(attr, value) {
     // Fire onChange event for the full attribute name
     if (_.isFunction(this.props.onChange))
-      this.props.onChange(this._fullAttrName(attr), value)
+      this.props.onChange(attr, value)
   },
 
   onBlur(attr, results) {
@@ -110,7 +79,7 @@ const Name = React.createClass({
     // don't need to call the formetter here.  We only need to convert the
     // attribute name to a fully qualified name
     if (_.isFunction(this.props.onBlur))
-      this.props.onBlur(this._fullAttrName(attr), results)
+      this.props.onBlur(attr, results)
   },
 
   // run through validations on each input

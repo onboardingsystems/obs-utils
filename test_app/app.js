@@ -10,9 +10,7 @@ const App = React.createClass({
   getInitialState() {
     return {
       formData: {
-        name: {
-          first: 'Bob'
-        }
+        first_name: 'Bob'
       }
     }
   },
@@ -52,7 +50,7 @@ const App = React.createClass({
         </div>
         <div className="col-xs-6">
           <f.form builder={f}>
-            {f.nameField('Name', 'name', {required: true})}
+            {f.nameField('Name', {required: true})}
             {f.addressField('Address', 'address', {required: true})}
             {f.dateField('DOB', 'dob', {required: true})}
             {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}

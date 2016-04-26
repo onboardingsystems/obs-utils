@@ -228,10 +228,12 @@ const FormBuilder = {
         )
       },
 
-      nameField(label, attrName, options={}) {
+      nameField(label, options={}) {
         return (
           <ObsName
-            value={this._getValue(attrName)} attr={attrName} errors={this.errors()}
+            value={this.data()} errors={this.errors()}
+            firstNameAttr={options.firstNameAttr}
+            lastNameAttr={options.lastNameAttr}
             label={label} hint={options.hint}
             required={options.required}
             className={options.className}
