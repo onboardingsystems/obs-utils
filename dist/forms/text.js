@@ -54,12 +54,10 @@ var ObsText = React.createClass({
     if (_.isFunction(this.props.willUnmount)) this.props.willUnmount(this);
   },
   componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-    var currentValue = ReactDOM.findDOMNode(this).getElementsByTagName("input")[0].value;
-    if (newProps.value !== currentValue) {
-      if (_.isFunction(this.props.onChange)) {
-        var result = this.formatAndValidate(newProps.value);
-        if (result.valid) this.props.onChange(result.formatted);
-      }
+    var currentValue = document.getElementById(this.props.id).value;
+    if (newProps.value !== currentValue && _.isFunction(this.props.onChange)) {
+      var result = this.formatAndValidate(newProps.value);
+      if (result.valid) this.props.onChange(result.formatted);
     }
   },
   format: function format(value) {
