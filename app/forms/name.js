@@ -1,6 +1,5 @@
 const React = require('react')
 const cx    = require('classnames')
-const _     = require('lodash')
 
 const Formatters = require('../formatters/formatters')
 

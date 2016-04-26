@@ -17,6 +17,12 @@ module.exports = {
     watched: ['app', 'vendor', 'test_app']
   },
 
+  npm: {
+    globals: {
+      "_": 'lodash'
+    }
+  },
+
   modules: {
     autoRequire: {
       'test_app.js': ['test_app/app.js']

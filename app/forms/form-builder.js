@@ -1,6 +1,5 @@
 const React             = require('react')
 const ReactDOM          = require('react-dom')
-const _                 = require('lodash')
 const cx                = require('classnames')
 const ObsForm           = require('./form')
 const ObsLabel          = require('./label')

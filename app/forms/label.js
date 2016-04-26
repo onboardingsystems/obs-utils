@@ -1,5 +1,4 @@
 const React             = require('react')
-const _                 = require('lodash')
 const ObsRequiredMarker = require('./required-marker')
 const ObsHint           = require('./hint')
 

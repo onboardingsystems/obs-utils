@@ -1,5 +1,6 @@
 jest.unmock('../../app/forms/required-marker')
 
+import _ from 'lodash'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';

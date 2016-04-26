@@ -2,6 +2,7 @@ jest.unmock('../../app/forms/label')
 jest.unmock('../../app/forms/required-marker')
 jest.unmock('../../app/forms/hint')
 
+import _ from 'lodash'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';

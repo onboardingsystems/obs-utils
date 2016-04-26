@@ -1,5 +1,6 @@
 jest.unmock('../../app/formatters/formatters')
 
+import _ from 'lodash'
 import formatters from '../../app/formatters/formatters'
 
 
