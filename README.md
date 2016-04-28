@@ -1,24 +1,14 @@
-# Brunch + React + Babel/ES6
+# OBS Utils
 
-This is a modern JS skeleton with React for [Brunch](http://brunch.io).
+NPM project to make sharing common javascript files between projects easier. Also supports versioning library changes.
 
-## Installation
+## Using in another project
 
-Clone this repo manually or use `brunch new dir -s brunch/with-react`
+Installing the first time from the command-line. Note the "#v0.0.19" at the end specifies the version tag to use. If an update is desired, it must be explicitly changed as this github npm source technique doesn't support "^0.0.19" syntax.
 
-## Getting started
+`npm install --save git+ssh://git@github.com/onboardingsystems/obs-utils.git#v0.0.19`
 
-* Install (if you don't have them):
-    * [Node.js](http://nodejs.org): `brew install node` on OS X
-    * [Brunch](http://brunch.io): `npm install -g brunch`
-    * Brunch plugins and app dependencies: `npm install`
-* Run:
-    * `brunch watch --server` — watches the project with continuous rebuild. This will also launch HTTP server with [pushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history).
-    * `brunch build --production` — builds minified project for production
-* Learn:
-    * `public/` dir is fully auto-generated and served by HTTP server.  Write your code in `app/` dir.
-    * Place static files you want to be copied from `app/assets/` to `public/`.
-    * [Brunch site](http://brunch.io), [Getting started guide](https://github.com/brunch/brunch-guide#readme)
+On an existing application, just update the version tag in the `package.json` file and perform the `npm install` to have it updated.
 
 ## Running Test App
 
@@ -31,3 +21,15 @@ Clone this repo manually or use `brunch new dir -s brunch/with-react`
 * `npm run build` - will package it to the dist folder
 * Everything must be committed by this point
 * `npm version patch|minor|major` - to bump the (appropriate) version
+
+This will create a git tag of the new version that needs to be pushed.
+
+`git push origin v0.0.16`
+
+Alternatively, you can push "all" the local tags to the server this way...
+
+`git push origin --tags`
+
+You can removed undesired local tags using below. Helpful if a version tag was created that had bugs and needed to be rebuilt but wasn't deployed or pushed.
+
+`git tag -d v0.0.10`
