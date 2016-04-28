@@ -61,8 +61,10 @@ const App = React.createClass({
             {f.dateField('DOB', 'dob', {required: true})}
             {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
             {f.textField('Sensitive', 'sensitive', {type: "password"})}
+
+            <input className="btn btn-success" type="submit" value="Actual Submit"/>
           </f.form>
-          <button onClick={this.submitForm}>Submit</button>
+          <button className="btn btn-default" onClick={this.submitForm}>Fake externally modified state</button>
         </div>
         <div className="col-xs-6">
           <p>{_.get(this.state.formData, 'name.first')} {_.get(this.state.formData, 'name.last')}</p>
