@@ -21,6 +21,13 @@ module.exports = {
     autoRequire: {
       'test_app.js': ['test_app/app.js']
     }
+  },
+
+  npm: {
+    globals: {
+      $: "jquery",
+      _: "lodash"
+    }
   }
 
   // conventions: {

@@ -124,6 +124,7 @@ var FormBuilder = {
         return React.createElement(ObsText, {
           value: this._getValue(attrName), errors: this._getErrors(attrName),
           label: label, hint: options.hint, placeholder: options.placeholder,
+          type: options.type,
           required: options.required, formatter: formatterFun,
           className: options.className, id: options.id,
           customValidator: options.customValidator,

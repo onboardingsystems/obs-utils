@@ -24,6 +24,7 @@ var ObsText = React.createClass({
     label: React.PropTypes.string,
     hint: React.PropTypes.string,
     required: React.PropTypes.bool,
+    type: React.PropTypes.string,
     customValidator: React.PropTypes.func,
     onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
@@ -35,6 +36,7 @@ var ObsText = React.createClass({
     return {
       value: "",
       required: false,
+      type: "text",
       errors: [],
       formatter: Formatters.requiredFormatter
     };
@@ -106,7 +108,7 @@ var ObsText = React.createClass({
       'div',
       { className: groupClasses },
       React.createElement(ObsLabel, { text: this.props.label, hint: this.props.hint, htmlFor: this.state.id, required: this.props.required }),
-      React.createElement('input', { id: this.state.id, className: 'form-control', type: 'text', value: this.props.value,
+      React.createElement('input', { id: this.state.id, className: 'form-control', type: this.props.type, value: this.props.value,
         placeholder: this.props.placeholder,
         onChange: this.onChange, onBlur: this.onBlur }),
       React.createElement(ObsError, { errors: this.props.errors })

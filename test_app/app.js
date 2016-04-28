@@ -11,7 +11,8 @@ const App = React.createClass({
     return {
       formData: {
         first_name: 'Bob',
-        phone: '1112223333'
+        phone: '1112223333',
+        sensitive: 'secret'
       }
     }
   },
@@ -59,6 +60,7 @@ const App = React.createClass({
             {f.addressField('Address', 'address', {required: true})}
             {f.dateField('DOB', 'dob', {required: true})}
             {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
+            {f.textField('Sensitive', 'sensitive', {type: "password"})}
           </f.form>
           <button onClick={this.submitForm}>Submit</button>
         </div>
