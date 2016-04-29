@@ -1,13 +1,17 @@
-"use strict";
+'use strict';
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var React = require('react');
+var cx = require('classnames');
 
 var ObsForm = React.createClass({
-  displayName: "ObsForm",
+  displayName: 'ObsForm',
 
   propTypes: {
     onSubmit: React.PropTypes.func,
-    builder: React.PropTypes.object
+    builder: React.PropTypes.object,
+    className: React.PropTypes.string
   },
 
   onSubmit: function onSubmit(e) {
@@ -20,10 +24,15 @@ var ObsForm = React.createClass({
     }
   },
   render: function render() {
+    var classes;
+    classes = cx(_defineProperty({
+      'form': true
+    }, this.props.className, _.isString(this.props.className)));
+
     return React.createElement(
-      "form",
-      { className: "form", onSubmit: this.onSubmit },
-      React.createElement("input", { type: "submit", className: "hidden" }),
+      'form',
+      { className: classes, onSubmit: this.onSubmit },
+      React.createElement('input', { type: 'submit', className: 'hidden' }),
       this.props.children
     );
   }
