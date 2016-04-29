@@ -33,3 +33,7 @@ Alternatively, you can push "all" the local tags to the server this way...
 You can removed undesired local tags using below. Helpful if a version tag was created that had bugs and needed to be rebuilt but wasn't deployed or pushed.
 
 `git tag -d v0.0.10`
+
+## Breaking Changes
+
+List of breaking changes moving from one version to another.

@@ -54,7 +54,7 @@ const App = React.createClass({
           <hr />
         </div>
         <div className="col-xs-6">
-          <f.form builder={f}>
+          <f.form builder={f} className="obs-form">
             {f.nameField('Name', {required: true})}
             {f.phoneField('Phone', 'phone')}
             {f.addressField('Address', 'address', {required: true})}

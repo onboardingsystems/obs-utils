@@ -21,7 +21,7 @@ const ObsCompoundLayout = React.createClass({
       'form-group': true,
       'layout-full':   this.props.layout === 'full',
       'layout-inline': this.props.layout === 'inline',
-      [ this.props.className ]: true
+      [ this.props.className ]: _.isString(this.props.className)
     })
 
     return (

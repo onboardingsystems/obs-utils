@@ -1,9 +1,11 @@
-const React = require('react')
+const React = require('react');
+const cx    = require('classnames');
 
 const ObsForm = React.createClass({
   propTypes: {
-    onSubmit: React.PropTypes.func,
-    builder: React.PropTypes.object
+    onSubmit:   React.PropTypes.func,
+    builder:    React.PropTypes.object,
+    className:  React.PropTypes.string
   },
 
   onSubmit(e) {
@@ -17,8 +19,14 @@ const ObsForm = React.createClass({
   },
 
   render() {
+    var classes
+    classes = cx({
+      'form': true,
+      [ this.props.className ]: _.isString(this.props.className)
+    })
+
     return (
-      <form className="form" onSubmit={this.onSubmit}>
+      <form className={classes} onSubmit={this.onSubmit}>
         <input type="submit" className="hidden"/>
         {this.props.children}
       </form>
