@@ -62,7 +62,6 @@ var ObsTextarea = React.createClass({
       var formatResult,
           customErrors = [];
       formatResult = this.format(this.props.value);
-      formatResult = this.format(inputValue);
       // run the customValidator if there is one.  Modify the formatResults if
       // there are errors.
       if (_.isFunction(this.props.customValidator)) {
