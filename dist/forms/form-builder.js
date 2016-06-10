@@ -103,8 +103,8 @@ var FormBuilder = {
       compoundLayout: ObsCompoundLayout,
       label: ObsLabel,
 
-      textareaField: function textareaField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+      formattedTextarea: function formattedTextarea(label, attrName, formatterFun) {
+        var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
         return React.createElement(ObsTextarea, {
           value: this._getValue(attrName), errors: this._getErrors(attrName),
@@ -234,6 +234,11 @@ var FormBuilder = {
           onBlur: _.bind(this._onBlur, this),
           didMount: _.bind(this._register, this),
           willUnmount: _.bind(this._unregister, this) });
+      },
+      textarea: function textarea(label, attrName) {
+        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+        return this.formattedTextarea(label, attrName, Formatters.stringFormatter, this._mergeClasses(options, 'obs-dollars'));
       },
 
 
