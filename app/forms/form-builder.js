@@ -119,7 +119,7 @@ const FormBuilder = {
       compoundLayout: ObsCompoundLayout,
       label: ObsLabel,
 
-      textareaField(label, attrName, options={}) {
+      formattedTextarea(label, attrName, formatterFun, options={}) {
         return (
           <ObsTextarea
             value={this._getValue(attrName)} errors={this._getErrors(attrName)}
@@ -243,6 +243,10 @@ const FormBuilder = {
             didMount={_.bind(this._register, this)}
             willUnmount={_.bind(this._unregister, this)} />
         )
+      },
+
+      textarea(label, attrName, options={}) {
+        return this.formattedTextarea(label, attrName, Formatters.stringFormatter, this._mergeClasses(options, 'obs-dollars'))
       },
 
       // private-like methods
