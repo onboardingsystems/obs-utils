@@ -15,5 +15,6 @@ module.exports = {
     Textarea: require('./forms/textarea')
   },
   Formatters: require("./formatters/formatters"),
-  LoadingEllipsis: require("./loading/ellipsis")
+  LoadingEllipsis: require("./loading/ellipsis"),
+  LoadingOverlay: require("./loading/overlay")
 };
