@@ -27,11 +27,11 @@ var LoadingEllipsis = React.createClass({
 
   render() {
     return(
-      <span className="loading-ellipsis" style={{opacity: "0.75", fontStyle: "italic"}}>
+      <span className="loading-ellipsis">
         {this.props.children || 'loading'}
-        <span className="dot-holder" style={{position: "relative"}}>
-          <span className="invisi-dots" style={{opacity: "0.0"}}>...</span>
-          <span className="dots" style={{position: "absolute", top: "0", left: "0"}}>{this.state.dots}</span>
+        <span className="dot-holder">
+          <span className="invisi-dots">...</span>
+          <span className="dots">{this.state.dots}</span>
         </span>
       </span>
     );

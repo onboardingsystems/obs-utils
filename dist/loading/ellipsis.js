@@ -32,19 +32,19 @@ var LoadingEllipsis = _react2.default.createClass({
   render: function render() {
     return _react2.default.createElement(
       'span',
-      { className: 'loading-ellipsis', style: { opacity: "0.75", fontStyle: "italic" } },
+      { className: 'loading-ellipsis' },
       this.props.children || 'loading',
       _react2.default.createElement(
         'span',
-        { className: 'dot-holder', style: { position: "relative" } },
+        { className: 'dot-holder' },
         _react2.default.createElement(
           'span',
-          { className: 'invisi-dots', style: { opacity: "0.0" } },
+          { className: 'invisi-dots' },
           '...'
         ),
         _react2.default.createElement(
           'span',
-          { className: 'dots', style: { position: "absolute", top: "0", left: "0" } },
+          { className: 'dots' },
           this.state.dots
         )
       )
