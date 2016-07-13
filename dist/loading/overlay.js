@@ -31,7 +31,7 @@ var LoadingOverlay = _react2.default.createClass({
         { className: 'active-overlay', onClick: this.blockClicks },
         _react2.default.createElement(
           'div',
-          { className: "overlay-text #{this.props.width} #{this.props.height}" },
+          { className: "overlay-text " + this.props.width + " " + this.props.height },
           _react2.default.createElement('i', { className: 'fa fa-cog fa-spin-x-slow' })
         )
       );

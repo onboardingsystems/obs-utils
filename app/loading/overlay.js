@@ -22,7 +22,7 @@ var LoadingOverlay = React.createClass({
     if(this.props.show) {
       return(
         <div className="active-overlay" onClick={this.blockClicks}>
-          <div className={"overlay-text #{this.props.width} #{this.props.height}"}><i className="fa fa-cog fa-spin-x-slow"/></div>
+          <div className={"overlay-text " + this.props.width + " " + this.props.height}><i className="fa fa-cog fa-spin-x-slow"/></div>
         </div>
       );
     } else {
