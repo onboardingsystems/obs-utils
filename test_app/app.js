@@ -26,7 +26,12 @@ const App = React.createClass({
   },
 
   onSubmit(e, valid, builder) {
-    alert('form submitted!')
+    if (valid) {
+      alert('form valid and submitted!')
+    }
+    else {
+      alert('form submitted but not valid. :(')
+    }
   },
 
   // custom validator for the last 4 of the SSN.  Just checks that the number is
