@@ -408,7 +408,7 @@ var Formatters = {
     // or days, and with or without a comma.
     return moment(date, [
     // dates
-    'MMDDYYYY', 'MMM YYYY', 'MMM DD YYYY', 'M-D-YYYY',
+    'MMDDYYYY', 'MMM YYYY', 'MMM DD YYYY', 'M-D-YYYY', 'YYYY-M-D',
     // date times
     'YYYY-MM-DD h:mm a', 'MMM DD YYYY h:mm a', 'M-D-YYYY h:mm a', 'YYYY-MM-DD h:mm a',
     // date times with seconds
