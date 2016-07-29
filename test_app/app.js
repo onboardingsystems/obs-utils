@@ -58,11 +58,19 @@ const App = React.createClass({
           <div className="col-xs-6">
             <f.form builder={f} className="obs-form">
               {f.nameField('Name', {required: true})}
+              {f.emailField('Email', 'email', {required: true})}
               {f.phoneField('Phone', 'phone')}
               {f.addressField('Address', 'address', {required: true})}
               {f.dateField('DOB', 'dob', {required: true})}
+              {f.timeField('Lunch Hour', 'lunch_hour')}
               {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
+              {f.ssnField('SSN', 'ssn', {required: true})}
               {f.textField('Sensitive', 'sensitive', {type: "password"})}
+              {f.currencyField('Bounty on your head', 'person_bounty')}
+              {f.dollarsField('Monthly Income', 'monthly_income')}
+              {f.ordinalField('Favorite Day of Month', 'favorite_day_month')}
+              {f.checkboxField('Is Important', 'is_important')}
+              {f.textarea('How do you feel?', 'feelings')}
 
               <input className="btn btn-success" type="submit" value="Actual Submit"/>
             </f.form>
