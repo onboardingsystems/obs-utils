@@ -49,9 +49,7 @@ const ObsCheckbox = React.createClass({
       this.props.onChange(e.target.checked)
   },
 
-  runValidations() {
-    return this.onBlur();
-  },
+  runValidations() {},
 
   render() {
     var bootstrapClasses = cx({
