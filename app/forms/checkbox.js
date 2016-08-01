@@ -45,11 +45,12 @@ const ObsCheckbox = React.createClass({
   },
 
   _valueChanged(e) {
-    this.setState({checked: e.target.checked})
+    var value = e.target.checked
+    this.setState({checked: value})
     if (_.isFunction(this.props.onChange))
-      this.props.onChange(e.target.checked)
+      this.props.onChange(value)
     if (_.isFunction(this.props.onBlur))
-      this.props.onBlur(e.target.checked)
+      this.props.onBlur({valid: true, parsed: value, formatted: value, errors: []})
   },
 
   runValidations() {},

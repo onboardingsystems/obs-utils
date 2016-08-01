@@ -43,9 +43,10 @@ var ObsCheckbox = React.createClass({
     if (_.isFunction(this.props.willUnmount)) this.props.willUnmount(this);
   },
   _valueChanged: function _valueChanged(e) {
-    this.setState({ checked: e.target.checked });
-    if (_.isFunction(this.props.onChange)) this.props.onChange(e.target.checked);
-    if (_.isFunction(this.props.onBlur)) this.props.onBlur(e.target.checked);
+    var value = e.target.checked;
+    this.setState({ checked: value });
+    if (_.isFunction(this.props.onChange)) this.props.onChange(value);
+    if (_.isFunction(this.props.onBlur)) this.props.onBlur({ valid: true, parsed: value, formatted: value, errors: [] });
   },
   runValidations: function runValidations() {},
   render: function render() {
