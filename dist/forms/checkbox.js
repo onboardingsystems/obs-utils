@@ -14,6 +14,7 @@ var ObsCheckbox = React.createClass({
   propTypes: {
     value: React.PropTypes.bool,
     onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     label: React.PropTypes.string,
     hint: React.PropTypes.string,
     required: React.PropTypes.bool,
@@ -44,6 +45,7 @@ var ObsCheckbox = React.createClass({
   _valueChanged: function _valueChanged(e) {
     this.setState({ checked: e.target.checked });
     if (_.isFunction(this.props.onChange)) this.props.onChange(e.target.checked);
+    if (_.isFunction(this.props.onBlur)) this.props.onBlur(e.target.checked);
   },
   runValidations: function runValidations() {},
   render: function render() {

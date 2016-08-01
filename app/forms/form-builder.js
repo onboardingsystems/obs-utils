@@ -159,6 +159,7 @@ const FormBuilder = {
             value={value} errors={this._getErrors(attrName)}
             className={options.className} id={options.id}
             onChange={_.bind(this._onChange, this, attrName)}
+            onBlur={_.bind(this.onBlur, this, attrName)}
             didMount={_.bind(this._register, this)} willUnmount={_.bind(this._unregister, this)} />
         )
       },
