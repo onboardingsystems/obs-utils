@@ -61,6 +61,7 @@ const App = React.createClass({
             {f.dateField('DOB', 'dob', {required: true})}
             {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
             {f.textField('Sensitive', 'sensitive', {type: "password"})}
+            {f.checkboxField("Should I?", "checky")}
 
             <input className="btn btn-success" type="submit" value="Actual Submit"/>
           </f.form>
