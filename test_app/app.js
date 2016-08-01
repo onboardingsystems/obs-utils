@@ -2,6 +2,7 @@ const React    = require('react')
 const ReactDOM = require('react-dom')
 const OBSUtils = require('obs_utils')
 const _        = require('lodash')
+const LoadingEllipsis = require('loading/ellipsis')
 
 const App = React.createClass({
 
@@ -25,7 +26,12 @@ const App = React.createClass({
   },
 
   onSubmit(e, valid, builder) {
-    alert('form submitted!')
+    if (valid) {
+      alert('form valid and submitted!')
+    }
+    else {
+      alert('form submitted but not valid. :(')
+    }
   },
 
   // custom validator for the last 4 of the SSN.  Just checks that the number is
@@ -48,32 +54,45 @@ const App = React.createClass({
     var f = this.form
 
     return (
-      <div className="row">
-        <div className="col-xs-12">
-          <h1>Test Form</h1>
-          <hr />
-        </div>
-        <div className="col-xs-6">
-          <f.form builder={f} className="obs-form">
-            {f.nameField('Name', {required: true})}
-            {f.phoneField('Phone', 'phone')}
-            {f.addressField('Address', 'address', {required: true})}
-            {f.dateField('DOB', 'dob', {required: true})}
-            {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
-            {f.textField('Sensitive', 'sensitive', {type: "password"})}
-            {f.checkboxField("Should I?", "checky")}
+      <div>
+        <div className="row">
+          <div className="col-xs-12">
+            <h1>Test Form</h1>
+            <hr />
+          </div>
+          <div className="col-xs-6">
+            <f.form builder={f} className="obs-form">
+              {f.nameField('Name', {required: true})}
+              {f.emailField('Email', 'email', {required: true})}
+              {f.phoneField('Phone', 'phone')}
+              {f.addressField('Address', 'address', {required: true})}
+              {f.dateField('DOB', 'dob', {required: true})}
+              {f.timeField('Lunch Hour', 'lunch_hour')}
+              {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}
+              {f.ssnField('SSN', 'ssn', {required: true})}
+              {f.textField('Sensitive', 'sensitive', {type: "password"})}
+              {f.currencyField('Bounty on your head', 'person_bounty')}
+              {f.dollarsField('Monthly Income', 'monthly_income')}
+              {f.ordinalField('Favorite Day of Month', 'favorite_day_month')}
+              {f.checkboxField('Is Important', 'is_important')}
+              {f.textarea('How do you feel?', 'feelings')}
 
-            <input className="btn btn-success" type="submit" value="Actual Submit"/>
-          </f.form>
-          <button className="btn btn-default" onClick={this.submitForm}>Fake externally modified state</button>
+              <input className="btn btn-success" type="submit" value="Actual Submit"/>
+            </f.form>
+            <button className="btn btn-default" onClick={this.submitForm}>Fake externally modified state</button>
+          </div>
+          <div className="col-xs-6">
+            <p>{_.get(this.state.formData, 'name.first')} {_.get(this.state.formData, 'name.last')}</p>
+            <p>
+              {_.get(this.state.formData, 'address.street_1')}
+              <br />
+              {_.get(this.state.formData, 'address.city')} {_.get(this.state.formData, 'address.state')}, {_.get(this.state.formData, 'address.zip')}
+            </p>
+          </div>
         </div>
-        <div className="col-xs-6">
-          <p>{_.get(this.state.formData, 'name.first')} {_.get(this.state.formData, 'name.last')}</p>
-          <p>
-            {_.get(this.state.formData, 'address.street_1')}
-            <br />
-            {_.get(this.state.formData, 'address.city')} {_.get(this.state.formData, 'address.state')}, {_.get(this.state.formData, 'address.zip')}
-          </p>
+
+        <div className="row">
+          <LoadingEllipsis>Testing Loading Ellipsis</LoadingEllipsis>
         </div>
       </div>
     )
