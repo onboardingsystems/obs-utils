@@ -378,6 +378,7 @@ const Formatters = {
       'MMM YYYY',
       'MMM DD YYYY',
       'M-D-YYYY',
+      'YYYY-M-D',
       // date times
       'YYYY-MM-DD h:mm a',
       'MMM DD YYYY h:mm a',
