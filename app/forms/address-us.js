@@ -145,7 +145,6 @@ const ObsAddressUs = React.createClass({
     var valueFor = (attr)=> { return _.get((this.props.value || {}), attr) }
     var classes = cx({
       'address-us': true,
-      'address-us': true,
       'form-group': true,
       'has-child-error': !_.isEmpty(this.errorsWithLabelNames()),
       [ this.props.className ]: _.isString(this.props.className)
