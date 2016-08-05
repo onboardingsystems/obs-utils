@@ -152,7 +152,6 @@ var ObsAddressUs = React.createClass({
     };
     var classes = cx(_defineProperty({
       'address-us': true,
-      'address-us': true,
       'form-group': true,
       'has-child-error': !_.isEmpty(this.errorsWithLabelNames())
     }, this.props.className, _.isString(this.props.className)));

@@ -113,7 +113,6 @@ const Name = React.createClass({
     }
     var classes = cx({
       'address-us': true,
-      'address-us': true,
       'form-group': true,
       'has-child-error': !_.isEmpty(this.errorsWithLabelNames()),
       [ this.props.className ]: _.isString(this.props.className)
