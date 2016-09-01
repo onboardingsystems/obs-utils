@@ -14,5 +14,7 @@ module.exports = {
   },
   Formatters: require("./formatters/formatters"),
   LoadingEllipsis: require("./loading/ellipsis"),
-  LoadingOverlay: require("./loading/overlay")
+  LoadingOverlay: require("./loading/overlay"),
+  LoggedInAs: require("./logged-in-as"),
+  PrimaryNav: require("./primary-nav")
 }
