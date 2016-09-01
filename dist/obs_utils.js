@@ -1,6 +1,9 @@
 'use strict';
 
 module.exports = {
+  Constants: {
+    OBSConstants: require("./constants/obs-constants")
+  },
   Forms: {
     FormBuilder: require('./forms/form-builder'),
     AddressUS: require('./forms/address-us'),
@@ -18,5 +21,6 @@ module.exports = {
   LoadingEllipsis: require("./loading/ellipsis"),
   LoadingOverlay: require("./loading/overlay"),
   LoggedInAs: require("./logged-in-as"),
+  OBSDispatcher: require("./obs-dispatcher"),
   PrimaryNav: require("./primary-nav")
 };
