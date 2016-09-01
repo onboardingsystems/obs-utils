@@ -15,14 +15,15 @@
     "build": "babel app --out-dir dist"
   },
   "dependencies": {
+    "axios": "~0.7.0",
     "classnames": "~2.2.3",
     "flux": "^2.1.1",
     "keymirror": "^0.1.1",
     "lodash": "~4.10.0",
     "moment": "~2.12.0",
     "numeral": "~1.5.3",
-    "react": "~15.0.0",
-    "react-dom": "~15.0.0"
+    "react": "~15.1.0",
+    "react-dom": "~15.1.0"
   },
   "devDependencies": {
     "auto-reload-brunch": "^2.0.0",
@@ -37,7 +38,7 @@
     "javascript-brunch": "^2.0.0",
     "jest-cli": "^0.10.2",
     "jquery": "^2.2.3",
-    "react-addons-test-utils": "^15.0.1",
+    "react-addons-test-utils": "^15.1.0",
     "uglify-js-brunch": "^2.0.0"
   },
   "jest": {

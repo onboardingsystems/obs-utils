@@ -1,6 +1,12 @@
 "use strict";
 
 module.exports = {
+  Actions: {
+    ProfileActions: require("./actions/profile-actions")
+  },
+  Api: {
+    ProfileApi: require("./api/profile-api")
+  },
   Constants: {
     ActionTypes: require("./constants/action-types"),
     KeyCodes: require("./constants/key-codes"),
