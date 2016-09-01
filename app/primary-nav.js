@@ -7,7 +7,7 @@ var PrimaryNav = React.createClass({
   },
 
   renderApplications() {
-    if(this.state.selected == "applications") {
+    if(this.props.selected == "applications") {
       return(<a href="/t/applications" className="selected">Applications</a>);
     } else {
       return(<a href="/t/applications">Applications</a>);
@@ -15,7 +15,7 @@ var PrimaryNav = React.createClass({
   },
 
   renderHouseholds() {
-    if(this.state.selected == "households") {
+    if(this.props.selected == "households") {
       return(<a href="/t/households" className="selected">Households</a>);
     } else {
       return(<a href="/t/households">Households</a>);
