@@ -3,6 +3,7 @@
 module.exports = {
   Constants: {
     ActionTypes: require("./constants/action-types"),
+    KeyCodes: require("./constants/key-codes"),
     PayloadSources: require("./constants/payload-sources")
   },
   Forms: {
