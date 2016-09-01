@@ -1,6 +1,6 @@
 'use strict';
 
-var PayloadSources = require('./constants/obs-constants.js').PayloadSources;
+var PayloadSources = require('./constants/payload-sources');
 var Dispatcher = require('flux').Dispatcher;
 
 var OBSDispatcher = _.extend(new Dispatcher(), {

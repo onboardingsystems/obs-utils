@@ -1,8 +1,9 @@
-'use strict';
+"use strict";
 
 module.exports = {
   Constants: {
-    OBSConstants: require("./constants/obs-constants")
+    ActionTypes: require("./constants/action-types"),
+    PayloadSources: require("./constants/payload-sources")
   },
   Forms: {
     FormBuilder: require('./forms/form-builder'),
