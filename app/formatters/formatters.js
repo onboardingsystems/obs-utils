@@ -1,9 +1,8 @@
-const _       = require('lodash')
-const moment  = require('moment')
-const numeral = require('numeral')
+const _       = require('lodash');
+const moment  = require('moment');
+const numeral = require('numeral');
 
 const Formatters = {
-
   addressLines(addressObj) {
     if (_.isEmpty(_.omitBy(addressObj, _.isEmpty)))
       return []
@@ -29,10 +28,9 @@ const Formatters = {
   },
 
   ordinalize(value) {
-    var ordinal, last_2
-    value = (value || "").toString()
-    if (_.isEmpty(value))
-      return ''
+    var ordinal;
+    value = (value || "").toString();
+    if(_.isEmpty(value)) { return ''; }
     // check what digit the number ends with for choosing the correct text
     // ending
     switch (value.charAt(value.length - 1)) {
@@ -49,15 +47,14 @@ const Formatters = {
         ordinal = 'th'
     }
     // address some exceptions when looking at larger portion
-    last_2 = value.slice(-2)
-    if (last_2 == '11' || last_2 == '12' || last_2 == '13')
+    var last_2 = value.slice(-2)
+    if(last_2 == '11' || last_2 == '12' || last_2 == '13') {
       ordinal = 'th'
+    }
 
-    return value + ordinal
+    return value + ordinal;
   },
 
-  // ########
-  //
   timeFormat:         'h:mm a',
   // Standard Date Formatter (ex: Jun 3, 2014) - uses locale settings
   dateFormat:         'll',
@@ -77,10 +74,14 @@ const Formatters = {
   },
 
 
+  dateDisplay(value) {
+    if(_.isEmpty(value)) { return null; }
+    return this.parseDate(date).format("MMM D, YYYY");
+  },
+
   // Standard Date and Time Formatter (ex: Jun 3, 2014 3:05:53 p)
   datetimeDisplay(value) {
-    if (_.isEmpty(value))
-      return null
+    if(_.isEmpty(value)) { return null; }
     return this.parseDate(value).format(this.dateTimeDetailedFormat)
   },
 

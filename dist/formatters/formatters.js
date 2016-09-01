@@ -24,9 +24,11 @@ var Formatters = {
     if (format === 'dollars') return numObj.format('$0,0');else return numObj.format('$0,0.00');
   },
   ordinalize: function ordinalize(value) {
-    var ordinal, last_2;
+    var ordinal;
     value = (value || "").toString();
-    if (_.isEmpty(value)) return '';
+    if (_.isEmpty(value)) {
+      return '';
+    }
     // check what digit the number ends with for choosing the correct text
     // ending
     switch (value.charAt(value.length - 1)) {
@@ -43,15 +45,15 @@ var Formatters = {
         ordinal = 'th';
     }
     // address some exceptions when looking at larger portion
-    last_2 = value.slice(-2);
-    if (last_2 == '11' || last_2 == '12' || last_2 == '13') ordinal = 'th';
+    var last_2 = value.slice(-2);
+    if (last_2 == '11' || last_2 == '12' || last_2 == '13') {
+      ordinal = 'th';
+    }
 
     return value + ordinal;
   },
 
 
-  // ########
-  //
   timeFormat: 'h:mm a',
   // Standard Date Formatter (ex: Jun 3, 2014) - uses locale settings
   dateFormat: 'll',
@@ -67,11 +69,19 @@ var Formatters = {
     if (_.isEmpty(value)) return null;
     return this.parseDate(value).fromNow();
   },
+  dateDisplay: function dateDisplay(value) {
+    if (_.isEmpty(value)) {
+      return null;
+    }
+    return this.parseDate(date).format("MMM D, YYYY");
+  },
 
 
   // Standard Date and Time Formatter (ex: Jun 3, 2014 3:05:53 p)
   datetimeDisplay: function datetimeDisplay(value) {
-    if (_.isEmpty(value)) return null;
+    if (_.isEmpty(value)) {
+      return null;
+    }
     return this.parseDate(value).format(this.dateTimeDetailedFormat);
   },
   requiredFormatter: function requiredFormatter(value) {
