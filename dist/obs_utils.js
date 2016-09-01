@@ -24,5 +24,8 @@ module.exports = {
   LoadingOverlay: require("./loading/overlay"),
   LoggedInAs: require("./logged-in-as"),
   OBSDispatcher: require("./obs-dispatcher"),
-  PrimaryNav: require("./primary-nav")
+  PrimaryNav: require("./primary-nav"),
+  Stores: {
+    ProfileStore: require("./stores/profile-store")
+  }
 };
