@@ -13,6 +13,9 @@ module.exports = {
     KeyCodes:          require("./constants/key-codes"),
     PayloadSources:    require("./constants/payload-sources")
   },
+  DialogHelper:        require("./dialog-helper"),
+  EmptyLi:             require("./empty-li"),
+  Formatters:          require("./formatters/formatters"),
   Forms: {
     FormBuilder:       require('./forms/form-builder'),
     AddressUS:         require('./forms/address-us'),
@@ -26,8 +29,6 @@ module.exports = {
     Text:              require('./forms/text'),
     Textarea:          require('./forms/textarea')
   },
-  EmptyLi:             require("./empty-li"),
-  Formatters:          require("./formatters/formatters"),
   LoadingEllipsis:     require("./loading/ellipsis"),
   LoadingOverlay:      require("./loading/overlay"),
   LoggedInAs:          require("./logged-in-as"),
