@@ -29,6 +29,7 @@ module.exports = {
   LoadingEllipsis: require("./loading/ellipsis"),
   LoadingOverlay: require("./loading/overlay"),
   LoggedInAs: require("./logged-in-as"),
+  Modal: require("./modal"),
   OBSDispatcher: require("./obs-dispatcher"),
   PrimaryNav: require("./primary-nav"),
   Stores: {
