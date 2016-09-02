@@ -36,6 +36,7 @@ module.exports = {
   OBSDispatcher: require("./obs-dispatcher"),
   PrimaryNav: require("./primary-nav"),
   Stores: {
+    FloorPlansStore: require("./stores/floor-plans-store"),
     ProfileStore: require("./stores/profile-store"),
     PropertiesStore: require("./stores/properties-store")
   }
