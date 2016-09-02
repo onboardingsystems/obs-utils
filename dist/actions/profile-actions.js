@@ -2,8 +2,13 @@
 
 var Dispatcher = require('../obs-dispatcher');
 var ActionTypes = require('../constants/action-types');
+var ProfileApi = require('../api/profile-api');
 
-var ProfileApiActions = {
+var ProfileActions = {
+  getProfile: function getProfile() {
+    return ProfileApi.getProfile();
+  },
+
   receiveRawProfile: function receiveRawProfile(profile) {
     Dispatcher.handleApiAction({
       type: ActionTypes.RECEIVE_RAW_PROFILE,
@@ -21,4 +26,4 @@ var ProfileApiActions = {
   }
 };
 
-module.exports = ProfileApiActions;
+module.exports = ProfileActions;
