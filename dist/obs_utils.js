@@ -2,10 +2,13 @@
 
 module.exports = {
   Actions: {
-    ProfileActions: require("./actions/profile-actions")
+    FloorPlanActions: require("./actions/floor-plan-actions"),
+    ProfileActions: require("./actions/profile-actions"),
+    PropertyActions: require("./actions/property-actions")
   },
   Api: {
-    ProfileApi: require("./api/profile-api")
+    ProfileApi: require("./api/profile-api"),
+    PropertyApi: require("./api/property-api")
   },
   Constants: {
     ActionTypes: require("./constants/action-types"),
