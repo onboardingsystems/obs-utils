@@ -111,7 +111,6 @@ var Name = React.createClass({
       return cx((_cx = {}, _defineProperty(_cx, classes, _.isString(classes)), _defineProperty(_cx, "has-error", !_.isEmpty(_this2._nameErrors()[attr])), _cx));
     };
     var classes = cx(_defineProperty({
-      'address-us': true,
       'form-group': true,
       'has-child-error': !_.isEmpty(this.errorsWithLabelNames())
     }, this.props.className, _.isString(this.props.className)));
