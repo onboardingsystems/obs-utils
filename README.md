@@ -1,4 +1,5 @@
 # OBS Utils
+[![CircleCI](https://circleci.com/gh/onboardingsystems/obs-utils.svg?style=svg)](https://circleci.com/gh/onboardingsystems/obs-utils)
 
 NPM project to make sharing common javascript files between projects easier. Also supports versioning library changes.
 
