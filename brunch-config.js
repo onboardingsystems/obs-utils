@@ -9,6 +9,10 @@ module.exports = {
     }
   },
 
+  server: {
+    port: 3334
+  },
+
   plugins: {
     babel: {presets: ['es2015', 'react']}
   },

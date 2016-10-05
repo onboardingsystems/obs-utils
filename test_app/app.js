@@ -3,6 +3,7 @@ const ReactDOM = require('react-dom')
 const OBSUtils = require('obs_utils')
 const _        = require('lodash')
 const LoadingEllipsis = require('loading/ellipsis')
+const ConfirmButton = require('buttons/confirm-button')
 
 const App = React.createClass({
 
@@ -93,6 +94,9 @@ const App = React.createClass({
 
         <div className="row">
           <LoadingEllipsis>Testing Loading Ellipsis</LoadingEllipsis>
+        </div>
+        <div className="row">
+          <ConfirmButton/>
         </div>
       </div>
     )

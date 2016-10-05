@@ -1,6 +1,9 @@
 'use strict';
 
 module.exports = {
+  Buttons: {
+    ConfirmButton: require('./buttons/confirm-button')
+  },
   Forms: {
     FormBuilder: require('./forms/form-builder'),
     AddressUS: require('./forms/address-us'),
