@@ -1,4 +1,7 @@
 module.exports = {
+  Buttons: {
+    ConfirmButton:   require('./buttons/confirm-button')
+  },
   Forms: {
     FormBuilder:     require('./forms/form-builder'),
     AddressUS:       require('./forms/address-us'),
@@ -12,7 +15,7 @@ module.exports = {
     Text:            require('./forms/text'),
     Textarea:        require('./forms/textarea')
   },
-  Formatters: require("./formatters/formatters"),
-  LoadingEllipsis: require("./loading/ellipsis"),
-  LoadingOverlay: require("./loading/overlay")
+  Formatters:        require("./formatters/formatters"),
+  LoadingEllipsis:   require("./loading/ellipsis"),
+  LoadingOverlay:    require("./loading/overlay"),
 }

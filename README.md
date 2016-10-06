@@ -1,5 +1,6 @@
 # OBS Utils
-[![CircleCI](https://circleci.com/gh/onboardingsystems/obs-utils.svg?style=svg)](https://circleci.com/gh/onboardingsystems/obs-utils)
+
+[![Build Status](https://semaphoreci.com/api/v1/onboarding-systems/obs-utils/branches/master/shields_badge.svg)](https://semaphoreci.com/onboarding-systems/obs-utils)
 
 NPM project to make sharing common javascript files between projects easier. Also supports versioning library changes.
 
@@ -13,7 +14,7 @@ On an existing application, just update the version tag in the `package.json` fi
 
 ## Running Test App
 
-* `brunch watch --server` - runs on http://localhost:3333/
+* `brunch watch --server` - runs on http://localhost:3334/
 
 
 ## Building a Release
