@@ -35,6 +35,12 @@ var ConfirmButton = _react2.default.createClass({
       timeout: null
     };
   },
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    if (nextProps.mode == "confirm" !== this.state.confirm) {
+      this.clearTimeout();
+      this.setState({ confirm: nextProps.mode == "confirm" });
+    }
+  },
   componentWillUnmount: function componentWillUnmount() {
     this.clearTimeout();
   },

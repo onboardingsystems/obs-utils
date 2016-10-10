@@ -28,6 +28,13 @@ var ConfirmButton = React.createClass({
     }
   },
 
+  componentWillReceiveProps(nextProps) {
+    if((nextProps.mode == "confirm") !== this.state.confirm) {
+      this.clearTimeout();
+      this.setState({confirm: nextProps.mode == "confirm"});
+    }
+  },
+
   componentWillUnmount() {
     this.clearTimeout();
   },
