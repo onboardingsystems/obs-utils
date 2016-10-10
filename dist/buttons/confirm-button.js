@@ -16,7 +16,8 @@ var ConfirmButton = _react2.default.createClass({
     message: _react2.default.PropTypes.string, // Button text after click
     wait: _react2.default.PropTypes.number, // time in ms to wait for confirmation
     onAction: _react2.default.PropTypes.func, // function called after confirmation clicked
-    onConfirm: _react2.default.PropTypes.func // function called on first click
+    onConfirm: _react2.default.PropTypes.func, // function called on first click
+    onTimeout: _react2.default.PropTypes.func // function called on timeout
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -59,7 +60,7 @@ var ConfirmButton = _react2.default.createClass({
   },
   _onMouseOut: function _onMouseOut() {
     if (this.state.confirm) {
-      var timeout = setTimeout(this.endConfirm, this.props.wait);
+      var timeout = setTimeout(this.timeout, this.props.wait);
       this.setState({ timeout: timeout });
     }
   },
@@ -79,6 +80,12 @@ var ConfirmButton = _react2.default.createClass({
       this.setState({ timeout: null });
     }
   }),
+  timeout: function timeout() {
+    if (typeof this.props.onTimeout != "undefined") {
+      this.props.onTimeout();
+    }
+    this.endConfirm();
+  },
   endConfirm: function endConfirm() {
     this.clearTimeout();
     this.setState({ confirm: false });
@@ -93,6 +100,10 @@ var ConfirmButton = _react2.default.createClass({
     var message = this.props.label;
     if (this.state.confirm) {
       message = this.props.message;
+    }
+    if (this.props.children != null) {
+      message = this.props.children;
+      classes = cx({});
     }
 
     return _react2.default.createElement(

@@ -7,7 +7,8 @@ var ConfirmButton = React.createClass({
     message: React.PropTypes.string, // Button text after click
     wait: React.PropTypes.number, // time in ms to wait for confirmation
     onAction: React.PropTypes.func, // function called after confirmation clicked
-    onConfirm: React.PropTypes.func // function called on first click
+    onConfirm: React.PropTypes.func, // function called on first click
+    onTimeout: React.PropTypes.func // function called on timeout
   },
 
   getDefaultProps() {
@@ -55,7 +56,7 @@ var ConfirmButton = React.createClass({
 
   _onMouseOut() {
     if(this.state.confirm) {
-      var timeout = setTimeout(this.endConfirm, this.props.wait);
+      var timeout = setTimeout(this.timeout, this.props.wait);
       this.setState({timeout: timeout});
     }
   },
@@ -65,6 +66,13 @@ var ConfirmButton = React.createClass({
       clearTimeout(this.state.timeout);
       this.setState({timeout: null});
     }
+  },
+
+  timeout() {
+    if(typeof(this.props.onTimeout) != "undefined") {
+      this.props.onTimeout();
+    }
+    this.endConfirm();
   },
 
   endConfirm() {
@@ -82,6 +90,10 @@ var ConfirmButton = React.createClass({
     var message = this.props.label;
     if(this.state.confirm) {
       message = this.props.message;
+    }
+    if(this.props.children != null) {
+      message = this.props.children;
+      classes = cx({});
     }
 
     return(

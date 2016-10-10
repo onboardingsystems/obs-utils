@@ -11,6 +11,7 @@ const App = React.createClass({
 
   getInitialState() {
     return {
+      confirmMode: null,
       formData: {
         first_name: 'Bob',
         phone: '1112223333',
@@ -44,11 +45,42 @@ const App = React.createClass({
       return ['must be 4 digits']
   },
 
+  handleConfirmLoading() {
+    this.setState({confirmMode: "loading"});
+  },
+
+  handleConfirm() {
+    this.setState({confirmMode: "confirm"});
+  },
+
+  handleConfirmTimeout() {
+    this.setState({confirmMode: null});
+  },
+
   submitForm() {
     this.setState({formData: {
       first_name: 'Bobby',
       phone: '8015039733'
     }})
+  },
+
+  renderConfirmBtn() {
+    var confirmText = "Delete";
+    if(this.state.confirmMode == "loading") {
+      return(<LoadingEllipsis>Loading</LoadingEllipsis>);
+    } else if(this.state.confirmMode == "confirm") {
+      return(
+        <ConfirmButton onAction={this.handleConfirmLoading} onConfirm={this.handleConfirm} onTimeout={this.handleConfirmTimeout}>
+          <div className="btn btn-danger">Are you sure?</div>
+        </ConfirmButton>
+      );
+    } else {
+      return(
+        <ConfirmButton onAction={this.handleConfirmLoading} onConfirm={this.handleConfirm} onTimeout={this.handleConfirmTimeout}>
+          <div className="btn btn-primary">Delete</div>
+        </ConfirmButton>
+      );
+    }
   },
 
   render() {
@@ -96,7 +128,7 @@ const App = React.createClass({
           <LoadingEllipsis>Testing Loading Ellipsis</LoadingEllipsis>
         </div>
         <div className="row">
-          <ConfirmButton/>
+          {this.renderConfirmBtn()}
         </div>
       </div>
     )
