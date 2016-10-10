@@ -15,6 +15,7 @@ var ConfirmButton = _react2.default.createClass({
     label: _react2.default.PropTypes.string, // Button text before click
     message: _react2.default.PropTypes.string, // Button text after click
     wait: _react2.default.PropTypes.number, // time in ms to wait for confirmation
+    mode: _react2.default.PropTypes.string,
     onAction: _react2.default.PropTypes.func, // function called after confirmation clicked
     onConfirm: _react2.default.PropTypes.func, // function called on first click
     onTimeout: _react2.default.PropTypes.func // function called on timeout
@@ -24,23 +25,18 @@ var ConfirmButton = _react2.default.createClass({
     return {
       label: "Delete",
       message: "Are you sure?",
+      mode: null,
       wait: 3000
     };
   },
   getInitialState: function getInitialState() {
     return {
-      confirm: false,
+      confirm: this.props.mode == "confirm",
       timeout: null
     };
   },
   componentWillUnmount: function componentWillUnmount() {
     this.clearTimeout();
-  },
-
-
-  // Executed by parent component
-  setConfirm: function setConfirm() {
-    this.setState({ confirm: true });
   },
   _onClick: function _onClick(e) {
     if (typeof e != "undefined") {
