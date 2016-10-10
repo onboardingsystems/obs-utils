@@ -36,6 +36,12 @@ var ConfirmButton = _react2.default.createClass({
   componentWillUnmount: function componentWillUnmount() {
     this.clearTimeout();
   },
+
+
+  // Executed by parent component
+  setConfirm: function setConfirm() {
+    this.setState({ confirm: true });
+  },
   _onClick: function _onClick(e) {
     if (typeof e != "undefined") {
       e.stopPropagation();

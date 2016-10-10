@@ -30,6 +30,11 @@ var ConfirmButton = React.createClass({
     this.clearTimeout();
   },
 
+  // Executed by parent component
+  setConfirm() {
+    this.setState({confirm: true});
+  },
+
   _onClick(e) {
     if(typeof(e) != "undefined") {
       e.stopPropagation();
