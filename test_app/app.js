@@ -4,6 +4,7 @@ const OBSUtils = require('obs_utils')
 const _        = require('lodash')
 const LoadingEllipsis = require('loading/ellipsis')
 const ConfirmButton = require('buttons/confirm-button')
+const HoldButton = require('buttons/hold-button')
 
 const App = React.createClass({
 
@@ -130,6 +131,12 @@ const App = React.createClass({
         <div className="row">
           {this.renderConfirmBtn()}
         </div>
+        <br/>
+	<HoldButton/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 module.exports = {
   Buttons: {
-    ConfirmButton:   require('./buttons/confirm-button')
+    ConfirmButton:   require('./buttons/confirm-button'),
+    HoldButton:      require('./buttons/hold-button')
   },
   Forms: {
     FormBuilder:     require('./forms/form-builder'),

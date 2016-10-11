@@ -6,6 +6,11 @@ module.exports = {
         'vendor.js': /(?!app)/,
         'test_app.js': /^test_app/
       },
+    },
+    stylesheets: {
+      joinTo: {
+        "app.css": /^(sass\/app.scss)|(node_modules)/
+      },
     }
   },
 
@@ -14,11 +19,18 @@ module.exports = {
   },
 
   plugins: {
-    babel: {presets: ['es2015', 'react']}
+    babel: {
+      presets: ['es2015', 'react']
+    },
+    sass: {
+      options: {
+        includePaths: ['node_modules/obs-utils/sass']
+      }
+    }
   },
 
   paths: {
-    watched: ['app', 'vendor', 'test_app']
+    watched: ['app', 'vendor', 'test_app', 'sass']
   },
 
   modules: {
@@ -33,9 +45,4 @@ module.exports = {
       _: "lodash"
     }
   }
-
-  // conventions: {
-  //   assets: /assets[\\/]/
-  // }
-
 };
