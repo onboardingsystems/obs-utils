@@ -5,6 +5,8 @@ var HoldButton = React.createClass({
     label: React.PropTypes.string, // button text
     classes: React.PropTypes.string, // top level css classes
     wait: React.PropTypes.number, // time in ms to wait for confirmation
+    onStart: React.PropTypes.func, // function called when mouse is pressed
+    onStop: React.PropTypes.func, // function called when mouse is released
     onAction: React.PropTypes.func // function called after confirmation clicked
   },
 
@@ -35,12 +37,14 @@ var HoldButton = React.createClass({
 
   mouseDown(e) {
     var timeout = setTimeout(this.timeout, this._increment);
+    this.startAction();
     this.setState({clicked: true, percent: 0, timeout: timeout, mouseDown: new Date()});
   },
 
   mouseUp() {
     clearTimeout(this.state.timeout);
-    this.setState({timeout: null, mouseDown: null});
+    this.stopAction();
+    this.setState({percent: 0, timeout: null, mouseDown: null});
   },
 
   timeout() {
@@ -54,6 +58,18 @@ var HoldButton = React.createClass({
         timeout = setTimeout(this.timeout, this._increment);
       }
       this.setState({percent: percent, timeout: timeout});
+    }
+  },
+
+  startAction() {
+    if(typeof(this.props.onStart) != "undefined") {
+      this.props.onStart();
+    }
+  },
+
+  stopAction() {
+    if(typeof(this.props.onStop) != "undefined") {
+      this.props.onStop();
     }
   },
 
