@@ -10,6 +10,11 @@ $hold-button-height: 6px;
     margin-bottom: -1 * ($hold-button-height + 1px);
     width: 100%;
     height: $hold-button-height;
+
+    .progress-bar {
+      // Change transition time so it matches refresh timeout in hold button component
+      transition: width .1s ease !important;
+    }
   }
 
   &.btn {

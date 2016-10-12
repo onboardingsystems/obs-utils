@@ -31,6 +31,11 @@ var HoldButton = _react2.default.createClass({
       timeout: null
     };
   },
+  componentWillUnmount: function componentWillUnmount() {
+    if (this.state.timeout != null) {
+      clearTimeout(this.state.timeout);
+    }
+  },
 
 
   _increment: 100,
@@ -41,19 +46,24 @@ var HoldButton = _react2.default.createClass({
   },
   mouseUp: function mouseUp() {
     clearTimeout(this.state.timeout);
-    this.setState({ percent: 0, timeout: null, mouseDown: null });
+    this.setState({ timeout: null, mouseDown: null });
   },
   timeout: function timeout() {
     if (this.state.mouseDown != null) {
-      var timeout = setTimeout(this.timeout, this._increment);
       var percent = this.incrementPercent();
+      var timeout = null;
       if (percent >= 100) {
         percent = 100;
-        if (typeof this.props.onAction != "undefined") {
-          this.props.onAction();
-        }
+        setTimeout(this.fireAction, 100);
+      } else {
+        timeout = setTimeout(this.timeout, this._increment);
       }
       this.setState({ percent: percent, timeout: timeout });
+    }
+  },
+  fireAction: function fireAction() {
+    if (typeof this.props.onAction != "undefined") {
+      this.props.onAction();
     }
   },
   incrementPercent: function incrementPercent() {

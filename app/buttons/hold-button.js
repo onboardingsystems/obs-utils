@@ -25,6 +25,12 @@ var HoldButton = React.createClass({
     };
   },
 
+  componentWillUnmount() {
+    if(this.state.timeout != null) {
+      clearTimeout(this.state.timeout);
+    }
+  },
+
   _increment: 100,
 
   mouseDown(e) {
@@ -34,20 +40,26 @@ var HoldButton = React.createClass({
 
   mouseUp() {
     clearTimeout(this.state.timeout);
-    this.setState({percent: 0, timeout: null, mouseDown: null});
+    this.setState({timeout: null, mouseDown: null});
   },
 
   timeout() {
     if(this.state.mouseDown != null) {
-      var timeout = setTimeout(this.timeout, this._increment);
       var percent = this.incrementPercent();
+      var timeout = null;
       if(percent >= 100) {
         percent = 100;
-        if(typeof(this.props.onAction) != "undefined") {
-          this.props.onAction();
-        }
+        setTimeout(this.fireAction, 100);
+      } else {
+        timeout = setTimeout(this.timeout, this._increment);
       }
       this.setState({percent: percent, timeout: timeout});
+    }
+  },
+
+  fireAction() {
+    if(typeof(this.props.onAction) != "undefined") {
+      this.props.onAction();
     }
   },
 
