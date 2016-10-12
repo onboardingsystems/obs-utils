@@ -3,13 +3,23 @@ $hold-button-height: 6px;
 .hold-button {
   position: relative;
 
+  .message, .progress {
+    -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    -o-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+  }
+
   .progress {
     position: absolute;
-    bottom: $hold-button-height + 1px;
+    top: 0px;
     left: 0px;
     margin-bottom: -1 * ($hold-button-height + 1px);
     width: 100%;
-    height: $hold-button-height;
+    height: 100%;
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 
     .progress-bar {
       // Change transition time so it matches refresh timeout in hold button component
@@ -17,11 +27,29 @@ $hold-button-height: 6px;
     }
   }
 
-  &.btn {
-    .progress {
-      margin-left: -2 * $hold-button-height;
-      margin-right: -2 * $hold-button-height;
-      left: 2 * $hold-button-height;
+  .done-icon {
+    opacity: 0;
+    font-size: 24px;
+    color: #2ecc71;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    line-height: 30px;
+    -webkit-transition: opacity 1s ease-in-out;
+    -moz-transition: opacity 1s ease-in-out;
+    -o-transition: opacity 1s ease-in-out;
+    transition: opacity 1s ease-in-out;
+  }
+
+  &.done {
+    .progress, .message {
+      opacity: 0;
+    }
+
+    .done-icon {
+      opacity: 100;
     }
   }
 }

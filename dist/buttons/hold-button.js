@@ -21,7 +21,10 @@ var HoldButton = _react2.default.createClass({
   getDefaultProps: function getDefaultProps() {
     return {
       label: "Delete",
-      classes: "btn btn-danger",
+      classes: "btn btn-default",
+      doneIcon: "check-circle-o",
+      transitionColor: "#337ab7",
+      doneColor: "#27ae60",
       wait: 750
     };
   },
@@ -43,14 +46,18 @@ var HoldButton = _react2.default.createClass({
   _increment: 100,
 
   mouseDown: function mouseDown(e) {
-    var timeout = setTimeout(this.timeout, this._increment);
-    this.startAction();
-    this.setState({ clicked: true, percent: 0, timeout: timeout, mouseDown: new Date() });
+    if (this.state.percent < 100) {
+      var timeout = setTimeout(this.timeout, this._increment);
+      this.startAction();
+      this.setState({ clicked: true, percent: 0, timeout: timeout, mouseDown: new Date() });
+    }
   },
   mouseUp: function mouseUp() {
     clearTimeout(this.state.timeout);
-    this.stopAction();
-    this.setState({ percent: 0, timeout: null, mouseDown: null });
+    if (this.state.percent < 100) {
+      this.stopAction();
+      this.setState({ percent: 0, timeout: null, mouseDown: null });
+    }
   },
   timeout: function timeout() {
     if (this.state.mouseDown != null) {
@@ -93,7 +100,8 @@ var HoldButton = _react2.default.createClass({
   renderProgressBar: function renderProgressBar() {
     if (this.state.mouseDown != null) {
       var style = {
-        width: this.state.percent + "%"
+        width: this.state.percent + "%",
+        background: this.props.transitionColor
       };
 
       return _react2.default.createElement(
@@ -105,12 +113,21 @@ var HoldButton = _react2.default.createClass({
   },
   render: function render() {
     var classes = this.props.classes + " hold-button";
+    if (this.state.percent == 100) {
+      classes += " disabled done";
+    }
+    var doneIcon = "fa fa-" + this.props.doneIcon + " done-icon";
 
     return _react2.default.createElement(
       "div",
       { className: classes, onMouseDown: this.mouseDown, onMouseUp: this.mouseUp },
-      this.renderLabel(),
-      this.renderProgressBar()
+      _react2.default.createElement(
+        "div",
+        { className: "message" },
+        this.renderLabel()
+      ),
+      this.renderProgressBar(),
+      _react2.default.createElement("i", { className: doneIcon, style: { color: this.props.doneColor } })
     );
   }
 });

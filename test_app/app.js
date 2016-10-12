@@ -13,6 +13,8 @@ const App = React.createClass({
   getInitialState() {
     return {
       confirmMode: null,
+      holdOn: false,
+      holdDone: false,
       formData: {
         first_name: 'Bob',
         phone: '1112223333',
@@ -58,6 +60,22 @@ const App = React.createClass({
     this.setState({confirmMode: null});
   },
 
+  handleHoldStart() {
+    this.setState({holdOn: true});
+  },
+
+  handleHoldStop() {
+    this.setState({holdOn: false});
+  },
+
+  handleHoldAction() {
+    this.setState({holdOn: false, holdDone: true});
+  },
+
+  handleHoldAction() {
+    this.setState({holdDone: true});
+  },
+
   submitForm() {
     this.setState({formData: {
       first_name: 'Bobby',
@@ -86,6 +104,13 @@ const App = React.createClass({
 
   render() {
     var f = this.form
+    var holdClasses = "btn btn-primary";
+    if(this.state.holdOn) {
+      holdClasses = "btn btn-default";
+    }
+    if(this.state.holdDone) {
+      holdClasses = "btn btn-default disabled";
+    }
 
     return (
       <div>
@@ -132,7 +157,16 @@ const App = React.createClass({
           {this.renderConfirmBtn()}
         </div>
         <br/>
-	<HoldButton/>
+	<HoldButton transitionColor="#7f8c8d"/>
+        <br/>
+        <br/>
+	<HoldButton classes={holdClasses} onStart={this.handleHoldStart} onStop={this.handleHoldStop} onAction={this.handleHoldAction}/>
+        <br/>
+        <br/>
+	<HoldButton doneColor="#c0392b" doneIcon="times-circle-o"/>
+        <br/>
+        <br/>
+	<HoldButton doneColor="#c0392b" doneIcon="trash"/>
         <br/>
         <br/>
         <br/>
