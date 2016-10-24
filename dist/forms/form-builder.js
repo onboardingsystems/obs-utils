@@ -86,13 +86,17 @@ var FormBuilder = {
         _setState(this.parent, this.errorDataAttr, storedErrors);
         if (_.isFunction(this.onErrorChange)) this.onErrorChange();
       },
-      onSubmit: function onSubmit(e) {
+      isValid: function isValid() {
         // ask our components/inputs to report back their validation state -
         // usefull for inputs that have focus and that would not have reported
         // back validation
-        var valid = _.reduce(this.inputs, function (valid, input) {
+        return _.reduce(this.inputs, function (valid, input) {
           if (!_.isEmpty(input.runValidations())) return false;else return valid;
         }, true);
+      },
+      onSubmit: function onSubmit(e) {
+        var valid = this.isValid();
+
         // fire our own onSubmit callback
         if (_.isFunction(this._onSubmit)) this._onSubmit(e, valid, this);
       },
