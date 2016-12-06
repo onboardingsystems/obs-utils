@@ -262,6 +262,29 @@ var Formatters = {
       errors: errors
     };
   },
+  numberFormatter: function numberFormatter(value) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    var val,
+        numObj,
+        valid,
+        parsed,
+        errors = [];
+    val = Formatters.stringFormatter(value, options);
+    if (_.isEmpty(val.parsed)) return val;
+    numObj = numeral(_.trim(val.parsed.replace(/[$\s,]/g, '')));
+    parsed = numObj.value();
+    // TODO: numeraljs does not throw errors.... we might want to think about
+    // detecting our own?
+    valid = true;
+    var formatted = numObj.format('0,0');
+    return {
+      valid: valid,
+      parsed: parsed,
+      formatted: formatted,
+      errors: errors
+    };
+  },
 
 
   // Currency formatting and validation.

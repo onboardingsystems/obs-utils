@@ -173,6 +173,10 @@ const FormBuilder = {
         return this.formattedField(label, attrName, Formatters.stringFormatter, options)
       },
 
+      numberField(label, attrName, options={}) {
+        return this.formattedField(label, attrName, Formatters.numberFormatter, this._mergeClasses(options, 'obs-number'))
+      },
+
       phoneField(label, attrName, options={}) {
         return this.formattedField(label, attrName, Formatters.phoneFormatter, this._mergeClasses(options, 'obs-phone'))
       },

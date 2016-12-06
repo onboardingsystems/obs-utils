@@ -248,6 +248,25 @@ const Formatters = {
     }
   },
 
+  numberFormatter(value, options={}) {
+    var val, numObj, valid, parsed, errors = []
+    val = Formatters.stringFormatter(value, options)
+    if (_.isEmpty(val.parsed))
+      return val
+    numObj = numeral(_.trim(val.parsed.replace(/[$\s,]/g, '')))
+    parsed = numObj.value()
+    // TODO: numeraljs does not throw errors.... we might want to think about
+    // detecting our own?
+    valid = true
+    var formatted = numObj.format('0,0')
+    return {
+      valid,
+      parsed,
+      formatted,
+      errors
+    }
+  },
+
   // Currency formatting and validation.
   //
   // Options:
