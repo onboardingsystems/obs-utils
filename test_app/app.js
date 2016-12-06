@@ -125,6 +125,7 @@ const App = React.createClass({
               {f.emailField('Email', 'email', {required: true})}
               {f.phoneField('Phone', 'phone')}
               {f.addressField('Address', 'address', {required: true})}
+              {f.numberField('Year', 'year')}
               {f.dateField('DOB', 'dob', {required: true})}
               {f.timeField('Lunch Hour', 'lunch_hour')}
               {f.textField('Last 4 of SSN', 'ssn_last_4', {required: true, customValidator: this.lastFourValidator})}

@@ -154,6 +154,11 @@ var FormBuilder = {
 
         return this.formattedField(label, attrName, Formatters.stringFormatter, options);
       },
+      numberField: function numberField(label, attrName) {
+        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+        return this.formattedField(label, attrName, Formatters.numberFormatter, this._mergeClasses(options, 'obs-number'));
+      },
       phoneField: function phoneField(label, attrName) {
         var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
