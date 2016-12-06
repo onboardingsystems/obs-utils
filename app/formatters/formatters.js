@@ -258,7 +258,7 @@ const Formatters = {
     // TODO: numeraljs does not throw errors.... we might want to think about
     // detecting our own?
     valid = true
-    var formatted = numObj.format('0,0')
+    var formatted = numObj.format('0')
     return {
       valid,
       parsed,
