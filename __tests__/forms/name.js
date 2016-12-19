@@ -13,7 +13,7 @@ describe('Name', ()=> {
     )
     const node = ReactDOM.findDOMNode(comp)
 
-    expect(node.textContent).toEqual('')
+    expect(node.textContent).toEqual('Name')
   })
 
 })

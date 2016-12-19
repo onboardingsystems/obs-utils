@@ -19,8 +19,8 @@
     "lodash": "~4.10.0",
     "moment": "~2.12.0",
     "numeral": "~1.5.3",
-    "react": "~15.0.0",
-    "react-dom": "~15.0.0",
+    "react": "~15.4.1",
+    "react-dom": "~15.4.1",
     "sass-brunch": "^2.0.0"
   },
   "devDependencies": {
@@ -34,21 +34,21 @@
     "clean-css-brunch": "^2.0.0",
     "css-brunch": "^2.0.0",
     "javascript-brunch": "^2.0.0",
-    "jest-cli": "^0.10.2",
+    "jest-cli": "^18.0.0",
     "jquery": "^2.2.3",
     "react-addons-test-utils": "^15.0.1",
     "uglify-js-brunch": "^2.0.0"
   },
   "jest": {
     "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-dom",
-      "<rootDir>/node_modules/react-addons-test-utils",
-      "<rootDir>/node_modules/lodash",
-      "<rootDir>/node_modules/moment",
-      "<rootDir>/node_modules/numeral",
-      "<rootDir>/node_modules/classnames",
-      "<rootDir>/node_modules/jquery"
+      "node_modules/react",
+      "node_modules/react-dom",
+      "node_modules/react-addons-test-utils",
+      "node_modules/lodash",
+      "node_modules/moment",
+      "node_modules/numeral",
+      "node_modules/classnames",
+      "node_modules/jquery"
     ]
   }
 }

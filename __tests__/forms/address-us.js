@@ -9,11 +9,11 @@ describe('OBSAddressUS', ()=> {
 
   it('does not blow up', ()=> {
     const comp = TestUtils.renderIntoDocument(
-      <OBSAddressUS object={{a: "a"}} attr="a" />
+      <OBSAddressUS attr="a" />
     )
     const node = ReactDOM.findDOMNode(comp)
 
-    expect(node.textContent).toEqual('')
+    expect(node.textContent).toEqual('Address')
   })
 
 })
