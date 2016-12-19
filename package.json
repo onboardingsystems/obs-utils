@@ -36,7 +36,7 @@
     "javascript-brunch": "^2.0.0",
     "jest-cli": "^18.0.0",
     "jquery": "^2.2.3",
-    "react-addons-test-utils": "^15.0.1",
+    "react-addons-test-utils": "^15.4.1",
     "uglify-js-brunch": "^2.0.0"
   },
   "jest": {
