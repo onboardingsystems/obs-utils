@@ -24,23 +24,41 @@ const ObsCheckbox = React.createClass({
 
   getDefaultProps() {
     return {
-      required: false,
       defaultValue: false,
+      required: false,
       errors:   []
     }
   },
 
   getInitialState() {
-    let checked = this.props.defaultValue
-    if (_.isBoolean(this.props.value)) {
-      checked = this.props.value
+    return {
+      checked: this.props.value
     }
-    return {checked}
   },
 
   componentDidMount() {
+    // register this component with the formBuilder to aid with form validation
+    // before submission (so that fields with focus can still be validated
+    // instead of having to wait for a blur even to validate)
     if (_.isFunction(this.props.didMount))
       this.props.didMount(this)
+
+    // nothing left to do if there isn't an onChange to call
+    if (!_.isFunction(this.props.onChange))
+      return
+
+    // If props.value isn't a boolean value, fall back to the defaultValue and
+    // submit it back to the formBuilder so we can be rendered again with a
+    // valid value in our props.
+    //
+    // A defaultValue that isn't a boolean will result in an infinate loop. So
+    // check defaultValue before submitting a new value for props.value.
+    if (!_.isBoolean(this.props.value) && _.isBoolean(this.props.defaultValue)) {
+      this.props.onChange({
+        formatted: this.props.defaultValue,
+        parsed:    this.props.defaultValue
+      })
+    }
   },
 
   componentWillUnmount() {
@@ -57,12 +75,18 @@ const ObsCheckbox = React.createClass({
       this.props.onBlur({valid: true, parsed: value, formatted: value, errors: []})
   },
 
-  // returns either the value passed in via props, or the default value.
-  value() {
-
-  },
-
   runValidations() {},
+
+  // having a value of null can be bad for our controlled inputs, even if for a
+  // little while.  So since our defaultValue doesn't kick in right away we
+  // still need something here to help prevent bad values from being rendered.
+  value() {
+    if (_.isBoolean(this.props.value)) {
+      return this.props.value
+    } else {
+      return false
+    }
+  },
 
   render() {
     var bootstrapClasses = cx({
@@ -74,7 +98,7 @@ const ObsCheckbox = React.createClass({
       <div className={this.props.className}>
         <div className={bootstrapClasses}>
           <label>
-            <input type="checkbox" id={this.props.id} checked={this.state.checked} onChange={this._valueChanged} />
+            <input type="checkbox" id={this.props.id} checked={this.value()} onChange={this._valueChanged} />
             {this.props.label}
             <ObsRequiredMarker required={this.props.required} />
           </label>

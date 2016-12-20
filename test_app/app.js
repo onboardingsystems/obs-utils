@@ -147,16 +147,16 @@ const App = React.createClass({
           </div>
           <div className="col-xs-6">
             <p>
-              <b>Default Text:</b>
+              <b>Default Text: </b>
               {_.get(this.state.formData, 'default_text')}
             </p>
             <p>
-              <b>Default Check:</b>
-              {_.get(this.state.formData, 'default_check')}
+              <b>Default Check: </b>
+              {_.get(this.state.formData, 'default_check') ? 'Yes' : 'No'}
             </p>
             <p>
-              <b>Name:</b>
-              {_.get(this.state.formData, 'name.first')} {_.get(this.state.formData, 'name.last')}
+              <b>Name: </b>
+              {_.get(this.state.formData, 'first_name')} {_.get(this.state.formData, 'last_name')}
             </p>
             <p>
               <b>Address:</b>

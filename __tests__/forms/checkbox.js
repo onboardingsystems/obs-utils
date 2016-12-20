@@ -15,40 +15,6 @@ describe('OBSCheckbox', ()=> {
     )
     let node = $(ReactDOM.findDOMNode(comp))
     expect(node.find('input').is(":checked")).toEqual(true)
-  }),
-
-  it('sets the default defaultValue to false', ()=> {
-    const comp = ReactUtils.renderIntoDocument(
-      <OBSCheckbox value={null} />
-    )
-    let node = $(ReactDOM.findDOMNode(comp))
-    expect(comp.props.defaultValue).toEqual(false)
-    expect(node.find('input').is(":checked")).toEqual(false)
-  }),
-
-  it('ignores defaultValue when value is false', ()=> {
-    const comp = ReactUtils.renderIntoDocument(
-      <OBSCheckbox value={false} defaultValue={true}/>
-    )
-    let node = $(ReactDOM.findDOMNode(comp))
-    expect(node.find('input').is(":checked")).toEqual(false)
-  }),
-
-  it('ignores defaultValue when value is true', ()=> {
-    const comp = ReactUtils.renderIntoDocument(
-      <OBSCheckbox value={true} defaultValue={false}/>
-    )
-    let node = $(ReactDOM.findDOMNode(comp))
-    expect(node.find('input').is(":checked")).toEqual(true)
-  }),
-
-  it('uses defaultValue when value is null', ()=> {
-    const comp = ReactUtils.renderIntoDocument(
-      <OBSCheckbox value={null} defaultValue={true}/>
-    )
-    let node = $(ReactDOM.findDOMNode(comp))
-    expect(node.find('input').is(":checked")).toEqual(true)
   })
-
 
 })

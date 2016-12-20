@@ -30,7 +30,6 @@ const ObsTextarea = React.createClass({
 
   getDefaultProps() {
     return {
-      value: "",
       defaultValue: "",
       required: false,
       errors:   [],
@@ -41,8 +40,35 @@ const ObsTextarea = React.createClass({
   },
 
   componentDidMount() {
+    // register this component with the formBuilder to aid with form validation
+    // before submission (so that fields with focus can still be validated
+    // instead of having to wait for a blur even to validate)
     if (_.isFunction(this.props.didMount))
       this.props.didMount(this)
+
+    // nothing left to do if there isn't an onChange to call
+    if (!_.isFunction(this.props.onChange))
+      return
+
+    // If props.value is nil (undefined or null), fall back to
+    // props.defaultValue and submit the formatted and parsed defaultValue back
+    // to the formBuilder so we can be rendered again with a valid value in our
+    // props.
+    //
+    // A defaultValue that responds to _.isNil will result in an infinate loop.
+    // So check that the defaultValue will not respond to isNil before
+    // submitting a new value for props.value.
+    if (_.isNil(this.props.value) && !_.isNil(this.props.defaultValue)) {
+      var {valid: valid, parsed: parsed, formatted: formatted} = this.formatAndValidate(this.props.defaultValue)
+      if(valid) {
+        this.props.onChange({formatted, parsed})
+      }
+    } else {
+      var {valid: valid, formatted: formatted} = this.formatAndValidate(this.props.value)
+      if(valid) {
+        this.props.onChange({formatted})
+      }
+    }
   },
 
   componentWillUnmount() {
@@ -63,29 +89,36 @@ const ObsTextarea = React.createClass({
       this.props.onChange(e.target.value)
   },
 
+  formatAndValidate(value) {
+    var formatResult, customErrors = []
+    formatResult = this.format(value)
+    // run the customValidator if there is one.  Modify the formatResults if
+    // there are errors.
+    if (_.isFunction(this.props.customValidator)) {
+      customErrors = this.props.customValidator(formatResult.formatted)
+      if (!_.isEmpty(customErrors)) {
+        formatResult.valid = false
+        formatResult.parsed = null
+        formatResult.errors = _.concat(formatResult.errors, customErrors)
+      }
+    }
+    return formatResult
+  },
+
   onBlur(e) {
     if (_.isFunction(this.props.onBlur)) {
-      var formatResult, customErrors = []
-      formatResult = this.format(this.props.value)
-      // run the customValidator if there is one.  Modify the formatResults if
-      // there are errors.
-      if (_.isFunction(this.props.customValidator)) {
-        customErrors = this.props.customValidator(formatResult.formatted)
-        if (!_.isEmpty(customErrors)) {
-          formatResult.valid = false
-          formatResult.parsed = null
-          formatResult.errors = _.concat(formatResult.errors, customErrors)
-        }
-      }
-      this.props.onBlur(formatResult)
-      return formatResult.errors
+      var result = this.formatAndValidate(this.props.value)
+      this.props.onBlur(result)
+      return result.errors
     }
   },
 
-  // returns either the value passed in via props or the default value
+  // having a value of null can be bad for our controlled inputs, even if for a
+  // little while.  So since our defaultValue doesn't kick in right away we
+  // still need something here to help prevent bad values from being rendered.
   value() {
-    if(_.isNil(this.props.value)) {
-      return this.props.defaultValue
+    if (_.isNil(this.props.value)) {
+      return ""
     } else {
       return this.props.value
     }

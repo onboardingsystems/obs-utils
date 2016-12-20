@@ -160,10 +160,9 @@ const FormBuilder = {
 
       checkboxField(label, attrName, options={}) {
         var options = this._mergeClasses(options, 'obs-checkbox')
-        var value = !!this._getValue(attrName)
         return (
           <ObsCheckbox label={label} hint={options.hint} required={options.required}
-            value={value} defaultValue={options.defaultValue}
+            value={this._getValue(attrName)} defaultValue={options.defaultValue}
             errors={this._getErrors(attrName)}
             className={options.className} id={options.id}
             onChange={_.bind(this._onChange, this, attrName)}
@@ -273,10 +272,14 @@ const FormBuilder = {
       // formatted and parsed values eventhough the parsed value might be blank.
       // Ignore any errors that might be in the results however.
       _onChange(attrName, value) {
-        // store the formatted and parsed values
-        this.updateFormattedValue(attrName, value)
-
-        // TODO: remove any errors we already have
+        if (_.isObject(value)) {
+          if (value.hasOwnProperty("formatted"))
+            this.updateFormattedValue(attrName, value.formatted)
+          if (value.hasOwnProperty("parsed"))
+            this.updateParsedValue(attrName, value.parsed)
+        } else {
+          this.updateFormattedValue(attrName, value)
+        }
       },
 
       // Similar to _onChange above except it logs any errors received from the
