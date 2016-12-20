@@ -106,7 +106,7 @@ var Name = React.createClass({
     var classesFor = function classesFor(attr) {
       var _cx;
 
-      var classes = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
+      var classes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
 
       return cx((_cx = {}, _defineProperty(_cx, classes, _.isString(classes)), _defineProperty(_cx, "has-error", !_.isEmpty(_this2._nameErrors()[attr])), _cx));
     };

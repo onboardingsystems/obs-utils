@@ -15,7 +15,8 @@ var ObsText = React.createClass({
   displayName: 'ObsText',
 
   propTypes: {
-    // value
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    defaultValue: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     errors: React.PropTypes.array,
     formatter: React.PropTypes.func,
     id: React.PropTypes.string,
@@ -34,7 +35,7 @@ var ObsText = React.createClass({
 
   getDefaultProps: function getDefaultProps() {
     return {
-      value: "",
+      defaultValue: "",
       required: false,
       type: "text",
       errors: [],
@@ -47,13 +48,39 @@ var ObsText = React.createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    // register this component with the formBuilder
+    // register this component with the formBuilder to aid with form validation
+    // before submission (so that fields with focus can still be validated
+    // instead of having to wait for a blur even to validate)
     if (_.isFunction(this.props.didMount)) this.props.didMount(this);
-    // attempt to perform the intial format (server values might not be
-    // formatted)
-    if (_.isFunction(this.props.onChange)) {
-      var result = this.formatAndValidate(this.props.value);
-      if (result.valid) this.props.onChange(result.formatted);
+
+    // nothing left to do if there isn't an onChange to call
+    if (!_.isFunction(this.props.onChange)) return;
+
+    // If props.value is nil (undefined or null), fall back to
+    // props.defaultValue and submit the formatted and parsed defaultValue back
+    // to the formBuilder so we can be rendered again with a valid value in our
+    // props.
+    //
+    // A defaultValue that responds to _.isNil will result in an infinate loop.
+    // So check that the defaultValue will not respond to isNil before
+    // submitting a new value for props.value.
+    if (_.isNil(this.props.value) && !_.isNil(this.props.defaultValue)) {
+      var _formatAndValidate = this.formatAndValidate(this.props.defaultValue),
+          valid = _formatAndValidate.valid,
+          parsed = _formatAndValidate.parsed,
+          formatted = _formatAndValidate.formatted;
+
+      if (valid) {
+        this.props.onChange({ formatted: formatted, parsed: parsed });
+      }
+    } else {
+      var _formatAndValidate2 = this.formatAndValidate(this.props.value),
+          valid = _formatAndValidate2.valid,
+          formatted = _formatAndValidate2.formatted;
+
+      if (valid) {
+        this.props.onChange({ formatted: formatted });
+      }
     }
   },
   componentWillUnmount: function componentWillUnmount() {
@@ -98,6 +125,18 @@ var ObsText = React.createClass({
     }
     return formatResult;
   },
+
+
+  // having a value of null can be bad for our controlled inputs, even if for a
+  // little while.  So since our defaultValue doesn't kick in right away we
+  // still need something here to help prevent bad values from being rendered.
+  value: function value() {
+    if (_.isNil(this.props.value)) {
+      return "";
+    } else {
+      return this.props.value;
+    }
+  },
   render: function render() {
     var groupClasses = cx(_defineProperty({
       "form-group": true,
@@ -108,7 +147,7 @@ var ObsText = React.createClass({
       'div',
       { className: groupClasses },
       React.createElement(ObsLabel, { text: this.props.label, hint: this.props.hint, htmlFor: this.state.id, required: this.props.required }),
-      React.createElement('input', { id: this.state.id, className: 'form-control', type: this.props.type, value: this.props.value,
+      React.createElement('input', { id: this.state.id, className: 'form-control', type: this.props.type, value: this.value(),
         placeholder: this.props.placeholder,
         onChange: this.onChange, onBlur: this.onBlur }),
       React.createElement(ObsError, { errors: this.props.errors })
