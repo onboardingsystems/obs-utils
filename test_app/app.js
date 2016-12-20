@@ -16,6 +16,7 @@ const App = React.createClass({
       holdOn: false,
       holdDone: false,
       formData: {
+        has_default: null,
         first_name: 'Bob',
         phone: '1112223333',
         sensitive: 'secret'
@@ -121,6 +122,7 @@ const App = React.createClass({
           </div>
           <div className="col-xs-6">
             <f.form builder={f} className="obs-form">
+              {f.textField('Has default value', 'has_default', {required: true, defaultValue: 'default'})}
               {f.nameField('Name', {required: true})}
               {f.emailField('Email', 'email', {required: true})}
               {f.phoneField('Phone', 'phone')}
