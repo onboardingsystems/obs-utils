@@ -2,9 +2,9 @@
 
 [![Build Status](https://semaphoreci.com/api/v1/onboarding-systems/obs-utils/branches/master/shields_badge.svg)](https://semaphoreci.com/onboarding-systems/obs-utils)
 
-NPM project to make sharing common javascript files between projects easier. Also supports versioning library changes.
 
-## Using in another project
+
+## Installation
 
 Installing the first time from the command-line. Note the "#v0.0.19" at the end specifies the version tag to use. If an update is desired, it must be explicitly changed as this github npm source technique doesn't support "^0.0.19" syntax.
 
@@ -12,9 +12,16 @@ Installing the first time from the command-line. Note the "#v0.0.19" at the end 
 
 On an existing application, just update the version tag in the `package.json` file and perform the `npm install` to have it updated.
 
-## Running Test App
 
-* `brunch watch --server` - runs on http://localhost:3334/
+
+## Test App
+
+The test app is a react app located at `test_app/app.js`  Run it using:
+
+`brunch watch --server`
+
+which will make it accessible at http://localhost:3334
+
 
 
 ## Building a Release
@@ -23,19 +30,16 @@ On an existing application, just update the version tag in the `package.json` fi
 * `npm run build` - will package it to the dist folder
 * Everything must be committed by this point
 * `npm version patch|minor|major` - to bump the (appropriate) version
+* `git push origin v0.0.16` to make the tag available or origin
 
-This will create a git tag of the new version that needs to be pushed.
+You can push "all" the local tags to the server using `git push origin --tags` or delete a tag using `git tag -d v0.0.10`.
 
-`git push origin v0.0.16`
 
-Alternatively, you can push "all" the local tags to the server this way...
 
-`git push origin --tags`
-
-You can removed undesired local tags using below. Helpful if a version tag was created that had bugs and needed to be rebuilt but wasn't deployed or pushed.
-
-`git tag -d v0.0.10`
-
-## Breaking Changes
+# Change Log
 
 List of breaking changes moving from one version to another.
+
+* 0.2.13
+  * adds defaultValue option to textarea, text, and checkbox components
+  * adds React.PropType checking to both value and defaultValue props on input and textarea based components
