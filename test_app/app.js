@@ -16,7 +16,8 @@ const App = React.createClass({
       holdOn: false,
       holdDone: false,
       formData: {
-        has_default: null,
+        default_text: null,
+        default_check: null,
         first_name: 'Bob',
         phone: '1112223333',
         sensitive: 'secret'
@@ -122,7 +123,8 @@ const App = React.createClass({
           </div>
           <div className="col-xs-6">
             <f.form builder={f} className="obs-form">
-              {f.textField('Has default value', 'has_default', {required: true, defaultValue: 'default'})}
+              {f.textField('Is "default" by default', 'default_text', {required: true, defaultValue: 'default'})}
+              {f.checkboxField('Is checked by default', 'default_check', {defaultValue: true})}
               {f.nameField('Name', {required: true})}
               {f.emailField('Email', 'email', {required: true})}
               {f.phoneField('Phone', 'phone')}
@@ -144,8 +146,21 @@ const App = React.createClass({
             <button className="btn btn-default" onClick={this.submitForm}>Fake externally modified state</button>
           </div>
           <div className="col-xs-6">
-            <p>{_.get(this.state.formData, 'name.first')} {_.get(this.state.formData, 'name.last')}</p>
             <p>
+              <b>Default Text:</b>
+              {_.get(this.state.formData, 'default_text')}
+            </p>
+            <p>
+              <b>Default Check:</b>
+              {_.get(this.state.formData, 'default_check')}
+            </p>
+            <p>
+              <b>Name:</b>
+              {_.get(this.state.formData, 'name.first')} {_.get(this.state.formData, 'name.last')}
+            </p>
+            <p>
+              <b>Address:</b>
+              <br/>
               {_.get(this.state.formData, 'address.street_1')}
               <br />
               {_.get(this.state.formData, 'address.city')} {_.get(this.state.formData, 'address.state')}, {_.get(this.state.formData, 'address.zip')}
@@ -153,23 +168,30 @@ const App = React.createClass({
           </div>
         </div>
 
-        <div className="row">
-          <LoadingEllipsis>Testing Loading Ellipsis</LoadingEllipsis>
-        </div>
-        <div className="row">
-          {this.renderConfirmBtn()}
-        </div>
-        <br/>
-	<HoldButton transitionColor="#7f8c8d"/>
+
         <br/>
         <br/>
-	<HoldButton classes={holdClasses} onStart={this.handleHoldStart} onStop={this.handleHoldStop} onAction={this.handleHoldAction}/>
+
+        <LoadingEllipsis>Testing Loading Ellipsis</LoadingEllipsis>
         <br/>
         <br/>
-	<HoldButton doneColor="#c0392b" doneIcon="times-circle-o"/>
+
+        {this.renderConfirmBtn()}
+        <br/>
+
+        <HoldButton transitionColor="#7f8c8d"/>
         <br/>
         <br/>
-	<HoldButton doneColor="#c0392b" doneIcon="trash"/>
+
+        <HoldButton classes={holdClasses} onStart={this.handleHoldStart} onStop={this.handleHoldStop} onAction={this.handleHoldAction}/>
+        <br/>
+        <br/>
+
+        <HoldButton doneColor="#c0392b" doneIcon="times-circle-o"/>
+        <br/>
+        <br/>
+
+        <HoldButton doneColor="#c0392b" doneIcon="trash"/>
         <br/>
         <br/>
         <br/>
