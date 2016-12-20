@@ -40,6 +40,6 @@ You can push "all" the local tags to the server using `git push origin --tags` o
 
 List of breaking changes moving from one version to another.
 
-* 0.2.13
+* 0.2.15
   * adds defaultValue option to textarea, text, and checkbox components
   * adds React.PropType checking to both value and defaultValue props on input and textarea based components
