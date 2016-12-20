@@ -10,7 +10,8 @@ const Formatters = require('../formatters/formatters')
 
 const ObsText = React.createClass({
   propTypes: {
-    // value
+    value:            React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    defaultValue:     React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     errors:           React.PropTypes.array,
     formatter:        React.PropTypes.func,
     id:               React.PropTypes.string,
@@ -30,6 +31,7 @@ const ObsText = React.createClass({
   getDefaultProps() {
     return {
       value: "",
+      defaultValue: "",
       required: false,
       type: "text",
       errors:   [],
@@ -107,6 +109,15 @@ const ObsText = React.createClass({
     return formatResult
   },
 
+  // returns either the value passed in via props or the default value
+  value() {
+    if(_.isNil(this.props.value)) {
+      return this.props.defaultValue
+    } else {
+      return this.props.value
+    }
+  },
+
   render() {
     var groupClasses = cx({
       "form-group": true,
@@ -117,7 +128,7 @@ const ObsText = React.createClass({
     return (
       <div className={groupClasses}>
         <ObsLabel text={this.props.label} hint={this.props.hint} htmlFor={this.state.id} required={this.props.required} />
-        <input id={this.state.id} className="form-control" type={this.props.type} value={this.props.value}
+        <input id={this.state.id} className="form-control" type={this.props.type} value={this.value()}
           placeholder={this.props.placeholder}
           onChange={this.onChange} onBlur={this.onBlur} />
         <ObsError errors={this.props.errors} />

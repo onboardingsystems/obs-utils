@@ -9,7 +9,9 @@ const Formatters = require('../formatters/formatters')
 
 const ObsTextarea = React.createClass({
   propTypes: {
-    // value
+    // value:            React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    value:            React.PropTypes.string,
+    defaultValue:     React.PropTypes.string,
     errors:           React.PropTypes.array,
     formatter:        React.PropTypes.func,
     id:               React.PropTypes.string,
@@ -29,6 +31,7 @@ const ObsTextarea = React.createClass({
   getDefaultProps() {
     return {
       value: "",
+      defaultValue: "",
       required: false,
       errors:   [],
       id: _.uniqueId('text_'),
@@ -79,6 +82,15 @@ const ObsTextarea = React.createClass({
     }
   },
 
+  // returns either the value passed in via props or the default value
+  value() {
+    if(_.isNil(this.props.value)) {
+      return this.props.defaultValue
+    } else {
+      return this.props.value
+    }
+  },
+
   render() {
     var groupClasses = cx({
       "form-group": true,
@@ -89,7 +101,7 @@ const ObsTextarea = React.createClass({
     return (
       <div className={groupClasses}>
         <ObsLabel text={this.props.label} hint={this.props.hint} htmlFor={this.props.id} required={this.props.required} />
-        <textarea id={this.props.id} className="form-control" rows={this.props.rows} value={this.props.value}
+        <textarea id={this.props.id} className="form-control" rows={this.props.rows} value={this.value()}
           placeholder={this.props.placeholder}
           onChange={this.onChange} onBlur={this.onBlur} />
         <ObsError errors={this.props.errors} />

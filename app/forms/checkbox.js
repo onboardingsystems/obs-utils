@@ -9,8 +9,9 @@ const ObsHint           = require('./hint')
 const ObsCheckbox = React.createClass({
   propTypes: {
     value:        React.PropTypes.bool,
+    defaultValue: React.PropTypes.bool,
     onChange:     React.PropTypes.func,
-    onBlur:     React.PropTypes.func,
+    onBlur:       React.PropTypes.func,
     label:        React.PropTypes.string,
     hint:         React.PropTypes.string,
     required:     React.PropTypes.bool,
@@ -18,20 +19,23 @@ const ObsCheckbox = React.createClass({
     id:           React.PropTypes.string,
     errors:       React.PropTypes.array,   // array of strings
     didMount:     React.PropTypes.func,
-    willUnmount:   React.PropTypes.func
+    willUnmount:  React.PropTypes.func
   },
 
   getDefaultProps() {
     return {
       required: false,
+      defaultValue: false,
       errors:   []
     }
   },
 
   getInitialState() {
-    return {
-      checked: this.props.value
+    let checked = this.props.defaultValue
+    if (_.isBoolean(this.props.value)) {
+      checked = this.props.value
     }
+    return {checked}
   },
 
   componentDidMount() {
@@ -51,6 +55,11 @@ const ObsCheckbox = React.createClass({
       this.props.onChange(value)
     if (_.isFunction(this.props.onBlur))
       this.props.onBlur({valid: true, parsed: value, formatted: value, errors: []})
+  },
+
+  // returns either the value passed in via props, or the default value.
+  value() {
+
   },
 
   runValidations() {},

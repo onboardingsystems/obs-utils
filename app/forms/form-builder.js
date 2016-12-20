@@ -127,7 +127,8 @@ const FormBuilder = {
       formattedTextarea(label, attrName, formatterFun, options={}) {
         return (
           <ObsTextarea
-            value={this._getValue(attrName)} errors={this._getErrors(attrName)}
+            value={this._getValue(attrName)} defaultValue={options.defaultValue}
+            errors={this._getErrors(attrName)}
             label={label} hint={options.hint} placeholder={options.placeholder}
             required={options.required} formatter={formatterFun}
             className={options.className} id={options.id}
@@ -143,7 +144,8 @@ const FormBuilder = {
       formattedField(label, attrName, formatterFun, options={}) {
         return (
           <ObsText
-            value={this._getValue(attrName)} errors={this._getErrors(attrName)}
+            value={this._getValue(attrName)} defaultValue={options.defaultValue}
+            errors={this._getErrors(attrName)}
             label={label} hint={options.hint} placeholder={options.placeholder}
             type={options.type}
             required={options.required} formatter={formatterFun}
@@ -161,7 +163,8 @@ const FormBuilder = {
         var value = !!this._getValue(attrName)
         return (
           <ObsCheckbox label={label} hint={options.hint} required={options.required}
-            value={value} errors={this._getErrors(attrName)}
+            value={value} defaultValue={options.defaultValue}
+            errors={this._getErrors(attrName)}
             className={options.className} id={options.id}
             onChange={_.bind(this._onChange, this, attrName)}
             onBlur={_.bind(this._onBlur, this, attrName)}

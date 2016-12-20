@@ -1,28 +1,59 @@
-jest.unmock('../../app/forms/text')
+// jest.unmock('../../app/forms/text')
 
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import ReactUtils from 'react-addons-test-utils';
+import {shallow, render, mount} from 'enzyme';
 import OBSText from '../../app/forms/text';
 
 describe('OBSText', ()=> {
 
   it('does not blow up', ()=> {
-    const comp = TestUtils.renderIntoDocument(
-      <OBSText object={{a: 'hi'}} attr="a"/>
+    const comp = shallow(
+      <OBSText value="bob"/>
     )
-    const node = ReactDOM.findDOMNode(comp)
+    expect(comp.find('input').props().value).toEqual('bob')
+  }),
 
-    expect(node.textContent).toEqual('')
-  })
-
-  it('supports "type" option', ()=> {
-    const comp = TestUtils.renderIntoDocument(
-      <OBSText object={{a: 'hi'}} type="password" attr="a"/>
+  it('supports the input type option', ()=> {
+    const comp = shallow(
+      <OBSText value="bob" type="password"/>
     )
-    const input = $(ReactDOM.findDOMNode(comp)).find('input')
-    expect(input.attr("type")).toEqual('password')
+    expect(comp.find('input').props().type).toEqual('password')
+  }),
+
+  it('sets the default defaultValue to an empty string', ()=> {
+    const comp = ReactUtils.renderIntoDocument(
+      <OBSText value={null} />
+    )
+    let node = $(ReactDOM.findDOMNode(comp))
+    expect(comp.props.defaultValue).toEqual('')
+    expect(node.find('input').val()).toEqual('')
+  }),
+
+  it('ignores defaultValue when value is present', ()=> {
+    const comp = ReactUtils.renderIntoDocument(
+      <OBSText value="bob" defaultValue="default"/>
+    )
+    let node = $(ReactDOM.findDOMNode(comp))
+    expect(node.find('input').val()).toEqual('bob')
+  }),
+
+  it('ignores defaultValue when value is empty string', ()=> {
+    const comp = ReactUtils.renderIntoDocument(
+      <OBSText value="" defaultValue="default"/>
+    )
+    let node = $(ReactDOM.findDOMNode(comp))
+    expect(node.find('input').val()).toEqual('')
+  }),
+
+  it('uses defaultValue when value is null', ()=> {
+    const comp = ReactUtils.renderIntoDocument(
+      <OBSText value={null} defaultValue="default"/>
+    )
+    let node = $(ReactDOM.findDOMNode(comp))
+    expect(node.find('input').val()).toEqual('default')
   })
 
 })
