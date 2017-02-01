@@ -18,7 +18,7 @@ var ObsAddressUs = React.createClass({
   displayName: 'ObsAddressUs',
 
   propTypes: {
-    value: React.PropTypes.object,
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
     errors: React.PropTypes.object,
     attr: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
@@ -28,6 +28,7 @@ var ObsAddressUs = React.createClass({
     required: React.PropTypes.bool,
     id: React.PropTypes.string,
     className: React.PropTypes.string,
+    autoFocus: React.PropTypes.bool,
     didMount: React.PropTypes.func,
     willUnmount: React.PropTypes.func
   },
@@ -44,6 +45,7 @@ var ObsAddressUs = React.createClass({
     return {
       label: "Address",
       required: false,
+      autoFocus: false,
       errors: {}
     };
   },
@@ -171,7 +173,8 @@ var ObsAddressUs = React.createClass({
           className: this.classesForAttr(this.fields.street_1.attr, "address-line-1"),
           onChange: _.bind(this.onChange, this, this.fields.street_1.attr),
           onBlur: _.bind(this.onBlur, this, this.fields.street_1.attr),
-          didMount: this.register, willUnmount: this.unregister }),
+          didMount: this.register, willUnmount: this.unregister,
+          autoFocus: this.props.autoFocus }),
         React.createElement(
           ObsCompoundLayout,
           { layout: "inline" },
