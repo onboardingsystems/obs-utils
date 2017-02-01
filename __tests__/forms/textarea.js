@@ -3,7 +3,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactUtils from 'react-addons-test-utils';
+import TestUtils from 'react-addons-test-utils';
 import {shallow, render, mount} from 'enzyme';
 import OBSTextarea from '../../app/forms/textarea';
 
@@ -14,6 +14,11 @@ describe('OBSTextarea', ()=> {
       <OBSTextarea value="bob"/>
     )
     expect(comp.find('textarea').props().value).toEqual('bob')
+  }),
+
+  it('has a default autoFocus value', ()=> {
+    let comp = TestUtils.renderIntoDocument(<OBSTextarea value="bob"/>)
+    expect(comp.props.autoFocus).toEqual(false)
   })
-  
+
 })

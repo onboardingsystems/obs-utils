@@ -16,6 +16,7 @@ const ObsText = React.createClass({
     formatter:        React.PropTypes.func,
     id:               React.PropTypes.string,
     className:        React.PropTypes.string,
+    autoFocus:        React.PropTypes.bool,
     placeholder:      React.PropTypes.string,
     label:            React.PropTypes.string,
     hint:             React.PropTypes.string,
@@ -32,6 +33,7 @@ const ObsText = React.createClass({
     return {
       defaultValue: "",
       required: false,
+      autoFocus: false,
       type: "text",
       errors:   [],
       formatter: Formatters.requiredFormatter
@@ -150,7 +152,8 @@ const ObsText = React.createClass({
         <ObsLabel text={this.props.label} hint={this.props.hint} htmlFor={this.state.id} required={this.props.required} />
         <input id={this.state.id} className="form-control" type={this.props.type} value={this.value()}
           placeholder={this.props.placeholder}
-          onChange={this.onChange} onBlur={this.onBlur} />
+          onChange={this.onChange} onBlur={this.onBlur}
+          autoFocus={this.props.autoFocus} />
         <ObsError errors={this.props.errors} />
       </div>
     )

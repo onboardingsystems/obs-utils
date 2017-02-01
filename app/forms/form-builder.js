@@ -132,6 +132,7 @@ const FormBuilder = {
             label={label} hint={options.hint} placeholder={options.placeholder}
             required={options.required} formatter={formatterFun}
             className={options.className} id={options.id}
+            autoFocus={options.autoFocus}
             rows={options.rows}
             customValidator={options.customValidator}
             onChange={_.bind(this._onChange, this, attrName)}
@@ -150,6 +151,7 @@ const FormBuilder = {
             type={options.type}
             required={options.required} formatter={formatterFun}
             className={options.className} id={options.id}
+            autoFocus={options.autoFocus}
             customValidator={options.customValidator}
             onChange={_.bind(this._onChange, this, attrName)}
             onBlur={_.bind(this._onBlur, this, attrName)}
