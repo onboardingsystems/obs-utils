@@ -22,6 +22,7 @@ var ObsTextarea = React.createClass({
     formatter: React.PropTypes.func,
     id: React.PropTypes.string,
     className: React.PropTypes.string,
+    autoFocus: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
     label: React.PropTypes.string,
     hint: React.PropTypes.string,
@@ -38,6 +39,7 @@ var ObsTextarea = React.createClass({
     return {
       defaultValue: "",
       required: false,
+      autoFocus: false,
       errors: [],
       id: _.uniqueId('text_'),
       formatter: Formatters.requiredFormatter,
@@ -139,7 +141,8 @@ var ObsTextarea = React.createClass({
       React.createElement(ObsLabel, { text: this.props.label, hint: this.props.hint, htmlFor: this.props.id, required: this.props.required }),
       React.createElement('textarea', { id: this.props.id, className: 'form-control', rows: this.props.rows, value: this.value(),
         placeholder: this.props.placeholder,
-        onChange: this.onChange, onBlur: this.onBlur }),
+        onChange: this.onChange, onBlur: this.onBlur,
+        autoFocus: this.props.autoFocus }),
       React.createElement(ObsError, { errors: this.props.errors })
     );
   }

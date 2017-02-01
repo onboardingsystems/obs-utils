@@ -19,6 +19,11 @@ describe('OBSTextarea', ()=> {
   it('has a default autoFocus value', ()=> {
     let comp = TestUtils.renderIntoDocument(<OBSTextarea value="bob"/>)
     expect(comp.props.autoFocus).toEqual(false)
+  }),
+
+  it('sets autoFocus', ()=> {
+    let comp = TestUtils.renderIntoDocument(<OBSTextarea value="bob" autoFocus={true}/>)
+    expect(comp.props.autoFocus).toEqual(true)
   })
 
 })

@@ -14,6 +14,16 @@ describe('OBSAddressUS', ()=> {
     const node = ReactDOM.findDOMNode(comp)
 
     expect(node.textContent).toEqual('Address')
+  }),
+
+  it('has a default autoFocus value', ()=> {
+    let comp = TestUtils.renderIntoDocument(<OBSAddressUS value="bob" attr="foo"/>)
+    expect(comp.props.autoFocus).toEqual(false)
+  }),
+
+  it('sets autoFocus', ()=> {
+    let comp = TestUtils.renderIntoDocument(<OBSAddressUS value="bob" attr="foo" autoFocus={true}/>)
+    expect(comp.props.autoFocus).toEqual(true)
   })
 
 })

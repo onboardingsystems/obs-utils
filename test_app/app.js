@@ -125,7 +125,7 @@ const App = React.createClass({
             <f.form builder={f} className="obs-form">
               {f.textField('Is "default" by default', 'default_text', {required: true, defaultValue: 'default'})}
               {f.checkboxField('Is checked by default', 'default_check', {defaultValue: true})}
-              {f.nameField('Name', {required: true})}
+              {f.nameField('Name', {required: true, autoFocus: true})}
               {f.emailField('Email', 'email', {required: true})}
               {f.phoneField('Phone', 'phone')}
               {f.addressField('Address', 'address', {required: true})}

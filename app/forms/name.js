@@ -12,7 +12,7 @@ const ObsError          = require('./error')
 
 const Name = React.createClass({
   propTypes: {
-    value:         React.PropTypes.object,
+    value:         React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
     firstNameAttr: React.PropTypes.string,
     lastNameAttr:  React.PropTypes.string,
     onChange:      React.PropTypes.func,
@@ -22,6 +22,7 @@ const Name = React.createClass({
     required:      React.PropTypes.bool,
     id:            React.PropTypes.string,
     className:     React.PropTypes.string,
+    autoFocus:     React.PropTypes.bool,
     didMount:      React.PropTypes.func,
     willUnmount:   React.PropTypes.func
   },
@@ -34,6 +35,7 @@ const Name = React.createClass({
       firstNameAttr: "first_name",
       lastNameAttr: "last_name",
       required: false,
+      autoFocus: false,
       errors: {},
     }
   },
@@ -130,7 +132,8 @@ const Name = React.createClass({
               className={classesFor(this.props.firstNameAttr, "name-first")}
               onChange={_.bind(this.onChange, this, this.props.firstNameAttr)}
               onBlur={_.bind(this.onBlur, this, this.props.firstNameAttr)}
-              didMount={this.register} willUnmount={this.unregister} />
+              didMount={this.register} willUnmount={this.unregister}
+              autoFocus={this.props.autoFocus} />
           </div>
           <div className="flex-grow-shrink">
             <ObsText

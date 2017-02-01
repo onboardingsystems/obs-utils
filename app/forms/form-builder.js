@@ -236,6 +236,7 @@ const FormBuilder = {
             label={label} hint={options.hint}
             required={options.required}
             className={options.className}
+            autoFocus={options.autoFocus}
             onChange={_.bind(this._onChange, this)}
             onBlur={_.bind(this._onBlur, this)}
             didMount={_.bind(this._register, this)}
@@ -252,6 +253,7 @@ const FormBuilder = {
             label={label} hint={options.hint}
             required={options.required}
             className={options.className}
+            autoFocus={options.autoFocus}
             onChange={_.bind(this._onChange, this)}
             onBlur={_.bind(this._onBlur, this)}
             didMount={_.bind(this._register, this)}

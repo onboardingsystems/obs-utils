@@ -14,6 +14,16 @@ describe('Name', ()=> {
     const node = ReactDOM.findDOMNode(comp)
 
     expect(node.textContent).toEqual('Name')
+  }),
+
+  it('has a default autoFocus value', ()=> {
+    let comp = TestUtils.renderIntoDocument(<Name value="bob"/>)
+    expect(comp.props.autoFocus).toEqual(false)
+  }),
+
+  it('sets autoFocus', ()=> {
+    let comp = TestUtils.renderIntoDocument(<Name value="bob" autoFocus={true}/>)
+    expect(comp.props.autoFocus).toEqual(true)
   })
 
 })

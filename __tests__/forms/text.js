@@ -21,6 +21,11 @@ describe('OBSText', ()=> {
     expect(comp.props.autoFocus).toEqual(false)
   }),
 
+  it('sets autoFocus', ()=> {
+    let comp = TestUtils.renderIntoDocument(<OBSText value="bob" autoFocus={true}/>)
+    expect(comp.props.autoFocus).toEqual(true)
+  }),
+
   it('supports the input type option', ()=> {
     const comp = shallow(
       <OBSText value="bob" type="password"/>
