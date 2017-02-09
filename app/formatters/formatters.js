@@ -301,6 +301,32 @@ const Formatters = {
     return Formatters.currencyFormatter(value, options)
   },
 
+  // Percent formatting and validation.
+  //
+  percentFormatter(value, options={}) {
+    var val, numObj, valid, parsed, formatted, errors = []
+    val = Formatters.stringFormatter(value, options)
+    if (_.isEmpty(val.parsed))
+      return val
+    options = _.merge({}, {format: 'cents'}, options)
+    // remove '%', spaces and ','.
+    // Using numeral, convert to a number.
+    numObj = numeral(_.trim(val.parsed.replace(/[$\s,%]/g, '')))
+    parsed = numObj.value()
+    console.log(parsed);
+    // TODO: numeraljs does not throw errors.... we might want to think about
+    // detecting our own?
+    valid = true
+    formatted = numObj.format('0,0.00')
+    formatted = formatted + "%";
+    return {
+      valid,
+      parsed,
+      formatted,
+      errors
+    }
+  },
+
   // Date formatting and validation.
   //
   // Options:

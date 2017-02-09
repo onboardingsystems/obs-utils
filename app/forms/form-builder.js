@@ -209,6 +209,10 @@ const FormBuilder = {
         return this.formattedField(label, attrName, Formatters.dollarsFormatter, this._mergeClasses(options, 'obs-dollars'))
       },
 
+      percentField(label, attrName, options={}) {
+        return this.formattedField(label, attrName, Formatters.percentFormatter, this._mergeClasses(options, 'obs-percent'))
+      },
+
       dateField(label, attrName, options={}) {
         // merge the requested format option in for the formatter
         var formatter = function(value, opt) {

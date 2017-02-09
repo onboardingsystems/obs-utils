@@ -136,6 +136,7 @@ const App = React.createClass({
               {f.ssnField('SSN', 'ssn', {required: true})}
               {f.textField('Sensitive', 'sensitive', {type: "password"})}
               {f.currencyField('Bounty on your head', 'person_bounty')}
+              {f.percentField('Percent of your head', 'person_percent')}
               {f.dollarsField('Monthly Income', 'monthly_income')}
               {f.ordinalField('Favorite Day of Month', 'favorite_day_month')}
               {f.checkboxField('Is Important', 'is_important')}

@@ -64,18 +64,20 @@ var ObsTextarea = React.createClass({
     // So check that the defaultValue will not respond to isNil before
     // submitting a new value for props.value.
     if (_.isNil(this.props.value) && !_.isNil(this.props.defaultValue)) {
-      var _formatAndValidate = this.formatAndValidate(this.props.defaultValue),
-          valid = _formatAndValidate.valid,
-          parsed = _formatAndValidate.parsed,
-          formatted = _formatAndValidate.formatted;
+      var _formatAndValidate = this.formatAndValidate(this.props.defaultValue);
+
+      var valid = _formatAndValidate.valid;
+      var parsed = _formatAndValidate.parsed;
+      var formatted = _formatAndValidate.formatted;
 
       if (valid) {
         this.props.onChange({ formatted: formatted, parsed: parsed });
       }
     } else {
-      var _formatAndValidate2 = this.formatAndValidate(this.props.value),
-          valid = _formatAndValidate2.valid,
-          formatted = _formatAndValidate2.formatted;
+      var _formatAndValidate2 = this.formatAndValidate(this.props.value);
+
+      var valid = _formatAndValidate2.valid;
+      var formatted = _formatAndValidate2.formatted;
 
       if (valid) {
         this.props.onChange({ formatted: formatted });
