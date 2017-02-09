@@ -313,7 +313,6 @@ const Formatters = {
     // Using numeral, convert to a number.
     numObj = numeral(_.trim(val.parsed.replace(/[$\s,%]/g, '')))
     parsed = numObj.value()
-    console.log(parsed);
     // TODO: numeraljs does not throw errors.... we might want to think about
     // detecting our own?
     valid = true
