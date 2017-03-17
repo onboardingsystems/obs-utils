@@ -17,7 +17,7 @@ var Formatters = {
     return this.addressLines(addressObj).join(', ');
   },
   currencyDisplay: function currencyDisplay(value) {
-    var format = arguments.length <= 1 || arguments[1] === undefined ? 'dollars' : arguments[1];
+    var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'dollars';
 
     var numObj;
     numObj = numeral(value);
@@ -75,7 +75,7 @@ var Formatters = {
     return this.parseDate(value).format(this.dateTimeDetailedFormat);
   },
   requiredFormatter: function requiredFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var options = _.merge({}, { required: false }, options);
     var parsed,
@@ -105,7 +105,7 @@ var Formatters = {
     };
   },
   stringFormatter: function stringFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var options = _.merge({}, { required: false }, options);
     var parsed,
@@ -127,7 +127,7 @@ var Formatters = {
     };
   },
   phoneFormatter: function phoneFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         valid,
@@ -154,7 +154,7 @@ var Formatters = {
     };
   },
   emailFormatter: function emailFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         emailRegex,
@@ -162,9 +162,9 @@ var Formatters = {
         errors = [];
     val = Formatters.stringFormatter(value, options);
     if (_.isEmpty(val.parsed)) return val;
-    var _val = val;
-    var formatted = _val.formatted;
-    var parsed = _val.parsed;
+    var _val = val,
+        formatted = _val.formatted,
+        parsed = _val.parsed;
     // check that it matches our regex for a email
 
     emailRegex = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/;
@@ -182,7 +182,7 @@ var Formatters = {
     };
   },
   ssnFormatter: function ssnFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         valid,
@@ -209,7 +209,7 @@ var Formatters = {
     };
   },
   stateFormatter: function stateFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         valid,
@@ -236,7 +236,7 @@ var Formatters = {
     };
   },
   zipcodeFormatter: function zipcodeFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         valid,
@@ -263,7 +263,7 @@ var Formatters = {
     };
   },
   numberFormatter: function numberFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         numObj,
@@ -292,7 +292,7 @@ var Formatters = {
   // Options:
   //   * format - 'dollars' to suppress display of cents. 'cents' - default, full display.
   currencyFormatter: function currencyFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         numObj,
@@ -319,7 +319,7 @@ var Formatters = {
     };
   },
   dollarsFormatter: function dollarsFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     options['format'] = 'dollars';
     return Formatters.currencyFormatter(value, options);
@@ -329,7 +329,7 @@ var Formatters = {
   // Percent formatting and validation.
   //
   percentFormatter: function percentFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         numObj,
@@ -363,7 +363,7 @@ var Formatters = {
   // Options:
   //  * format - 'full-date' for "MMM DD, YYYY". 'month-year' for "MMM YYYY"
   dateFormatter: function dateFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         temp,
@@ -399,7 +399,7 @@ var Formatters = {
   // Options:
   //   * format - 'full-date' for "MMM DD, YYYY". 'month-year' for "MMM YYYY"
   timeFormatter: function timeFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         temp,
@@ -427,7 +427,7 @@ var Formatters = {
     };
   },
   ordinalFormatter: function ordinalFormatter(value) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var val,
         parsed,

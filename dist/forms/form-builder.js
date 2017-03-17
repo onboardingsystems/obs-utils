@@ -36,7 +36,6 @@ var FormBuilder = {
   // The FormBuilder does not maintain its own state.  Instead, you pass in a
   // reference (parent) that is maintaining state.  formDataAttr tells us where to
   // find the data in the parent's state.
-
   new: function _new(options) {
     // add default options for the formData, errorData, and parsedData attr's.
     options = _.merge({}, {
@@ -108,7 +107,7 @@ var FormBuilder = {
       label: ObsLabel,
 
       formattedTextarea: function formattedTextarea(label, attrName, formatterFun) {
-        var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+        var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
         return React.createElement(ObsTextarea, {
           value: this._getValue(attrName), defaultValue: options.defaultValue,
@@ -125,7 +124,7 @@ var FormBuilder = {
           willUnmount: _.bind(this._unregister, this) });
       },
       formattedField: function formattedField(label, attrName, formatterFun) {
-        var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+        var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
         return React.createElement(ObsText, {
           value: this._getValue(attrName), defaultValue: options.defaultValue,
@@ -142,7 +141,7 @@ var FormBuilder = {
           willUnmount: _.bind(this._unregister, this) });
       },
       checkboxField: function checkboxField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         var options = this._mergeClasses(options, 'obs-checkbox');
         return React.createElement(ObsCheckbox, { label: label, hint: options.hint, required: options.required,
@@ -154,57 +153,57 @@ var FormBuilder = {
           didMount: _.bind(this._register, this), willUnmount: _.bind(this._unregister, this) });
       },
       textField: function textField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.stringFormatter, options);
       },
       numberField: function numberField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.numberFormatter, this._mergeClasses(options, 'obs-number'));
       },
       phoneField: function phoneField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.phoneFormatter, this._mergeClasses(options, 'obs-phone'));
       },
       emailField: function emailField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.emailFormatter, this._mergeClasses(options, 'obs-email'));
       },
       ssnField: function ssnField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.ssnFormatter, this._mergeClasses(options, 'obs-ssn'));
       },
       stateField: function stateField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.stateFormatter, this._mergeClasses(options, 'obs-state'));
       },
       zipcodeField: function zipcodeField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.zipcodeFormatter, this._mergeClasses(options, 'obs-zipcode'));
       },
       currencyField: function currencyField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.currencyFormatter, this._mergeClasses(options, 'obs-currency'));
       },
       dollarsField: function dollarsField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.dollarsFormatter, this._mergeClasses(options, 'obs-dollars'));
       },
       percentField: function percentField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.percentFormatter, this._mergeClasses(options, 'obs-percent'));
       },
       dateField: function dateField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         // merge the requested format option in for the formatter
         var formatter = function formatter(value, opt) {
@@ -213,7 +212,7 @@ var FormBuilder = {
         return this.formattedField(label, attrName, formatter, this._mergeClasses(options, 'obs-date'));
       },
       timeField: function timeField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         // merge the requested format option in for the formatter
         var formatter = function formatter(value, opt) {
@@ -222,12 +221,12 @@ var FormBuilder = {
         return this.formattedField(label, attrName, formatter, this._mergeClasses(options, 'obs-time'));
       },
       ordinalField: function ordinalField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedField(label, attrName, Formatters.ordinalFormatter, this._mergeClasses(options, 'obs-ordinal'));
       },
       addressField: function addressField(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return React.createElement(ObsAddressUs, {
           value: this._getValue(attrName), attr: attrName, errors: this.errors(),
@@ -241,7 +240,7 @@ var FormBuilder = {
           willUnmount: _.bind(this._unregister, this) });
       },
       nameField: function nameField(label) {
-        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
         return React.createElement(ObsName, {
           value: this.data(), errors: this.errors(),
@@ -257,7 +256,7 @@ var FormBuilder = {
           willUnmount: _.bind(this._unregister, this) });
       },
       textarea: function textarea(label, attrName) {
-        var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
         return this.formattedTextarea(label, attrName, Formatters.stringFormatter, this._mergeClasses(options, 'obs-dollars'));
       },
