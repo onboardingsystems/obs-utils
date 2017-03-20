@@ -16,7 +16,8 @@ module.exports = {
     Label: require('./forms/label'),
     RequiredMarker: require('./forms/required-marker'),
     Text: require('./forms/text'),
-    Textarea: require('./forms/textarea')
+    Textarea: require('./forms/textarea'),
+    RadioGroup: require('./forms/radio-group')
   },
   Formatters: require("./formatters/formatters"),
   LoadingEllipsis: require("./loading/ellipsis"),
