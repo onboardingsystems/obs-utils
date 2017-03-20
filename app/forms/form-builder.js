@@ -11,6 +11,7 @@ const ObsCheckbox       = require('./checkbox')
 const ObsCompoundLayout = require('./compound-layout')
 const ObsAddressUs      = require('./address-us')
 const ObsName           = require('./name')
+const ObsRadioGroup     = require('./radio-group')
 const Formatters        = require('../formatters/formatters')
 
 
@@ -167,6 +168,20 @@ const FormBuilder = {
             value={this._getValue(attrName)} defaultValue={options.defaultValue}
             errors={this._getErrors(attrName)}
             className={options.className} id={options.id}
+            onChange={_.bind(this._onChange, this, attrName)}
+            onBlur={_.bind(this._onBlur, this, attrName)}
+            didMount={_.bind(this._register, this)} willUnmount={_.bind(this._unregister, this)} />
+        )
+      },
+
+      radioGroup(label, attrName, options, opts={}) {
+        var opts = this._mergeClasses(opts, 'obs-checkbox')
+        return (
+          <ObsRadioGroup label={label} hint={opts.hint} required={opts.required}
+            value={this._getValue(attrName)} defaultValue={opts.defaultValue}
+            options={options} includeBlank={opts.includeBlank}
+            errors={this._getErrors(attrName)}
+            className={opts.className} id={opts.id}
             onChange={_.bind(this._onChange, this, attrName)}
             onBlur={_.bind(this._onBlur, this, attrName)}
             didMount={_.bind(this._register, this)} willUnmount={_.bind(this._unregister, this)} />

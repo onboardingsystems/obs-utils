@@ -2,26 +2,23 @@ const React    = require('react')
 const ReactDOM = require('react-dom')
 const cx       = require('classnames')
 const _        = require('lodash')
-
+import $ from 'jquery';
 
 const ObsLabel   = require('./label')
 const ObsError   = require('./error')
-const Formatters = require('../formatters/formatters')
 
-const ObsText = React.createClass({
+const ObsRadioGroup = React.createClass({
   propTypes: {
-    value:            React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    defaultValue:     React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    value:            React.PropTypes.string,
+    defaultValue:     React.PropTypes.string,
+    options:          React.PropTypes.array,
     errors:           React.PropTypes.array,
-    formatter:        React.PropTypes.func,
     id:               React.PropTypes.string,
     className:        React.PropTypes.string,
     autoFocus:        React.PropTypes.bool,
-    placeholder:      React.PropTypes.string,
     label:            React.PropTypes.string,
     hint:             React.PropTypes.string,
     required:         React.PropTypes.bool,
-    type:             React.PropTypes.string,
     customValidator:  React.PropTypes.func,
     onChange:         React.PropTypes.func,
     onBlur:           React.PropTypes.func,
@@ -34,15 +31,14 @@ const ObsText = React.createClass({
       defaultValue: "",
       required: false,
       autoFocus: false,
-      type: "text",
-      errors:   [],
-      formatter: Formatters.requiredFormatter
+      options: [],
+      errors:   []
     }
   },
 
   getInitialState() {
     return {
-      id: this.props.id || _.uniqueId('text_'),
+      id: this.props.id || _.uniqueId('radio_group_'),
     }
   },
 
@@ -84,7 +80,8 @@ const ObsText = React.createClass({
   },
 
   componentWillReceiveProps(newProps) {
-    var currentValue = document.getElementById(this.state.id).value
+    var currentValue = $(`#${this.state.id} input:checked`).val();
+
     if (newProps.value !== currentValue && _.isFunction(this.props.onChange)) {
       var result = this.formatAndValidate(newProps.value)
       if (result.valid)
@@ -92,51 +89,56 @@ const ObsText = React.createClass({
     }
   },
 
-  format(value) {
-    return this.props.formatter(value, {required: this.props.required})
-  },
-
   runValidations() {
-    return this.onBlur()
+    this.onBlur()
   },
 
   onChange(e) {
     if (_.isFunction(this.props.onChange))
-      this.props.onChange(e.target.value)
+      this.props.onChange(this.formatAndValidate(e.target.value))
   },
 
-  onBlur(e) {
-    if (_.isFunction(this.props.onBlur)) {
-      var result = this.formatAndValidate(this.props.value)
-      this.props.onBlur(result)
-      return result.errors
+  onBlur() {
+    if(_.isFunction(this.props.onBlur)) {
+      this.props.onBlur(this.formatAndValidate(this.props.value))
     }
   },
 
   formatAndValidate(value) {
-    var formatResult, customErrors = []
-    formatResult = this.format(value)
-    // run the customValidator if there is one.  Modify the formatResults if
-    // there are errors.
-    if (_.isFunction(this.props.customValidator)) {
-      customErrors = this.props.customValidator(formatResult.formatted)
-      if (!_.isEmpty(customErrors)) {
-        formatResult.valid = false
-        formatResult.parsed = null
-        formatResult.errors = _.concat(formatResult.errors, customErrors)
+    var formatted, parsed, errors = []
+
+    // rewrite "blank" values as null
+    if (_.isNil(value))
+      value = null;
+    if (_.isEmpty(value))
+      value = null;
+
+    // both formatted and parsed values are the same.  This is by design to
+    // simplify things.  Otherwise, the value props would have to be able to
+    // accept the formatted or parsed value as valid input.
+    formatted = value;
+    parsed = value;
+
+    // check for required
+    if (this.props.required && _.isNull(parsed)) {
+      errors.push('is required');
+    }
+
+    // check for inclusion in the list of options, but only if there wasn't a
+    // requirement error first
+    if (_.isEmpty(errors)) {
+      var allowedValues = _.map(this.props.options, "value")
+      if (!_.includes(allowedValues, value)) {
+        errors.push('invalid value');
+        parsed = null;
       }
     }
-    return formatResult
-  },
 
-  // having a value of null can be bad for our controlled inputs, even if for a
-  // little while.  So since our defaultValue doesn't kick in right away we
-  // still need something here to help prevent bad values from being rendered.
-  value() {
-    if (_.isNil(this.props.value)) {
-      return ""
-    } else {
-      return this.props.value
+    return {
+      valid: errors.length === 0,
+      parsed,
+      formatted,
+      errors
     }
   },
 
@@ -147,17 +149,29 @@ const ObsText = React.createClass({
       [ this.props.className ]: _.isString(this.props.className)
     })
 
+    var options = _.map(this.props.options, (option, i) => {
+      // give the radio input an id of "id[value]".  So if the id was
+      // "some_radio_group" and the value was "red" the resulting id will be
+      // "some_radio_group[red]"
+      var id = `${this.state.id}[${option.value}]`;
+      return (
+        <div className="radio" key={i}>
+          <label>
+            <input type="radio" id={id} value={option.value} checked={option.value === this.props.value} onChange={this.onChange} onBlur={this.onBlur} autoFocus={this.props.autoFocus} />
+            {option.name}
+          </label>
+        </div>
+      )
+    })
+
     return (
-      <div className={groupClasses}>
+      <div className={groupClasses} id={this.state.id}>
         <ObsLabel text={this.props.label} hint={this.props.hint} htmlFor={this.state.id} required={this.props.required} />
-        <input id={this.state.id} className="form-control" type={this.props.type} value={this.value()}
-          placeholder={this.props.placeholder}
-          onChange={this.onChange} onBlur={this.onBlur}
-          autoFocus={this.props.autoFocus} />
+        {options}
         <ObsError errors={this.props.errors} />
       </div>
     )
   }
 })
 
-module.exports = ObsText
+module.exports = ObsRadioGroup

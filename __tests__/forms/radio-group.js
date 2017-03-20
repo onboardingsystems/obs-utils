@@ -11,7 +11,7 @@ describe('OBSRadioGroup', ()=> {
 
   it('does not blow up', ()=> {
     const comp = shallow(
-      <OBSRadioGroup value="bob"/>
+      <OBSRadioGroup value="bob" options={[{name: 'bob', value: 'bob'}]}/>
     )
     expect(comp.find('input').props().value).toEqual('bob')
   }),

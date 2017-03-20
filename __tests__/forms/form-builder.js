@@ -249,4 +249,19 @@ describe('defaultValue', ()=>{
     expect(formBuilder.parsed()).toEqual({name: 'test'})
   })
 
+  it('radioGroup passes defaultValue to the radioGroup component', ()=> {
+    const parent = TestUtils.renderIntoDocument(<OBSText/>)
+    var formBuilder = OBSFormBuilder.new({
+      parent: parent
+    })
+    let comp = TestUtils.renderIntoDocument(formBuilder.radioGroup('Radio Group', 'favColor', [{name: "Red", value: "red"}], {defaultValue: "red"}))
+
+    // test that the defaultValue was passed to the component
+    expect(comp.props.defaultValue).toEqual("red")
+
+    // test that the defaultValue was saved to the FormBuilder's data/state
+    expect(formBuilder.data()).toEqual({favColor: 'red'})
+    expect(formBuilder.parsed()).toEqual({favColor: 'red'})
+  })
+
 })
