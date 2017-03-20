@@ -44,4 +44,4 @@ List of breaking changes moving from one version to another.
   * adds defaultValue option to textarea, text, and checkbox components
   * adds React.PropType checking to both value and defaultValue props on input and textarea based components
 * 0.3.0
-  * adds RadioGroup component
+  * adds RadioGroup component which is now dependent on jQuery
