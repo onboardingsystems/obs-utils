@@ -32,7 +32,7 @@ var ObsForm = React.createClass({
     return React.createElement(
       'form',
       { className: classes, onSubmit: this.onSubmit },
-      React.createElement('input', { type: 'submit', display: { display: 'none' } }),
+      React.createElement('input', { type: 'submit', style: { display: 'none' } }),
       this.props.children
     );
   }
