@@ -27,7 +27,7 @@ const ObsForm = React.createClass({
 
     return (
       <form className={classes} onSubmit={this.onSubmit}>
-        <input type="submit" className="hidden"/>
+        <input type="submit" display={{display: 'none'}}/>
         {this.props.children}
       </form>
     )
