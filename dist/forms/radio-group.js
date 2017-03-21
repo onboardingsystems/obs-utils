@@ -164,17 +164,24 @@ var ObsRadioGroup = React.createClass({
     }, this.props.className, _.isString(this.props.className)));
 
     var options = _.map(this.props.options, function (option, i) {
+      var checked = option.value === _this.props.value;
       // give the radio input an id of "id[value]".  So if the id was
       // "some_radio_group" and the value was "red" the resulting id will be
       // "some_radio_group[red]"
       var id = _this.state.id + '[' + option.value + ']';
+      // create a checked style to make it easier to create custom radio
+      // styles
+      var radioLabelClass = cx({
+        "radio-label": true,
+        "checked": checked
+      });
       return React.createElement(
         'div',
         { className: 'radio', key: i },
         React.createElement(
           'label',
-          { className: 'radio-label' },
-          React.createElement('input', { type: 'radio', id: id, value: option.value, checked: option.value === _this.props.value, onChange: _this.onChange, onBlur: _this.onBlur, autoFocus: _this.props.autoFocus }),
+          { className: radioLabelClass },
+          React.createElement('input', { type: 'radio', id: id, value: option.value, checked: checked, onChange: _this.onChange, onBlur: _this.onBlur, autoFocus: _this.props.autoFocus }),
           option.name
         )
       );
