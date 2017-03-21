@@ -175,7 +175,7 @@ const FormBuilder = {
       },
 
       radioGroup(label, attrName, options, opts={}) {
-        var opts = this._mergeClasses(opts, 'obs-checkbox')
+        var opts = this._mergeClasses(opts, 'obs-radio-group')
         return (
           <ObsRadioGroup label={label} hint={opts.hint} required={opts.required}
             value={this._getValue(attrName)} defaultValue={opts.defaultValue}

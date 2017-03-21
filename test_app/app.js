@@ -21,7 +21,7 @@ const App = React.createClass({
         first_name: 'Bob',
         phone: '1112223333',
         sensitive: 'secret',
-        fav_color: 'r'
+        fav_color: null
       }
     }
   },
@@ -124,7 +124,7 @@ const App = React.createClass({
           </div>
           <div className="col-xs-6">
             <f.form builder={f} className="obs-form">
-              {f.radioGroup('What is your favorite color?', 'fav_color', [{name: "Blue", value: "b"}, {name: "Red", value: "r"}], {required: true, defaultValue: 'b'})}
+              {f.radioGroup('What is your favorite color?', 'fav_color', [{name: "Blue", value: "b"}, {name: "Red", value: "r"}], {required: true})}
               {f.textField('Is "default" by default', 'default_text', {required: true, defaultValue: 'default'})}
               {f.checkboxField('Is checked by default', 'default_check', {defaultValue: true})}
               {f.nameField('Name', {required: true, autoFocus: true})}
