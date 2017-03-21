@@ -102,8 +102,16 @@ var ObsRadioGroup = React.createClass({
   runValidations: function runValidations() {
     this.onBlur();
   },
+
+
+  // have onChange also fire onBlur so it can clear errors.  Otherwise,
+  // selecting a radio will not clear errors and when you try to click on
+  // something below the input it will blur, clear the error, and shift the
+  // layout making it difficult to click on the next input.
   onChange: function onChange(e) {
-    if (_.isFunction(this.props.onChange)) this.props.onChange(this.formatAndValidate(e.target.value));
+    if (_.isFunction(this.props.onBlur)) {
+      this.props.onBlur(this.formatAndValidate(e.target.value));
+    }
   },
   onBlur: function onBlur() {
     if (_.isFunction(this.props.onBlur)) {
@@ -165,7 +173,7 @@ var ObsRadioGroup = React.createClass({
         { className: 'radio', key: i },
         React.createElement(
           'label',
-          null,
+          { className: 'radio-label' },
           React.createElement('input', { type: 'radio', id: id, value: option.value, checked: option.value === _this.props.value, onChange: _this.onChange, onBlur: _this.onBlur, autoFocus: _this.props.autoFocus }),
           option.name
         )
@@ -175,7 +183,7 @@ var ObsRadioGroup = React.createClass({
     return React.createElement(
       'div',
       { className: groupClasses, id: this.state.id },
-      React.createElement(ObsLabel, { text: this.props.label, hint: this.props.hint, htmlFor: this.state.id, required: this.props.required }),
+      React.createElement(ObsLabel, { className: 'radio-group-label', text: this.props.label, hint: this.props.hint, htmlFor: this.state.id, required: this.props.required }),
       options,
       React.createElement(ObsError, { errors: this.props.errors })
     );

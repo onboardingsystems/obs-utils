@@ -156,7 +156,7 @@ var FormBuilder = {
       radioGroup: function radioGroup(label, attrName, options) {
         var opts = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-        var opts = this._mergeClasses(opts, 'obs-checkbox');
+        var opts = this._mergeClasses(opts, 'obs-radio-group');
         return React.createElement(ObsRadioGroup, { label: label, hint: opts.hint, required: opts.required,
           value: this._getValue(attrName), defaultValue: opts.defaultValue,
           options: options, includeBlank: opts.includeBlank,
