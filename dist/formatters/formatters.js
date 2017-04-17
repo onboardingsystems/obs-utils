@@ -429,13 +429,12 @@ var Formatters = {
         parsed,
         formatted,
         errors = [];
-    val = Formatters.stringFormatter(value, options);
-    if (!val.valid) return val;
-
     if (options.timezone === 'browser') {
-      val = adjustUTCTimezoneToBrowser(val);
+      value = adjustUTCTimezoneToBrowser(value);
     }
 
+    val = Formatters.stringFormatter(value, options);
+    if (!val.valid) return val;
     temp = moment(val.parsed, "hh:mm:ss a");
     valid = temp.isValid();
     if (valid) {
