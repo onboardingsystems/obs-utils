@@ -2,19 +2,18 @@ const _       = require('lodash')
 const moment  = require('moment')
 const numeral = require('numeral')
 
-function adjustUTCTimezoneToBrowser(dateTime) {
+function adjustElixirDateTime(dateTime) {
   // This function assumes you are using ISO datetime format.
   // Function is intended to support date time values from Elixir.
   let extendedIndex = dateTime.indexOf('.');
+  let zIndex = dateTime.indexOf('Z');
 
-  if (extendedIndex > -1) {
-    dateTime = dateTime.substring(0, extendedIndex);
+  // Check if there is a '.' but no 'Z' value in the string.
+  if (extendedIndex > -1 && zIndex === -1) {
+    return `${dateTime}Z`;
   }
 
-  dateTime = `${dateTime}.000Z`; // Set timezone to UTC
-  let revisedDate = new Date(dateTime); // Browser converts to local timezone.
-
-  return moment(revisedDate).format('YYYY-MM-DD h:mm a');
+  return dateTime;
 }
 
 const Formatters = {
@@ -345,17 +344,14 @@ const Formatters = {
   //
   // Options:
   //  * format - 'full-date' for "MMM DD, YYYY". 'month-year' for "MMM YYYY"
-  //  * timezone - 'browser' or 'none'.
   dateFormatter(value, options={}) {
     var val, temp, valid, parsed, formatted, errors = []
+
+    value = adjustElixirDateTime(value);
+
     val = Formatters.stringFormatter(value, options)
     if (!val.valid)
       return val
-
-    if (options.timezone === 'browser') {
-      val = adjustUTCTimezoneToBrowser(val);
-    }
-
     options = _.merge({}, {format: 'full-date'}, options)
     temp = this.parseDate(val.parsed)
     valid = temp.isValid()
@@ -383,12 +379,10 @@ const Formatters = {
   //
   // Options:
   //  * format - 'full-date' for "MMM DD, YYYY". 'month-year' for "MMM YYYY"
-  //  * timezone - 'browser' or 'none'.
   timeFormatter(value, options={}) {
     var val, temp, valid, parsed, formatted, errors = []
-    if (options.timezone === 'browser') {
-      value = adjustUTCTimezoneToBrowser(value);
-    }
+
+    value = adjustElixirDateTime(value);
 
     val = Formatters.stringFormatter(value, options)
     if (!val.valid)
