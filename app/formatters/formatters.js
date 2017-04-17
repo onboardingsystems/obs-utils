@@ -387,7 +387,7 @@ const Formatters = {
     val = Formatters.stringFormatter(value, options)
     if (!val.valid)
       return val
-    temp = moment(val.parsed, "hh:mm:ss a")
+    temp = moment(val.parsed, ["hh:mm:ss a", "YYYY-MM-DD HH:mm:ss.sssZ"])
     valid = temp.isValid()
     if (valid) {
       formatted = temp.format(this.timeFormat)
@@ -452,7 +452,9 @@ const Formatters = {
       'YYYY-MM-DD h:mm:ss a',
       'MMM DD YYYY h:mm:ss a',
       'M-D-YYYY h:mm:ss a',
-      'YYYY-MM-DD h:mm:ss a'
+      'YYYY-MM-DD h:mm:ss a',
+      // Elixir format
+      'YYYY-MM-DD HH:mm:ss.sssZ'
     ])
   }
 }
