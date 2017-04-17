@@ -2,6 +2,21 @@ const _       = require('lodash')
 const moment  = require('moment')
 const numeral = require('numeral')
 
+function adjustUTCTimezoneToBrowser(dateTime) {
+  // This function assumes you are using ISO datetime format.
+  // Function is intended to support date time values from Elixir.
+  let extendedIndex = dateTime.indexOf('.');
+
+  if (extendedIndex > -1) {
+    dateTime = dateTime.substring(0, extendedIndex);
+  }
+
+  dateTime = `${dateTime}.000Z`; // Set timezone to UTC
+  let revisedDate = new Date(dateTime); // Browser converts to local timezone.
+
+  return moment(revisedDate).format('YYYY-MM-DD h:mm a');
+}
+
 const Formatters = {
 
   addressLines(addressObj) {
@@ -330,11 +345,17 @@ const Formatters = {
   //
   // Options:
   //  * format - 'full-date' for "MMM DD, YYYY". 'month-year' for "MMM YYYY"
+  //  * timezone - 'browser' or 'none'.
   dateFormatter(value, options={}) {
     var val, temp, valid, parsed, formatted, errors = []
     val = Formatters.stringFormatter(value, options)
     if (!val.valid)
       return val
+
+    if (options.timezone === 'browser') {
+      val = adjustUTCTimezoneToBrowser(val);
+    }
+
     options = _.merge({}, {format: 'full-date'}, options)
     temp = this.parseDate(val.parsed)
     valid = temp.isValid()
@@ -361,12 +382,18 @@ const Formatters = {
   // Time formatting and validation.
   //
   // Options:
-  //   * format - 'full-date' for "MMM DD, YYYY". 'month-year' for "MMM YYYY"
+  //  * format - 'full-date' for "MMM DD, YYYY". 'month-year' for "MMM YYYY"
+  //  * timezone - 'browser' or 'none'.
   timeFormatter(value, options={}) {
     var val, temp, valid, parsed, formatted, errors = []
     val = Formatters.stringFormatter(value, options)
     if (!val.valid)
       return val
+
+    if (options.timezone === 'browser') {
+      val = adjustUTCTimezoneToBrowser(val);
+    }
+
     temp = moment(val.parsed, "hh:mm:ss a")
     valid = temp.isValid()
     if (valid) {
