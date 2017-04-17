@@ -15,6 +15,7 @@ var ObsCheckbox = require('./checkbox');
 var ObsCompoundLayout = require('./compound-layout');
 var ObsAddressUs = require('./address-us');
 var ObsName = require('./name');
+var ObsRadioGroup = require('./radio-group');
 var Formatters = require('../formatters/formatters');
 
 // Expected errors format.
@@ -148,6 +149,19 @@ var FormBuilder = {
           value: this._getValue(attrName), defaultValue: options.defaultValue,
           errors: this._getErrors(attrName),
           className: options.className, id: options.id,
+          onChange: _.bind(this._onChange, this, attrName),
+          onBlur: _.bind(this._onBlur, this, attrName),
+          didMount: _.bind(this._register, this), willUnmount: _.bind(this._unregister, this) });
+      },
+      radioGroup: function radioGroup(label, attrName, options) {
+        var opts = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+        var opts = this._mergeClasses(opts, 'obs-radio-group');
+        return React.createElement(ObsRadioGroup, { label: label, hint: opts.hint, required: opts.required,
+          value: this._getValue(attrName), defaultValue: opts.defaultValue,
+          options: options, includeBlank: opts.includeBlank,
+          errors: this._getErrors(attrName),
+          className: opts.className, id: opts.id,
           onChange: _.bind(this._onChange, this, attrName),
           onBlur: _.bind(this._onBlur, this, attrName),
           didMount: _.bind(this._register, this), willUnmount: _.bind(this._unregister, this) });

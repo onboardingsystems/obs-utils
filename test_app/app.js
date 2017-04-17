@@ -20,7 +20,8 @@ const App = React.createClass({
         default_check: null,
         first_name: 'Bob',
         phone: '1112223333',
-        sensitive: 'secret'
+        sensitive: 'secret',
+        fav_color: null
       }
     }
   },
@@ -123,6 +124,7 @@ const App = React.createClass({
           </div>
           <div className="col-xs-6">
             <f.form builder={f} className="obs-form">
+              {f.radioGroup('What is your favorite color?', 'fav_color', [{name: "Blue", value: "b"}, {name: "Red", value: "r"}], {required: true})}
               {f.textField('Is "default" by default', 'default_text', {required: true, defaultValue: 'default'})}
               {f.checkboxField('Is checked by default', 'default_check', {defaultValue: true})}
               {f.nameField('Name', {required: true, autoFocus: true})}
@@ -147,6 +149,10 @@ const App = React.createClass({
             <button className="btn btn-default" onClick={this.submitForm}>Fake externally modified state</button>
           </div>
           <div className="col-xs-6">
+            <p>
+              <b>Fav Color: </b>
+              {_.get(this.state.formData, 'fav_color')} ({_.get(this.state.parsedData, 'fav_color')})
+            </p>
             <p>
               <b>Default Text: </b>
               {_.get(this.state.formData, 'default_text')}
