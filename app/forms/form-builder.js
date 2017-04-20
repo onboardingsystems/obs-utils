@@ -259,7 +259,7 @@ const FormBuilder = {
             onChange={_.bind(this._onChange, this)}
             onBlur={_.bind(this._onBlur, this)}
             didMount={_.bind(this._register, this)}
-            willUnmount={_.bind(this._unregister, this)} />
+            willUnmount={_.bind(this._unregister, this)} streetCustomValidator={options.streetCustomValidator}/>
         )
       },
 

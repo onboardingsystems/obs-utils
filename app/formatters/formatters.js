@@ -3,6 +3,8 @@ const moment  = require('moment')
 const numeral = require('numeral')
 
 function adjustElixirDateTime(dateTime) {
+  if (dateTime === undefined || dateTime === null) return dateTime;
+
   // This function assumes you are using ISO datetime format.
   // Function is intended to support date time values from Elixir.
   let extendedIndex = dateTime.indexOf('.');
