@@ -24,7 +24,8 @@ const ObsAddressUs = React.createClass({
     className:    React.PropTypes.string,
     autoFocus:    React.PropTypes.bool,
     didMount:     React.PropTypes.func,
-    willUnmount:  React.PropTypes.func
+    willUnmount:  React.PropTypes.func,
+    streetCustomValidator: React.PropTypes.func
   },
 
   fields: {
@@ -165,7 +166,7 @@ const ObsAddressUs = React.createClass({
             onChange={_.bind(this.onChange, this, this.fields.street_1.attr)}
             onBlur={_.bind(this.onBlur, this, this.fields.street_1.attr)}
             didMount={this.register} willUnmount={this.unregister}
-            autoFocus={this.props.autoFocus} />
+            autoFocus={this.props.autoFocus} customValidator={this.props.streetCustomValidator}/>
 
           <ObsCompoundLayout layout={"inline"}>
             <div className="flex-grow-shrink">
