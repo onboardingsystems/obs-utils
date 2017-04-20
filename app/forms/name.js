@@ -24,7 +24,9 @@ const Name = React.createClass({
     className:     React.PropTypes.string,
     autoFocus:     React.PropTypes.bool,
     didMount:      React.PropTypes.func,
-    willUnmount:   React.PropTypes.func
+    willUnmount:   React.PropTypes.func,
+    firstNameCustomValidator: React.PropTypes.func,
+    lastNameCustomValidator:  React.PropTypes.func
   },
 
   inputs: [],
@@ -133,7 +135,8 @@ const Name = React.createClass({
               onChange={_.bind(this.onChange, this, this.props.firstNameAttr)}
               onBlur={_.bind(this.onBlur, this, this.props.firstNameAttr)}
               didMount={this.register} willUnmount={this.unregister}
-              autoFocus={this.props.autoFocus} />
+              autoFocus={this.props.autoFocus}
+              customValidator={this.props.firstNameCustomValidator} />
           </div>
           <div className="flex-grow-shrink">
             <ObsText
@@ -143,7 +146,8 @@ const Name = React.createClass({
               className={classesFor(this.props.lastNameAttr, "name-last")}
               onChange={_.bind(this.onChange, this, this.props.lastNameAttr)}
               onBlur={_.bind(this.onBlur, this, this.props.lastNameAttr)}
-              didMount={this.register} willUnmount={this.unregister} />
+              didMount={this.register} willUnmount={this.unregister}
+              customValidator={this.props.lastNameCustomValidator} />
           </div>
         </ObsCompoundLayout>
         <ObsError errors={this.errorsWithLabelNames()} />

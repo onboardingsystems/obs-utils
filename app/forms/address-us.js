@@ -25,7 +25,10 @@ const ObsAddressUs = React.createClass({
     autoFocus:    React.PropTypes.bool,
     didMount:     React.PropTypes.func,
     willUnmount:  React.PropTypes.func,
-    streetCustomValidator: React.PropTypes.func
+    streetCustomValidator: React.PropTypes.func,
+    cityCustomValidator:   React.PropTypes.func,
+    stateCustomValidator:  React.PropTypes.func,
+    zipCustomValidator:    React.PropTypes.func
   },
 
   fields: {
@@ -177,7 +180,7 @@ const ObsAddressUs = React.createClass({
                 className={this.classesForAttr(this.fields.city.attr, "address-city")}
                 onChange={_.bind(this.onChange, this, this.fields.city.attr)}
                 onBlur={_.bind(this.onBlur, this, this.fields.city.attr)}
-                didMount={this.register} willUnmount={this.unregister} />
+                didMount={this.register} willUnmount={this.unregister} customValidator={this.props.cityCustomValidator}/>
             </div>
             <div className="flex-static">
               <ObsText
@@ -187,7 +190,7 @@ const ObsAddressUs = React.createClass({
                 className={this.classesForAttr(this.fields.state.attr, "address-state state")}
                 onChange={_.bind(this.onChange, this, this.fields.state.attr)}
                 onBlur={_.bind(this.onBlur, this, this.fields.state.attr)}
-                didMount={this.register} willUnmount={this.unregister} />
+                didMount={this.register} willUnmount={this.unregister} customValidator={this.props.stateCustomValidator}/>
             </div>
             <div className="flex-static">
               <ObsText
@@ -197,7 +200,7 @@ const ObsAddressUs = React.createClass({
                 className={this.classesForAttr(this.fields.zip.attr, "address-zipcode zipcode")}
                 onChange={_.bind(this.onChange, this, this.fields.zip.attr)}
                 onBlur={_.bind(this.onBlur, this, this.fields.zip.attr)}
-                didMount={this.register} willUnmount={this.unregister} />
+                didMount={this.register} willUnmount={this.unregister} customValidator={this.props.zipCustomValidator}/>
             </div>
           </ObsCompoundLayout>
         </ObsCompoundLayout>
