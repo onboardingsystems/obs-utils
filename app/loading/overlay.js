@@ -1,22 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-var LoadingOverlay = React.createClass({
-  propTypes: {
-    show: React.PropTypes.bool.isRequired,
-    width: React.PropTypes.string,
-    height: React.PropTypes.string
-  },
+class LoadingOverlay extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      width: 'md',
-      height: 'short'
-    };
-  },
+    this.blockClicks = this.blockClicks.bind(this);
+    this.renderOverlay = this.renderOverlay.bind(this);
+  }
 
   blockClicks(e) {
     return e.preventDefault();
-  },
+  }
 
   renderOverlay() {
     if(this.props.show) {
@@ -28,7 +23,7 @@ var LoadingOverlay = React.createClass({
     } else {
       return <noscript/>;
     }
-  },
+  }
 
   render() {
     return(
@@ -38,6 +33,18 @@ var LoadingOverlay = React.createClass({
       </div>
     );
   }
-});
+}
+
+LoadingOverlay.propTypes = {
+  show: PropTypes.bool.isRequired,
+  width: PropTypes.string,
+  height: PropTypes.string
+}
+
+LoadingOverlay.defaultProps = {
+  width: 'md',
+  height: 'short'
+}
+
 
 module.exports = LoadingOverlay;
