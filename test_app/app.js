@@ -17,6 +17,7 @@ const App = React.createClass({
       holdDone: false,
       formData: {
         default_text: null,
+        tag_text: null,
         default_check: null,
         first_name: 'Bob',
         phone: '1112223333',
@@ -126,6 +127,7 @@ const App = React.createClass({
             <f.form builder={f} className="obs-form">
               {f.radioGroup('What is your favorite color?', 'fav_color', [{name: "Blue", value: "b"}, {name: "Red", value: "r"}], {required: true})}
               {f.textField('Is "default" by default', 'default_text', {required: true, defaultValue: 'default'})}
+              <f.TextField form={f} label={'Is "default" by default with tag'} name="tag_text" options={{required: true, defaultValue: 'default'}} />
               {f.checkboxField('Is checked by default', 'default_check', {defaultValue: true})}
               {f.nameField('Name', {required: true, autoFocus: true})}
               {f.emailField('Email', 'email', {required: true})}

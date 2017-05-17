@@ -1,43 +1,34 @@
 import React from 'react';
-var cx = require('classnames');
+import cx from 'classnames';
+import PropTypes from 'prop-types';
 
-var ConfirmButton = React.createClass({
-  propTypes: {
-    label: React.PropTypes.string, // Button text before click
-    message: React.PropTypes.string, // Button text after click
-    wait: React.PropTypes.number, // time in ms to wait for confirmation
-    mode: React.PropTypes.string,
-    onAction: React.PropTypes.func, // function called after confirmation clicked
-    onConfirm: React.PropTypes.func, // function called on first click
-    onTimeout: React.PropTypes.func // function called on timeout
-  },
+class ConfirmButton extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      label: "Delete",
-      message: "Are you sure?",
-      mode: null,
-      wait: 3000
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       confirm: this.props.mode == "confirm",
       timeout: null
-    }
-  },
+    };
+
+    this._onClick = this._onClick.bind(this);
+    this._onMouseOut = this._onMouseOut.bind(this);
+    this._onMouseOver = this._onMouseOver.bind(this);
+    this.clearTimeout = this.clearTimeout.bind(this);
+    this.timeout = this.timeout.bind(this);
+    this.endConfirm = this.endConfirm.bind(this);
+  }
 
   componentWillReceiveProps(nextProps) {
     if((nextProps.mode == "confirm") !== this.state.confirm) {
       this.clearTimeout();
       this.setState({confirm: nextProps.mode == "confirm"});
     }
-  },
+  }
 
   componentWillUnmount() {
     this.clearTimeout();
-  },
+  }
 
   _onClick(e) {
     if(typeof(e) != "undefined") {
@@ -55,39 +46,39 @@ var ConfirmButton = React.createClass({
         this.props.onConfirm();
       }
     }
-  },
+  }
 
   _onMouseOver() {
     if(this.state.confirm) {
       this.clearTimeout();
     }
-  },
+  }
 
   _onMouseOut() {
     if(this.state.confirm) {
       var timeout = setTimeout(this.timeout, this.props.wait);
       this.setState({timeout: timeout});
     }
-  },
+  }
 
   clearTimeout() {
     if(this.state.timeout != null) {
       clearTimeout(this.state.timeout);
       this.setState({timeout: null});
     }
-  },
+  }
 
   timeout() {
     if(typeof(this.props.onTimeout) != "undefined") {
       this.props.onTimeout();
     }
     this.endConfirm();
-  },
+  }
 
   endConfirm() {
     this.clearTimeout();
     this.setState({confirm: false});
-  },
+  }
 
   render() {
     var classes = cx({
@@ -111,6 +102,23 @@ var ConfirmButton = React.createClass({
       </div>
     );
   }
-});
+}
 
-module.exports = ConfirmButton;
+ConfirmButton.defaultProps = {
+  label: "Delete",
+  message: "Are you sure?",
+  mode: null,
+  wait: 3000
+};
+
+ConfirmButton.propTypes = {
+  label: PropTypes.string, // Button text before click
+  message: PropTypes.string, // Button text after click
+  wait: PropTypes.number, // time in ms to wait for confirmation
+  mode: PropTypes.string,
+  onAction: PropTypes.func, // function called after confirmation clicked
+  onConfirm: PropTypes.func, // function called on first click
+  onTimeout: PropTypes.func // function called on timeout
+};
+
+export default ConfirmButton;
