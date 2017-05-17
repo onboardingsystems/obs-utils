@@ -1,26 +1,14 @@
-const React             = require('react')
-const _                 = require('lodash')
-const ObsRequiredMarker = require('./required-marker')
-const ObsHint           = require('./hint')
+import React             from 'react';
+import _                 from 'lodash';
+import ObsRequiredMarker from './required-marker';
+import ObsHint           from './hint';
+import PropTypes from 'prop-types';
 
 
-const ObsLabel = React.createClass({
-  propTypes: {
-    text:       React.PropTypes.string,
-    hint:       React.PropTypes.string,
-    required:   React.PropTypes.bool,
-    htmlFor:    React.PropTypes.string
-  },
-
-  getDefaultProps() {
-    return {
-      required: false
-    }
-  },
-
+class ObsLabel extends React.Component {
   somethingToRender() {
     return !_.isEmpty(this.props.text) || !_.isEmpty(this.props.hint)
-  },
+  }
 
   render() {
     if (!this.somethingToRender())
@@ -34,6 +22,17 @@ const ObsLabel = React.createClass({
     )
   }
 
-})
+}
 
-module.exports = ObsLabel
+ObsLabel.propTypes = {
+  text:       PropTypes.string,
+  hint:       PropTypes.string,
+  required:   PropTypes.bool,
+  htmlFor:    PropTypes.string
+},
+
+ObsLabel.getDefaultProps = {
+  required: false
+}
+
+module.exports = ObsLabel;

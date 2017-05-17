@@ -1,46 +1,26 @@
-const React    = require('react')
-const ReactDOM = require('react-dom')
-const cx       = require('classnames')
-const _        = require('lodash')
+import React    from 'react';
+import ReactDOM from 'react-dom';
+import cx       from 'classnames';
+import _        from 'lodash';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
 
-const ObsLabel   = require('./label')
-const ObsError   = require('./error')
+import ObsLabel   from './label';
+import ObsError   from './error';
 
-const ObsRadioGroup = React.createClass({
-  propTypes: {
-    value:            React.PropTypes.string,
-    defaultValue:     React.PropTypes.string,
-    options:          React.PropTypes.array,
-    errors:           React.PropTypes.array,
-    id:               React.PropTypes.string,
-    className:        React.PropTypes.string,
-    autoFocus:        React.PropTypes.bool,
-    label:            React.PropTypes.string,
-    hint:             React.PropTypes.string,
-    required:         React.PropTypes.bool,
-    customValidator:  React.PropTypes.func,
-    onChange:         React.PropTypes.func,
-    onBlur:           React.PropTypes.func,
-    didMount:         React.PropTypes.func,
-    willUnmount:      React.PropTypes.func
-  },
+class ObsRadioGroup extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      defaultValue: "",
-      required: false,
-      autoFocus: false,
-      options: [],
-      errors:   []
-    }
-  },
+    this.state = {
+      id: props.id || _.uniqueId('radio_group_')
+    };
 
-  getInitialState() {
-    return {
-      id: this.props.id || _.uniqueId('radio_group_'),
-    }
-  },
+    this.runValidations = this.runValidations.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.formatAndValidate = this.formatAndValidate.bind(this);
+  }
 
   componentDidMount() {
     // register this component with the formBuilder to aid with form validation
@@ -72,12 +52,12 @@ const ObsRadioGroup = React.createClass({
         this.props.onChange({formatted})
       }
     }
-  },
+  }
 
   componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
-  },
+  }
 
   componentWillReceiveProps(newProps) {
     var currentValue = $(`#${this.state.id} input:checked`).val();
@@ -87,11 +67,11 @@ const ObsRadioGroup = React.createClass({
       if (result.valid)
         this.props.onChange(result.formatted)
     }
-  },
+  }
 
   runValidations() {
-    this.onBlur()
-  },
+    this.onBlur();
+  }
 
   // have onChange also fire onBlur so it can clear errors.  Otherwise,
   // selecting a radio will not clear errors and when you try to click on
@@ -101,13 +81,13 @@ const ObsRadioGroup = React.createClass({
     if(_.isFunction(this.props.onBlur)) {
       this.props.onBlur(this.formatAndValidate(e.target.value))
     }
-  },
+  }
 
   onBlur() {
     if(_.isFunction(this.props.onBlur)) {
       this.props.onBlur(this.formatAndValidate(this.props.value))
     }
-  },
+  }
 
   formatAndValidate(value) {
     var formatted, parsed, errors = []
@@ -145,7 +125,7 @@ const ObsRadioGroup = React.createClass({
       formatted,
       errors
     }
-  },
+  }
 
   render() {
     var groupClasses = cx({
@@ -184,6 +164,32 @@ const ObsRadioGroup = React.createClass({
       </div>
     )
   }
-})
+}
 
-module.exports = ObsRadioGroup
+ObsRadioGroup.propTypes = {
+  value:            PropTypes.string,
+  defaultValue:     PropTypes.string,
+  options:          PropTypes.array,
+  errors:           PropTypes.array,
+  id:               PropTypes.string,
+  className:        PropTypes.string,
+  autoFocus:        PropTypes.bool,
+  label:            PropTypes.string,
+  hint:             PropTypes.string,
+  required:         PropTypes.bool,
+  customValidator:  PropTypes.func,
+  onChange:         PropTypes.func,
+  onBlur:           PropTypes.func,
+  didMount:         PropTypes.func,
+  willUnmount:      PropTypes.func
+};
+
+ObsRadioGroup.defaultProps = {
+  defaultValue: "",
+  required: false,
+  autoFocus: false,
+  options: [],
+  errors: []
+}
+
+module.exports = ObsRadioGroup;

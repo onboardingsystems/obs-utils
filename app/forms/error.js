@@ -1,26 +1,32 @@
-const React = require('react')
-const _     = require('lodash')
+import React from 'react';
+import _     from 'lodash';
+import PropTypes from 'prop-types';
 
-const ObsError = React.createClass({
-  propTypes: {
-    errors:   React.PropTypes.array
-  },
+class ObsError extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      errors: []
-    }
-  },
+    this.getErrorText = this.getErrorText.bind(this);
+  }
 
   getErrorText() {
     return this.props.errors.join(', ')
-  },
+  }
 
   render() {
     if (_.isEmpty(this.props.errors))
       return <noscript />
     return <div className="error">{this.getErrorText()}</div>
   }
-})
+}
 
-module.exports = ObsError
+ObsError.propTypes = {
+  errors: PropTypes.array
+}
+
+ObsError.defaultProps = {
+  errors: []
+}
+
+
+module.exports = ObsError;

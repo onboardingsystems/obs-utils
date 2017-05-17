@@ -1,45 +1,24 @@
-const React    = require('react')
-const ReactDOM = require('react-dom')
-const cx       = require('classnames')
-const _        = require('lodash')
+import React    from 'react';
+import ReactDOM from 'react-dom';
+import cx       from 'classnames';
+import _        from 'lodash';
+import PropTypes from 'prop-types';
 
-const ObsLabel   = require('./label')
-const ObsError   = require('./error')
-const Formatters = require('../formatters/formatters')
+import ObsLabel   from './label';
+import ObsError   from './error';
+import Formatters from '../formatters/formatters';
 
-const ObsTextarea = React.createClass({
-  propTypes: {
-    // value:            React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    value:            React.PropTypes.string,
-    defaultValue:     React.PropTypes.string,
-    errors:           React.PropTypes.array,
-    formatter:        React.PropTypes.func,
-    id:               React.PropTypes.string,
-    className:        React.PropTypes.string,
-    autoFocus:        React.PropTypes.bool,
-    placeholder:      React.PropTypes.string,
-    label:            React.PropTypes.string,
-    hint:             React.PropTypes.string,
-    required:         React.PropTypes.bool,
-    rows:             React.PropTypes.number,
-    customValidator:  React.PropTypes.func,
-    onChange:         React.PropTypes.func,
-    onBlur:           React.PropTypes.func,
-    didMount:         React.PropTypes.func,
-    willUnmount:      React.PropTypes.func
-  },
+class ObsTextarea extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      defaultValue: "",
-      required: false,
-      autoFocus: false,
-      errors:   [],
-      id: _.uniqueId('text_'),
-      formatter: Formatters.requiredFormatter,
-      rows: 3
-    }
-  },
+    this.format = this.format.bind(this);
+    this.runValidations = this.runValidations.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.formatAndValidate = this.formatAndValidate.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.value = this.value.bind(this);
+  }
 
   componentDidMount() {
     // register this component with the formBuilder to aid with form validation
@@ -71,25 +50,25 @@ const ObsTextarea = React.createClass({
         this.props.onChange({formatted})
       }
     }
-  },
+  }
 
   componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
-  },
+  }
 
   format(value) {
     return this.props.formatter(value, {required: this.props.required})
-  },
+  }
 
   runValidations() {
     return this.onBlur()
-  },
+  }
 
   onChange(e) {
     if (_.isFunction(this.props.onChange))
       this.props.onChange(e.target.value)
-  },
+  }
 
   formatAndValidate(value) {
     var formatResult, customErrors = []
@@ -105,7 +84,7 @@ const ObsTextarea = React.createClass({
       }
     }
     return formatResult
-  },
+  }
 
   onBlur(e) {
     if (_.isFunction(this.props.onBlur)) {
@@ -113,7 +92,7 @@ const ObsTextarea = React.createClass({
       this.props.onBlur(result)
       return result.errors
     }
-  },
+  }
 
   // having a value of null can be bad for our controlled inputs, even if for a
   // little while.  So since our defaultValue doesn't kick in right away we
@@ -124,7 +103,7 @@ const ObsTextarea = React.createClass({
     } else {
       return this.props.value
     }
-  },
+  }
 
   render() {
     var groupClasses = cx({
@@ -144,6 +123,37 @@ const ObsTextarea = React.createClass({
       </div>
     )
   }
-})
+}
 
-module.exports = ObsTextarea
+ObsTextarea.propTypes = {
+  // value:            React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+  value:            PropTypes.string,
+  defaultValue:     PropTypes.string,
+  errors:           PropTypes.array,
+  formatter:        PropTypes.func,
+  id:               PropTypes.string,
+  className:        PropTypes.string,
+  autoFocus:        PropTypes.bool,
+  placeholder:      PropTypes.string,
+  label:            PropTypes.string,
+  hint:             PropTypes.string,
+  required:         PropTypes.bool,
+  rows:             PropTypes.number,
+  customValidator:  PropTypes.func,
+  onChange:         PropTypes.func,
+  onBlur:           PropTypes.func,
+  didMount:         PropTypes.func,
+  willUnmount:      PropTypes.func
+}
+
+ObsTextarea.defaultProps = {
+  defaultValue: "",
+  required: false,
+  autoFocus: false,
+  errors:   [],
+  id: _.uniqueId('text_'),
+  formatter: Formatters.requiredFormatter,
+  rows: 3
+}
+
+module.exports = ObsTextarea;

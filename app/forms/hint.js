@@ -1,15 +1,16 @@
-const React = require('react')
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const ObsHint = React.createClass({
-  propTypes: {
-    hint: React.PropTypes.string
-  },
-
+class ObsHint extends React.Component {
   render() {
     if (!this.props.hint)
       return <noscript />
     return <span className="help-block">{this.props.hint}</span>
   }
-})
+}
 
-module.exports = ObsHint
+ObsHint.propTypes = {
+  hint: PropTypes.string
+};
+
+module.exports = ObsHint;

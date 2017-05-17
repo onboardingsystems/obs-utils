@@ -1,42 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-var HoldButton = React.createClass({
-  propTypes: {
-    label: React.PropTypes.string, // button text
-    classes: React.PropTypes.string, // top level css classes
-    wait: React.PropTypes.number, // time in ms to wait for confirmation
-    onStart: React.PropTypes.func, // function called when mouse is pressed
-    onStop: React.PropTypes.func, // function called when mouse is released
-    onAction: React.PropTypes.func // function called after confirmation clicked
-  },
+class HoldButton extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      label: "Delete",
-      classes: "btn btn-default",
-      doneIcon: "check-circle-o",
-      transitionColor: "#337ab7",
-      doneColor: "#27ae60",
-      wait: 750
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       clicked: false,
       percent: 0,
       mouseDown: null,
       timeout: null
     };
-  },
+
+    this._increment = 100;
+
+    this.fireAction = this.fireAction.bind(this);
+    this.incrementPercent = this.incrementPercent.bind(this);
+    this.mouseDown = this.mouseDown.bind(this);
+    this.mouseUp = this.mouseUp.bind(this);
+    this.renderLabel = this.renderLabel.bind(this);
+    this.renderProgressBar = this.renderProgressBar.bind(this);
+    this.timeout = this.timeout.bind(this);
+    this.startAction = this.startAction.bind(this);
+    this.stopAction = this.stopAction.bind(this);
+    this.fireAction = this.fireAction.bind(this);
+  }
 
   componentWillUnmount() {
     if(this.state.timeout != null) {
       clearTimeout(this.state.timeout);
     }
-  },
-
-  _increment: 100,
+  }
 
   mouseDown(e) {
     if(this.state.percent < 100) {
@@ -44,7 +38,7 @@ var HoldButton = React.createClass({
       this.startAction();
       this.setState({clicked: true, percent: 0, timeout: timeout, mouseDown: new Date()});
     }
-  },
+  }
 
   mouseUp() {
     clearTimeout(this.state.timeout);
@@ -52,7 +46,7 @@ var HoldButton = React.createClass({
       this.stopAction();
       this.setState({percent: 0, timeout: null, mouseDown: null});
     }
-  },
+  }
 
   timeout() {
     if(this.state.mouseDown != null) {
@@ -66,29 +60,29 @@ var HoldButton = React.createClass({
       }
       this.setState({percent: percent, timeout: timeout});
     }
-  },
+  }
 
   startAction() {
     if(typeof(this.props.onStart) != "undefined") {
       this.props.onStart();
     }
-  },
+  }
 
   stopAction() {
     if(typeof(this.props.onStop) != "undefined") {
       this.props.onStop();
     }
-  },
+  }
 
   fireAction() {
     if(typeof(this.props.onAction) != "undefined") {
       this.props.onAction();
     }
-  },
+  }
 
   incrementPercent() {
     return Math.floor(((this._increment / this.props.wait) * 100) + this.state.percent);
-  },
+  }
 
   renderLabel() {
     if(this.state.clicked) {
@@ -96,12 +90,12 @@ var HoldButton = React.createClass({
     } else {
       return this.props.label;
     }
-  },
+  }
 
   renderProgressBar() {
     if(this.state.mouseDown != null) {
       var style = {
-	width: this.state.percent + "%",
+	      width: this.state.percent + "%",
         background: this.props.transitionColor
       };
 
@@ -111,7 +105,7 @@ var HoldButton = React.createClass({
         </div>
       );
     }
-  },
+  }
 
   render() {
     var classes = this.props.classes + " hold-button";
@@ -128,6 +122,24 @@ var HoldButton = React.createClass({
       </div>
     );
   }
-});
+}
+
+HoldButton.defaultProps = {
+  label: "Delete",
+  classes: "btn btn-default",
+  doneIcon: "check-circle-o",
+  transitionColor: "#337ab7",
+  doneColor: "#27ae60",
+  wait: 750
+};
+
+HoldButton.propTypes = {
+  label: PropTypes.string, // button text
+  classes: PropTypes.string, // top level css classes
+  wait: PropTypes.number, // time in ms to wait for confirmation
+  onStart: PropTypes.func, // function called when mouse is pressed
+  onStop: PropTypes.func, // function called when mouse is released
+  onAction: PropTypes.func // function called after confirmation clicked
+};
 
 module.exports = HoldButton;

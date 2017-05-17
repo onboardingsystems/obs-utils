@@ -1,29 +1,32 @@
 import React from 'react';
 
-var LoadingEllipsis = React.createClass({
-  _dotInterval: null,
+class LoadingEllipsis extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getInitialState() {
-    return {
+    this._dotInterval = null;
+    this.state = {
       dotCount: 0,
       dots: ''
-    }
-  },
+    };
+
+    this.updateDots = this.updateDots.bind(this);
+  }
 
   componentDidMount() {
     this._dotInterval = setInterval(this.updateDots, 500);
-  },
+  }
 
   componentWillUnmount() {
     clearInterval(this._dotInterval);
-  },
+  }
 
   updateDots() {
     var count = this.state.dotCount + 1;
     if(count >= 4) count = 0;
     var dots = ".".repeat(count);
     this.setState({dotCount: count, dots: dots});
-  },
+  }
 
   render() {
     return(
@@ -36,6 +39,6 @@ var LoadingEllipsis = React.createClass({
       </span>
     );
   }
-});
+}
 
 module.exports = LoadingEllipsis;

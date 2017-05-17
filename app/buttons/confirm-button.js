@@ -121,4 +121,4 @@ ConfirmButton.propTypes = {
   onTimeout: PropTypes.func // function called on timeout
 };
 
-export default ConfirmButton;
+module.exports = ConfirmButton;

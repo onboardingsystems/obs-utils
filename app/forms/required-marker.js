@@ -1,21 +1,20 @@
-const React = require('react')
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const ObsRequiredMarker = React.createClass({
-  propTypes: {
-    required: React.PropTypes.bool
-  },
-
-  getDefaultProps() {
-    return {
-      required: false
-    }
-  },
-
+class ObsRequiredMarker extends React.Component {
   render() {
     if (!this.props.required)
       return <noscript />
     return <span aria-hidden="true" className="required_marker" title="Required Field">*</span>
   }
-})
+}
 
-module.exports = ObsRequiredMarker
+ObsRequiredMarker.propTypes = {
+  required: PropTypes.bool
+};
+
+ObsRequiredMarker.defaultProps = {
+  required: false
+};
+
+module.exports = ObsRequiredMarker;

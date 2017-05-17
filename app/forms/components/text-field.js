@@ -12,4 +12,4 @@ TextField.propTypes = {
   options: PropTypes.object
 }
 
-export default TextField;
+module.exports = TextField;
