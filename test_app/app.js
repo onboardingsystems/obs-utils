@@ -5,7 +5,6 @@ const _        = require('lodash')
 const LoadingEllipsis = require('loading/ellipsis')
 const ConfirmButton = require('buttons/confirm-button')
 const HoldButton = require('buttons/hold-button')
-import {TextField} from 'forms/components';
 
 const App = React.createClass({
 
@@ -124,7 +123,6 @@ const App = React.createClass({
             <f.form builder={f} className="obs-form">
               {f.radioGroup('What is your favorite color?', 'fav_color', [{name: "Blue", value: "b"}, {name: "Red", value: "r"}], {required: true})}
               {f.textField('Is "default" by default', 'default_text', {required: true, defaultValue: 'default'})}
-              <TextField form={f} label="Tag Text Field" name="tag_text" options={{required: true, defaultValue: 'default'}} />
               {f.checkboxField('Is checked by default', 'default_check', {defaultValue: true})}
               {f.nameField('Name', {required: true, autoFocus: true})}
               {f.emailField('Email', 'email', {required: true})}
