@@ -48,6 +48,7 @@ var FormBuilder = {
     if (_.isNil(_getState(options.parent, options.formDataAttr))) _setState(options.parent, options.formDataAttr, {});
     if (_.isNil(_getState(options.parent, options.errorDataAttr))) _setState(options.parent, options.errorDataAttr, {});
     if (_.isNil(_getState(options.parent, options.parsedDataAttr))) _setState(options.parent, options.parsedDataAttr, {});
+
     return {
       parent: options.parent,
       formDataAttr: options.formDataAttr,
