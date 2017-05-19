@@ -17,6 +17,7 @@ const App = React.createClass({
       holdDone: false,
       formData: {
         default_text: null,
+        tag_text: null,
         default_check: null,
         first_name: 'Bob',
         phone: '1112223333',
@@ -69,10 +70,6 @@ const App = React.createClass({
 
   handleHoldStop() {
     this.setState({holdOn: false});
-  },
-
-  handleHoldAction() {
-    this.setState({holdOn: false, holdDone: true});
   },
 
   handleHoldAction() {
@@ -156,6 +153,10 @@ const App = React.createClass({
             <p>
               <b>Default Text: </b>
               {_.get(this.state.formData, 'default_text')}
+            </p>
+            <p>
+              <b>Tag Text: </b>
+              {_.get(this.state.formData, 'tag_text')}
             </p>
             <p>
               <b>Default Check: </b>

@@ -1,40 +1,24 @@
-const React = require('react')
-const cx    = require('classnames')
-const _     = require('lodash')
+import React from 'react';
+import cx    from 'classnames';
+import _     from 'lodash';
+import PropTypes from 'prop-types';
 
-const ObsError          = require('./error')
-const ObsRequiredMarker = require('./required-marker')
-const ObsHint           = require('./hint')
+import ObsError          from './error';
+import ObsRequiredMarker from './required-marker';
+import ObsHint           from './hint';
 
-const ObsCheckbox = React.createClass({
-  propTypes: {
-    value:        React.PropTypes.bool,
-    defaultValue: React.PropTypes.bool,
-    onChange:     React.PropTypes.func,
-    onBlur:       React.PropTypes.func,
-    label:        React.PropTypes.string,
-    hint:         React.PropTypes.string,
-    required:     React.PropTypes.bool,
-    className:    React.PropTypes.string,
-    id:           React.PropTypes.string,
-    errors:       React.PropTypes.array,   // array of strings
-    didMount:     React.PropTypes.func,
-    willUnmount:  React.PropTypes.func
-  },
+class ObsCheckbox extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      defaultValue: false,
-      required: false,
-      errors:   []
-    }
-  },
+    this.state = {
+      checked: props.value
+    };
 
-  getInitialState() {
-    return {
-      checked: this.props.value
-    }
-  },
+    this._valueChanged = this._valueChanged.bind(this);
+    this.runValidations = this.runValidations.bind(this);
+    this.value = this.value.bind(this);
+  }
 
   componentDidMount() {
     // register this component with the formBuilder to aid with form validation
@@ -59,12 +43,12 @@ const ObsCheckbox = React.createClass({
         parsed:    this.props.defaultValue
       })
     }
-  },
+  }
 
   componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
-  },
+  }
 
   _valueChanged(e) {
     var value = e.target.checked
@@ -73,9 +57,9 @@ const ObsCheckbox = React.createClass({
       this.props.onChange(value)
     if (_.isFunction(this.props.onBlur))
       this.props.onBlur({valid: true, parsed: value, formatted: value, errors: []})
-  },
+  }
 
-  runValidations() {},
+  runValidations() {}
 
   // having a value of null can be bad for our controlled inputs, even if for a
   // little while.  So since our defaultValue doesn't kick in right away we
@@ -86,7 +70,7 @@ const ObsCheckbox = React.createClass({
     } else {
       return false
     }
-  },
+  }
 
   render() {
     var bootstrapClasses = cx({
@@ -108,6 +92,28 @@ const ObsCheckbox = React.createClass({
       </div>
     )
   }
-})
+}
 
-module.exports = ObsCheckbox
+ObsCheckbox.defaultProps = {
+  defaultValue: false,
+  required: false,
+  errors:   []
+};
+
+ObsCheckbox.propTypes = {
+  value:        PropTypes.bool,
+  defaultValue: PropTypes.bool,
+  onChange:     PropTypes.func,
+  onBlur:       PropTypes.func,
+  label:        PropTypes.string,
+  hint:         PropTypes.string,
+  required:     PropTypes.bool,
+  className:    PropTypes.string,
+  id:           PropTypes.string,
+  errors:       PropTypes.array,   // array of strings
+  didMount:     PropTypes.func,
+  willUnmount:  PropTypes.func
+};
+
+
+module.exports = ObsCheckbox;

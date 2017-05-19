@@ -1,50 +1,29 @@
-const React    = require('react')
-const ReactDOM = require('react-dom')
-const cx       = require('classnames')
-const _        = require('lodash')
+import React    from 'react';
+import ReactDOM from 'react-dom';
+import cx       from 'classnames';
+import _        from 'lodash';
+import PropTypes from 'prop-types';
 
 
-const ObsLabel   = require('./label')
-const ObsError   = require('./error')
-const Formatters = require('../formatters/formatters')
+import ObsLabel   from './label';
+import ObsError   from './error';
+import Formatters from '../formatters/formatters';
 
-const ObsText = React.createClass({
-  propTypes: {
-    value:            React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    defaultValue:     React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    errors:           React.PropTypes.array,
-    formatter:        React.PropTypes.func,
-    id:               React.PropTypes.string,
-    className:        React.PropTypes.string,
-    autoFocus:        React.PropTypes.bool,
-    placeholder:      React.PropTypes.string,
-    label:            React.PropTypes.string,
-    hint:             React.PropTypes.string,
-    required:         React.PropTypes.bool,
-    type:             React.PropTypes.string,
-    customValidator:  React.PropTypes.func,
-    onChange:         React.PropTypes.func,
-    onBlur:           React.PropTypes.func,
-    didMount:         React.PropTypes.func,
-    willUnmount:      React.PropTypes.func
-  },
+class ObsText extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getDefaultProps() {
-    return {
-      defaultValue: "",
-      required: false,
-      autoFocus: false,
-      type: "text",
-      errors:   [],
-      formatter: Formatters.requiredFormatter
-    }
-  },
+    this.state = {
+      id: props.id || _.uniqueId('text_'),
+    };
 
-  getInitialState() {
-    return {
-      id: this.props.id || _.uniqueId('text_'),
-    }
-  },
+    this.format = this.format.bind(this);
+    this.runValidations = this.runValidations.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.formatAndValidate = this.formatAndValidate.bind(this);
+    this.value = this.value.bind(this);
+  }
 
   componentDidMount() {
     // register this component with the formBuilder to aid with form validation
@@ -76,12 +55,12 @@ const ObsText = React.createClass({
         this.props.onChange({formatted})
       }
     }
-  },
+  }
 
   componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
-  },
+  }
 
   componentWillReceiveProps(newProps) {
     var currentValue = document.getElementById(this.state.id).value
@@ -90,20 +69,20 @@ const ObsText = React.createClass({
       if (result.valid)
         this.props.onChange(result.formatted)
     }
-  },
+  }
 
   format(value) {
     return this.props.formatter(value, {required: this.props.required})
-  },
+  }
 
   runValidations() {
     return this.onBlur()
-  },
+  }
 
   onChange(e) {
     if (_.isFunction(this.props.onChange))
       this.props.onChange(e.target.value)
-  },
+  }
 
   onBlur(e) {
     if (_.isFunction(this.props.onBlur)) {
@@ -111,7 +90,7 @@ const ObsText = React.createClass({
       this.props.onBlur(result)
       return result.errors
     }
-  },
+  }
 
   formatAndValidate(value) {
     var formatResult, customErrors = []
@@ -127,7 +106,7 @@ const ObsText = React.createClass({
       }
     }
     return formatResult
-  },
+  }
 
   // having a value of null can be bad for our controlled inputs, even if for a
   // little while.  So since our defaultValue doesn't kick in right away we
@@ -138,7 +117,7 @@ const ObsText = React.createClass({
     } else {
       return this.props.value
     }
-  },
+  }
 
   render() {
     var groupClasses = cx({
@@ -158,6 +137,35 @@ const ObsText = React.createClass({
       </div>
     )
   }
-})
+}
 
-module.exports = ObsText
+ObsText.propTypes = {
+  value:            PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  defaultValue:     PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  errors:           PropTypes.array,
+  formatter:        PropTypes.func,
+  id:               PropTypes.string,
+  className:        PropTypes.string,
+  autoFocus:        PropTypes.bool,
+  placeholder:      PropTypes.string,
+  label:            PropTypes.string,
+  hint:             PropTypes.string,
+  required:         PropTypes.bool,
+  type:             PropTypes.string,
+  customValidator:  PropTypes.func,
+  onChange:         PropTypes.func,
+  onBlur:           PropTypes.func,
+  didMount:         PropTypes.func,
+  willUnmount:      PropTypes.func
+}
+
+ObsText.defaultProps = {
+  defaultValue: "",
+  required: false,
+  autoFocus: false,
+  type: "text",
+  errors:   [],
+  formatter: Formatters.requiredFormatter
+};
+
+module.exports = ObsText;

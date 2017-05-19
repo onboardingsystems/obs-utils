@@ -1,12 +1,13 @@
-const React = require('react');
-const cx    = require('classnames');
+import React from 'react';
+import cx    from 'classnames';
+import PropTypes from 'prop-types';
 
-const ObsForm = React.createClass({
-  propTypes: {
-    onSubmit:   React.PropTypes.func,
-    builder:    React.PropTypes.object,
-    className:  React.PropTypes.string
-  },
+class ObsForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.onSubmit = this.onSubmit.bind(this);
+  }
 
   onSubmit(e) {
     e.stopPropagation()
@@ -16,7 +17,7 @@ const ObsForm = React.createClass({
     } else if (_.isFunction(this.props.onSubmit)) {
       this.props.onSubmit(e)
     }
-  },
+  }
 
   render() {
     var classes
@@ -32,6 +33,13 @@ const ObsForm = React.createClass({
       </form>
     )
   }
-})
+}
 
-module.exports = ObsForm
+ObsForm.propTypes = {
+  onSubmit:   PropTypes.func,
+  builder:    PropTypes.object,
+  className:  PropTypes.string
+}
+
+
+module.exports = ObsForm;

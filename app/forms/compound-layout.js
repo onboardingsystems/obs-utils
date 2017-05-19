@@ -1,19 +1,8 @@
-const React = require('react')
-const cx    = require('classnames')
+import React from 'react';
+import cx    from 'classnames';
+import PropTypes from 'prop-types';
 
-const ObsCompoundLayout = React.createClass({
-  propTypes: {
-    // layouts: 'inline', 'full'
-    layout:       React.PropTypes.string,
-    className:    React.PropTypes.string
-  },
-
-  getDefaultProps() {
-    return {
-      layout: 'inline'
-    }
-  },
-
+class ObsCompoundLayout extends React.Component {
   render() {
     var classes
     classes = cx({
@@ -32,6 +21,16 @@ const ObsCompoundLayout = React.createClass({
       </div>
     )
   }
-})
+}
 
-module.exports = ObsCompoundLayout
+ObsCompoundLayout.propTypes = {
+  // layouts: 'inline', 'full'
+  layout:       PropTypes.string,
+  className:    PropTypes.string
+};
+
+ObsCompoundLayout.defaultProps = {
+  layout: 'inline'
+}
+
+module.exports = ObsCompoundLayout;

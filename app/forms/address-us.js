@@ -1,68 +1,54 @@
-const React = require('react')
-const cx    = require('classnames')
-const _     = require('lodash')
+import React from 'react';
+import cx    from 'classnames';
+import _     from 'lodash';
+import PropTypes from 'prop-types';
 
-const Formatters = require('../formatters/formatters')
+import Formatters from '../formatters/formatters';
 
-const ObsCompoundLayout = require('./compound-layout')
-const ObsText           = require('./text')
-const ObsLabel          = require('./label')
-const ObsHint           = require('./hint')
-const ObsError          = require('./error')
+import ObsCompoundLayout from './compound-layout';
+import ObsText           from './text';
+import ObsLabel          from './label';
+import ObsHint           from './hint';
+import ObsError          from './error';
 
-const ObsAddressUs = React.createClass({
-  propTypes: {
-    value:        React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
-    errors:       React.PropTypes.object,
-    attr:         React.PropTypes.string.isRequired,
-    onChange:     React.PropTypes.func,
-    onBlur:       React.PropTypes.func,
-    label:        React.PropTypes.string,
-    hint:         React.PropTypes.string,
-    required:     React.PropTypes.bool,
-    id:           React.PropTypes.string,
-    className:    React.PropTypes.string,
-    autoFocus:    React.PropTypes.bool,
-    didMount:     React.PropTypes.func,
-    willUnmount:  React.PropTypes.func,
-    streetCustomValidator: React.PropTypes.func,
-    cityCustomValidator:   React.PropTypes.func,
-    stateCustomValidator:  React.PropTypes.func,
-    zipCustomValidator:    React.PropTypes.func
-  },
+class ObsAddressUs extends React.Component {
+  constructor(props) {
+    super(props);
 
-  fields: {
-    street_1: {name: 'Address', attr: 'street_1'},
-    city:     {name: 'City',    attr: 'city'},
-    state:    {name: 'State',   attr: 'state'},
-    zip:      {name: 'Zip',     attr: 'zip'}
-  },
-  inputs: [],
+    this.fields = {
+      street_1: {name: 'Address', attr: 'street_1'},
+      city:     {name: 'City',    attr: 'city'},
+      state:    {name: 'State',   attr: 'state'},
+      zip:      {name: 'Zip',     attr: 'zip'}
+    };
 
-  getDefaultProps() {
-    return {
-      label: "Address",
-      required: false,
-      autoFocus: false,
-      errors: {},
+    this.inputs = [];
+
+    this.state = {
+      id: props.id ||  _.uniqueId('address_'),
     }
-  },
 
-  getInitialState() {
-    return {
-      id: this.props.id ||  _.uniqueId('address_'),
-    }
-  },
+    this._address_attrs = this._address_attrs.bind(this);
+    this._addressErrors = this._addressErrors.bind(this);
+    this._fullAttrName = this._fullAttrName.bind(this);
+    this.errorsWithLabelNames = this.errorsWithLabelNames.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.runValidations = this.runValidations.bind(this);
+    this.register = this.register.bind(this);
+    this.unregister = this.unregister.bind(this);
+    this.classesForAttr = this.classesForAttr.bind(this);
+  }
 
   componentDidMount() {
     if (_.isFunction(this.props.didMount))
       this.props.didMount(this)
-  },
+  }
 
   componentWillUnmount() {
     if (_.isFunction(this.props.willUnmount))
       this.props.willUnmount(this)
-  },
+  }
 
   // returns a list of fully qualified address attributes (such as address.city
   // and address.zip)
@@ -72,7 +58,7 @@ const ObsAddressUs = React.createClass({
       list.push(this._fullAttrName(field.attr))
     })
     return list
-  },
+  }
 
   // turn fully-qualified errors structure into one that is relative to the fields
   // this component renders
@@ -94,12 +80,12 @@ const ObsAddressUs = React.createClass({
         result[value.attr] = errors
     })
     return result
-  },
+  }
 
   // converts the partial field names into fully qualified names
   _fullAttrName(attr) {
     return `${this.props.attr}.${attr}`
-  },
+  }
 
   errorsWithLabelNames() {
     return _.reduce(this._addressErrors(), (acc, errors, attr)=> {
@@ -108,13 +94,13 @@ const ObsAddressUs = React.createClass({
       })
       return acc
     }, [])
-  },
+  }
 
   onChange(attr, value) {
     // Fire onChange event for the full attribute name
     if (_.isFunction(this.props.onChange))
       this.props.onChange(this._fullAttrName(attr), value)
-  },
+  }
 
   onBlur(attr, results) {
     // since the input is already returning the results of the formatter, we
@@ -122,7 +108,7 @@ const ObsAddressUs = React.createClass({
     // attribute name to a fully qualified name
     if (_.isFunction(this.props.onBlur))
       this.props.onBlur(this._fullAttrName(attr), results)
-  },
+  }
 
   // run through validations on each input
   runValidations() {
@@ -130,22 +116,22 @@ const ObsAddressUs = React.createClass({
       return _.concat(errors, input.runValidations())
     }, [])
     return errors
-  },
+  }
 
   register(input) {
     this.inputs = _.concat(this.inputs, input)
-  },
+  }
 
   unregister(input) {
     this.inputs = _.without(this.inputs, input)
-  },
+  }
 
   classesForAttr(attr, classes="") {
     return cx({
       [classes]: _.isString(classes),
       "has-error": !_.isEmpty(this._addressErrors()[attr])
     })
-  },
+  }
 
   render() {
     var valueFor = (attr)=> { return _.get((this.props.value || {}), attr) }
@@ -208,6 +194,33 @@ const ObsAddressUs = React.createClass({
       </div>
     )
   }
-})
+}
 
-module.exports = ObsAddressUs
+ObsAddressUs.defaultProps = {
+  label: "Address",
+  required: false,
+  autoFocus: false,
+  errors: {},
+};
+
+ObsAddressUs.propTypes = {
+  value:        PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  errors:       PropTypes.object,
+  attr:         PropTypes.string.isRequired,
+  onChange:     PropTypes.func,
+  onBlur:       PropTypes.func,
+  label:        PropTypes.string,
+  hint:         PropTypes.string,
+  required:     PropTypes.bool,
+  id:           PropTypes.string,
+  className:    PropTypes.string,
+  autoFocus:    PropTypes.bool,
+  didMount:     PropTypes.func,
+  willUnmount:  PropTypes.func,
+  streetCustomValidator: PropTypes.func,
+  cityCustomValidator:   PropTypes.func,
+  stateCustomValidator:  PropTypes.func,
+  zipCustomValidator:    PropTypes.func
+};
+
+module.exports = ObsAddressUs;
