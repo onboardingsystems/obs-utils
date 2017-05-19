@@ -47,3 +47,5 @@ List of breaking changes moving from one version to another.
   * adds RadioGroup component which is now dependent on jQuery
 * 0.4.0
   * no breaking changes. Only additive.
+* 0.5.0
+  * All createClass and React.PropTypes converted to React 16 compatibility.
