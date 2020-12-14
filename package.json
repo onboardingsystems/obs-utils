@@ -1,6 +1,6 @@
 {
   "name": "obs-utils",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "description": "A collection of react utilities",
   "author": "OBS",
@@ -21,7 +21,7 @@
     "numeral": "~1.5.3",
     "react": "~15.5.4",
     "react-dom": "~15.4.1",
-    "sass-brunch": "^2.0.0",
+    "sass-brunch": "3.0.0",
     "jquery": "^2.2.3",
     "prop-types": "^15.5.10"
   },

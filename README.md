@@ -26,7 +26,7 @@ which will make it accessible at http://localhost:3334
 
 ## Building a Release
 
-* `npm test` - make sure all tests pass
+* `npm test` - make sure all tests pass (NOTE: This broke when started using Node 12.x)
 * `npm run build` - will package it to the dist folder
 * Everything must be committed by this point
 * `npm version patch|minor|major` - to bump the (appropriate) version
@@ -40,6 +40,8 @@ You can push "all" the local tags to the server using `git push origin --tags` o
 
 List of breaking changes moving from one version to another.
 
+* 0.5.1
+  * upgraded `sass-brunch` to remove dependency on `node-sass` which would build `libsass` from source and fail.
 * 0.2.15
   * adds defaultValue option to textarea, text, and checkbox components
   * adds React.PropType checking to both value and defaultValue props on input and textarea based components
