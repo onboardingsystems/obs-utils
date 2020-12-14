@@ -40,7 +40,7 @@ You can push "all" the local tags to the server using `git push origin --tags` o
 
 List of breaking changes moving from one version to another.
 
-* 0.5.1
+* 0.5.2
   * upgraded `sass-brunch` to remove dependency on `node-sass` which would build `libsass` from source and fail.
 * 0.2.15
   * adds defaultValue option to textarea, text, and checkbox components
